@@ -14,7 +14,7 @@ module.exports = {
     tasks: [
         {
             type: "info",
-            question: "A JavaScript nyelv<br>",
+            question: "JavaScript és Python nyelv<br>",
             q2: 'Olvassa el a megjelölt hivatkozásokat!' ,
             img: "js.png",
             links: [
