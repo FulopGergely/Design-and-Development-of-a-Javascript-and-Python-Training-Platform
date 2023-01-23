@@ -37,6 +37,12 @@
                             | <a :href="link.href" :target="i+'link.a'">{{ link.a }}</a> |
                         </span>
                     </div>
+                    <img v-if="task.img2" class="rajz" :src="'./' + task.img2" />
+                    <div v-if="task.links2" class="small">
+                        <span v-for="(link, i) in task.links2" :key="i+'link.a'">
+                            | <a :href="link.href" :target="i+'link.a'">{{ link.a }}</a> |
+                        </span>
+                    </div>
                     <div v-if="task.tex" >
                         <hr>
                         <span class="katex" v-katex="task.tex" />
@@ -151,7 +157,13 @@
                         <button class="p"  @click="side--,skip--,lc()">Vissza</button>
                         <div class="s40" />
                     </span>
-                    <button class="send"  @click="side++,skip++,lc()">Tovább</button>
+                  <span v-if="side === 1">
+                  <button class="send"  @click="side++,skip++,lc()">Javascript</button>
+                  <button class="send"  @click="side++,skip++,lc()">Python</button>
+                  </span>
+                  <span v-else>
+                    <button class="send" @click="side++,skip++,lc()">Tovább</button>
+                  </span>
                 </div>
             </div>
         </span>
@@ -531,6 +543,7 @@ export default {
     }
     img.rajz {
         height: 250px;
+        width: 700px;
         box-shadow: 1px 3px 3px black ;
         border-radius: 20px;
     }
