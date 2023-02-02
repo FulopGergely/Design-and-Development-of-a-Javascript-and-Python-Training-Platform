@@ -25,7 +25,8 @@
             </div>
             <p>{{ (new Date()).toISOString().split("T")[0] }}</p>
         </div>
-        <span v-for="task in config.tasks" :key="task.id">
+        <div v-if="language=='js'">
+          <span v-for="task in config.tasks" :key="task.id">
             <div v-if="side===task.id">
                 <div class="feladat">
                     <span v-html="task.question" />
@@ -158,8 +159,8 @@
                         <div class="s40" />
                     </span>
                   <span v-if="side === 1">
-                  <button class="send"  @click="side++,skip++,lc()">Javascript</button>
-                  <button class="send"  @click="side++,skip++,lc()">Python</button>
+                  <button class="send"  @click="side++,skip++,lc(),change('js')">Javascript</button>
+                  <button class="send"  @click="side++,skip++,lc(),change('py')">Python</button>
                   </span>
                   <span v-else>
                     <button class="send" @click="side++,skip++,lc()">Tovább</button>
@@ -167,6 +168,152 @@
                 </div>
             </div>
         </span>
+        </div>
+        <div v-else>
+           <span v-for="task in config.tasksPy" :key="task.id">
+            <div v-if="side===task.id">
+                <div class="feladat">
+                    <span v-html="task.question" />
+                    <hr>
+                    <div v-if="task.q2" class="q2" v-html="task.q2" />
+                    <img v-if="task.img" class="rajz" :src="'./' + task.img" />
+                    <div v-if="task.links" class="small">
+                        <span v-for="(link, i) in task.links" :key="i+'link.a'">
+                            | <a :href="link.href" :target="i+'link.a'">{{ link.a }}</a> |
+                        </span>
+                    </div>
+                    <img v-if="task.img2" class="rajz" :src="'./' + task.img2" />
+                    <div v-if="task.links2" class="small">
+                        <span v-for="(link, i) in task.links2" :key="i+'link.a'">
+                            | <a :href="link.href" :target="i+'link.a'">{{ link.a }}</a> |
+                        </span>
+                    </div>
+                    <div v-if="task.tex" >
+                        <hr>
+                        <span class="katex" v-katex="task.tex" />
+                        <hr>
+                    </div>
+                    <div v-if="task.variables" >
+                        <span class="katex" v-html="task.variables.map( v => `${ v.name } = ${ v.value }` ).join('; ')" />
+                    <hr>
+                    </div>
+                    <div v-if="task.ecode">
+                    <span  class="kcim">Példaprogram:</span>
+                    <prism-editor
+                        class="ec"
+                        v-model="task.ecode"
+                        language="js"
+                        :readonly="true" />
+                    </div>
+                    <div v-if="task.code">
+                    <span v-if="task.type==='code'" class="kcim">Kérem adja meg a megoldás kódját:</span>
+                    <span v-if="task.code && task.type!=='code'"><br><br></span>
+                    <prism-editor
+                        v-model="mycode"
+                        language="js"
+                        :readonly="task && task.type!=='code'"
+                        @change="chc" />
+                    </div>
+                    <span v-if="task.code && task.type!=='code'"><br>Kérem adja meg a kód futásának eredményét!</span>
+                    <div class="o" v-if="task.code" v-html="i1" />
+                </div>
+                <div v-if="task && task.type==='number'">
+                    <span v-if="ich(task)">
+                        <button class="p"  @click="side--">Vissza</button>
+                        <div class="s40" />
+                    </span>
+                    <button class="p" @click="passz">Passz</button>
+                    <span v-if="task && (task.min || task.max)">
+                        <div class="s40" />
+                        <button @click="deci1(task.min)">-</button>
+                        <input :min="task.min" :max="task.max" type="range" v-model.number="i1">
+                        <button @click="inci1(task.max)">+</button>
+                        <div class="s40" />
+                    </span>
+                    <input v-else type="number" v-model.number="i1" @keyup.enter="check( task.rans )" />
+                    <button class="send" :disabled="!i1" @click="check( task.rans )">Megad</button>
+                </div>
+                <div v-if="task && task.type==='buttons'">
+                        <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
+                        <div class="s20" />
+                        <button class="p" @click="passz">Passz</button>
+                        <div class="s20" />
+                        <span v-for="opt in task.options" :key="opt">
+                            <button class="send" v-if="task.goodo === opt" @click="jo">{{ opt }}</button>
+                            <button class="send" v-else @click="rossz">{{ opt }}</button>
+                        </span>
+                </div>
+                <div v-if="task && task.type==='code'">
+                        <span v-if="ich(task)" class="o">
+                            <button class="p"  @click="side--">Vissza</button>
+                            <div class="s20" />
+                        </span>
+                         <span>
+                            <button v-if="t1[0]!=='c1e3'" class="p" @click="passz">Passz</button>
+                            <button v-else class="send" @click="jo()">Tovább</button>
+                            <div class="s40" />
+                        </span>
+                        <span class="o">
+                            <button @click="mycode=task.code">Reset</button>
+                            <div class="s20" />
+                        </span>
+                        <span class="run" v-if="task.ecode">
+                            <button @click="run(task.ecode, task.variables, task.tests, task.rans, task.fans)">Péda futtatása</button>
+                            <div class="s20" />
+                        </span>
+                        <span>
+                            <button
+                                @click="run(mycode, task.variables, task.tests, task.rans, task.fans)"
+                                :class="t1[0]!=='c1e3'?'send':''">Megoldás próbája</button>
+                            <div class="s40" />
+                        </span>
+                        <span>
+                            <button :class="t1[0]!=='c1e3'?'':'send'" :disabled="t1[0]!=='c1e3'" @click="jo()">Tovább</button>
+                        </span>
+                </div>
+                <div v-if="task && task.type==='multiselect'">
+                    <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
+                    <div class="s20" />
+                    <button class="p" @click="passz">Passz</button>
+                    <div class="s20" />
+                    <span v-for="opt in task.options" :key="opt">
+                        <button :class="getms( opt )" @click="click(opt)">{{ opt }}</button>
+                    </span>
+                    <div class="s20" />
+                    <button :class="t1.length?'send':''" :disabled="!t1.length" @click="checkms( t1, task.goodo )">KÉSZ</button>
+                </div>
+                <div v-if="task && task.type==='order'"><div class="s20" />
+                    <span v-if="ich(task)">
+                        <button class="p"  @click="side--">Vissza</button>
+                        <div class="s20" />
+                    </span>
+                    <button class="p" @click="passz">Passz</button><div class="s20" />
+                    <draggable v-model="task.options" animation="150" class="db">
+                        <button
+                            v-for="e in task.options"
+                            :key="e"
+                            v-html="e" />
+                    </draggable>
+                    <div class="s20" />
+                    <button class="send" @click="checkord( task.options, task.goodo )">KÉSZ</button>
+                </div>
+                <div v-if="task && task.type==='info'">
+                    <span v-if="ich(task)">
+                        <button class="p"  @click="side--,skip--,lc()">Vissza</button>
+                        <div class="s40" />
+                    </span>
+                  <span v-if="side === 1">
+                  <button class="send"  @click="side++,skip++,lc(),change('js')">Javascript</button>
+                  <button class="send"  @click="side++,skip++,lc(),change('py')">Python</button>
+                  </span>
+                  <span v-else>
+                    <button class="send" @click="side++,skip++,lc()">Tovább</button>
+                  </span>
+                </div>
+            </div>
+        </span>
+        </div>
+
 
         <div v-if="side>maxid">
             <div class="feladat">
@@ -219,7 +366,8 @@ import QrcodeVue from 'qrcode.vue'
 import "prismjs"
 import "prismjs/themes/prism-tomorrow.css"
 import draggable from "vuedraggable";
-if ( config.autoid ) config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
+config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
+config.tasksPy = config.tasksPy.map( (v,i) => v={ id:i+1, ...v } )
 const maxid = config.tasks.sort( ( a, b ) => b.id - a.id )[0].id
 export default {
     components: {
@@ -230,7 +378,7 @@ export default {
             side: 1, p: [], i1: null, opsz: 0, name: '',email: '', rogz: null,
             config, maxid, debug: '', mycode: 'null', skip: 0, kitid: null,
             t1: [], jv: [], uv: [], code: '', kdate: '', vdate: '', dupl: null,
-            testx: ['cica','kutya','alma','narancs'].map( (v, id) => ({v, id}) )
+            testx: ['cica','kutya','alma','narancs'].map( (v, id) => ({v, id}) ), language: '',
         }
     },
     mounted() {
@@ -269,6 +417,16 @@ export default {
         localStorage.setItem( 'id',this.config.id )
     },
     methods: {
+        change(c) {
+          if (c === 'js') {
+            config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
+            this.language = c
+          }else {
+            this.language = c
+            config.tasksPy = config.tasksPy.map( (v,i) => v={ id:i+1, ...v } )
+          }
+          // c === 'js' ? this.language = c : this.language = c;
+        },
         signIn() {
             Vue.googleAuth().directAccess()
             Vue.googleAuth().signIn(
