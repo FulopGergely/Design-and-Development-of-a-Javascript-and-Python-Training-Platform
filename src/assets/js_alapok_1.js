@@ -362,7 +362,7 @@ module.exports = {
                 {a: 'GitHub', href: 'https://github.com/'}
             ],
             ecode: `<script>\n\n    document.write('Hello World!');\n\n</script>`,
-            q2: `A JavaScript nyelven írt programok futtatására sok lehetőség létezik, a legegyszerűbb, hogy közvetlebül a böngészőben futtatjuk.<br>
+            q2: `A Python nyelven írt programok futtatására sok lehetőség létezik, a legegyszerűbb, hogy közvetlebül a böngészőben futtatjuk.<br>
                  Ehhez készítsünk egy valami.html fájlt az alábbi tartalommal,
                  majd egyszerűen húzzuk bele egy böngésző ablakba. A fájl létrehozásához és szerkesztéséhez plain text szerkesztőre lesz szükségünk.
                  Ehhez az Atom vagy a Microsoft Visual Studio Code is jó választás, mindkét program ingyenes, minden platformon elérhető és számos
