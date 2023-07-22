@@ -5,6 +5,17 @@ import 'katex/dist/katex.min.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import GoogleAuth from 'vue-google-authenticator'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Import Bootstrap and BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
 Vue.use(GoogleAuth, {
   client_id: '846630149718-agedp64jpcais29j9de6p2n7csok20r5.apps.googleusercontent.com'
 })

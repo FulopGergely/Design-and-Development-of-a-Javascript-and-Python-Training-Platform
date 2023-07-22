@@ -1,5 +1,6 @@
 <template>
   <div class="o">
+    <hello/>
       <div class="slide">
         <div v-if="side===0">
             <div class="feladat">
@@ -198,12 +199,13 @@
                     <hr>
                     </div>
                     <div v-if="task.ecode">
+
                     <span  class="kcim">Példaprogram:</span>
-                    <prism-editor
-                        class="ec"
-                        v-model="task.ecode"
-                        language="js"
-                        :readonly="true" />
+                      <prism-editor
+                          class="ec"
+                          v-model="task.ecode"
+                          language="py"
+                          :readonly="true" />
                     </div>
                     <div v-if="task.code">
                     <span v-if="task.type==='code'" class="kcim">Kérem adja meg a megoldás kódját:</span>
@@ -357,7 +359,6 @@
 </template>
 
 <script>
-//import config from './assets/próbateszt.js'
 import Vue from 'vue'
 import config from './assets/js_alapok_1.js'
 import myVideo from 'vue-video'
@@ -366,12 +367,19 @@ import QrcodeVue from 'qrcode.vue'
 import "prismjs"
 import "prismjs/themes/prism-tomorrow.css"
 import draggable from "vuedraggable";
+import hello from './components/hello.vue'
 config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
 config.tasksPy = config.tasksPy.map( (v,i) => v={ id:i+1, ...v } )
 const maxid = config.tasks.sort( ( a, b ) => b.id - a.id )[0].id
+
 export default {
+  metaInfo: {
+    script: [
+      { src: 'https://pyscript.net/latest/pyscript.js', async: true, defer: true }
+    ],
+  },
     components: {
-        myVideo, PrismEditor, QrcodeVue, draggable
+        myVideo, PrismEditor, QrcodeVue, draggable, hello,
     },
     data() {
         return {
@@ -477,22 +485,38 @@ export default {
                 localStorage.setItem('kdate', this.kdate)
             }
         },*/
-        run(code, p, pt, mo , fo) {
+        run(code, p, pt, mo , fo) { // task.ecode, task.variables, task.tests, task.rans, task.fans
             var ok = false, jomo, torun
+          console.log('code: ' + code );
+          console.log('p: ' + JSON.stringify(p));
+          console.log('pt: ' + JSON.stringify(pt));
+          console.log('mo: ' + mo);
+          console.log('fo: ' + fo);
+          var asdasd = zz => zz.map( k => k.length);
+          console.log('asdasd: ' + asdasd);
+          var asd = z => z.map( k => `${ k.name } = ${ k.value }`);
+          console.log('asd: ' + asd);
             if ( code.includes('return') )
                 torun = q => q?`${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n${code}`:code
             else
                 torun = q => q?`${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n return ${code}`:`return ${code}`
-            try {
+          console.log('torun: ' + torun);
+          try {
                 var f = new Function( torun(p) )
-                jomo = f(p)
+            console.log('torun(p): ' + torun(p));
+            jomo = f(p)
+            console.log('f(p): ' + f(p));
+            console.log('jomo: ' + jomo);
+            console.log('fo: ' + fo);
                 if (jomo == fo) {
                     this.i1 = jomo + '<div class="o2">( A tesztváltozó és a mintaváltozó különbözik! )</div>'
                     ok = true
                 } else this.i1 = jomo
              } catch( err ) {
+              console.log('error lefut');
                 this.i1 = err
             }
+          console.log('this.i1: ' + this.i1);
             if (ok)
             try {
                 var g = new Function( torun(pt) )

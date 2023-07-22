@@ -361,12 +361,66 @@ module.exports = {
                 {a: 'Chrome', href: 'https://www.google.com/chrome/'},
                 {a: 'GitHub', href: 'https://github.com/'}
             ],
-            ecode: `<script>\n\n    document.write('Hello World!');\n\n</script>`,
-            q2: `A Python nyelven írt programok futtatására sok lehetőség létezik, a legegyszerűbb, hogy közvetlebül a böngészőben futtatjuk.<br>
-                 Ehhez készítsünk egy valami.html fájlt az alábbi tartalommal,
-                 majd egyszerűen húzzuk bele egy böngésző ablakba. A fájl létrehozásához és szerkesztéséhez plain text szerkesztőre lesz szükségünk.
-                 Ehhez az Atom vagy a Microsoft Visual Studio Code is jó választás, mindkét program ingyenes, minden platformon elérhető és számos
-                 kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)`
+            ecode: `\n\n    print("Hello World!")\n\n`,
+            q2: `A Python nyelven írt programok futtatásához szükségünk van egy értelmezőre, ami az alábbi linken érhető el: <br><br> https://www.python.org/downloads/ <br><br>
+                A telepítés sikerességét ellenőrizhetjük a parancssorban az alábbi paranccsal: (windows-on és linuxon): python --version
+
+                <br>Hozzunk létre egy .py kiterjesztésű fájlt, szerkesztéséhez plain text szerkesztőre lesz szükségünk. Ehhez az Atom vagy a Microsoft Visual Studio Code is jó választás, mindkét program ingyenes, minden platformon elérhető és számos kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)
+`
         },
-    ]
+        {
+            type: "info",
+            question: "Kommentek<br>",
+            links: [{a: 'Comments', href: 'https://www.w3schools.com/python/python_comments.asp'}],
+            ecode: `#Egysoros komment.\nx = 4 #Egysoros komment kódsor mögött.\n""" \nTöbbsoros \nkomment. \n"""\nprint( x )`,
+            q2: `
+            A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>
+            A kommentbe helyezett programsorok nem hajtódnak végre, így tesztelés céljából is praktikus a használata.<br> 
+            Az egysoros kommentek a <code>#</code> jellel kezdődnek.           
+            <br>Bármi amit utána írunk, nem hajtódik végre.<hr>A többsoros kommentek a <code>""" ... """</code> jelek közé kell szúrni.
+            <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
+        },
+        {
+            type: "info",
+            question: "Kommentek<br>",
+            links: [{a: 'Comments', href: 'https://www.w3schools.com/python/python_comments.asp'}],
+            ecode: `// Egysoros komment.\nvar x = 1; // Egysoros komment kódsor mögött.\n/* \nTöbbsoros \nkomment. \n*/\nconsole.log( x + 1 );`,
+            q2: `
+            A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>
+            A kommentbe helyezett programsorok nem hajtódnak végre, így tesztelés céljából is praktikus a használata.<br> 
+            Az egysoros kommentek a <code>#</code> jellel kezdődnek.           
+            <br>Bármi amit utána írunk, nem hajtódik végre.<hr>A többsoros kommentek a <code>""" ... """</code> jelek közé kell szúrni.
+            <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
+        },
+        {
+            type: "info",
+            question: "Kommentek<br>",
+            links: [{a: 'Comments', href: 'https://www.w3schools.com/python/python_comments.asp'}],
+            ecode: `# This program adds two numbers
+num1 = 1.5
+num2 = 6.3
+# Add two numbers
+sum = num1 + num2
+# Display the sum print('The sum of {0} and {1} is {2}'.format(num1, num2, sum))q2: `,
+            q2: `
+            A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>
+            A kommentbe helyezett programsorok nem hajtódnak végre, így tesztelés céljából is praktikus a használata.<br> 
+            Az egysoros kommentek a <code>#</code> jellel kezdődnek.           
+            <br>Bármi amit utána írunk, nem hajtódik végre.<hr>A többsoros kommentek a <code>""" ... """</code> jelek közé kell szúrni.
+            <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
+        },
+        {
+            type: "code",
+            question: "Kommentelje ki az alábbi programkódból...",
+            q2: "az <code> a++;</code> utasítást tartalmazó sort!",
+            links: [
+                {a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments'}
+            ],
+            variables: [{ name: 'b', value: 6}],
+            tests: [{ name: 'b', value: 8 }],
+            ecode: `var a=b+5;\na++;\nreturn a`,
+            code: `var a=b+5;\na++;\nreturn a`,
+            rans: 13, fans: 11
+        },
+]
 }
