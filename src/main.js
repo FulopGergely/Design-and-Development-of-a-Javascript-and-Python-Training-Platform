@@ -3,20 +3,14 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-
-import { onBeforeMount } from 'vue';
-import { usePython } from "usepython";
-
-const py = usePython()
-
-async function init() {
-    await py.load();
-}
-
-onBeforeMount(() => init())
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
 
 const app = createApp(App)
 
 app.use(router)
 
 app.mount('#app')
+
+
+
