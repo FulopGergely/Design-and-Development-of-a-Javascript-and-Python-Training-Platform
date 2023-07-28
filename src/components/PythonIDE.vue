@@ -1,11 +1,10 @@
 <template>
-  <div class="flex flex-row w-full p-3 primary">
-    <div class="text-2xl">Vue Python</div>
-    <div class="flex justify-end flex-grow">
-      <py-status :py="py"></py-status>
-    </div>
-  </div>
   <div class="container mx-auto">
+    <div class="flex flex-row w-full p-3 primary">
+      <div class="flex justify-end flex-grow">
+        <py-status :py="py"></py-status>
+      </div>
+    </div>
     <div class="p-8">
       <py-code-block id="script" :py="py" :code="code"></py-code-block>
     </div>

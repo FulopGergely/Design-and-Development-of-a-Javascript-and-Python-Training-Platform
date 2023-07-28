@@ -7,16 +7,14 @@ export default defineComponent({
 </script>
 
 <template>
-<div>
-  <div>
-    Foot
-    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-      <button type="button" class="btn btn-danger">Left</button>
-      <button type="button" class="btn btn-warning">Middle</button>
-      <button type="button" class="btn btn-success">Right</button>
+  <footer>
+    <div class="p-2 bg-light border rounded-3">
+      <div class="d-flex justify-content-evenly">
+        <button type="button" class="btn btn-danger">Vissza</button>
+        <button type="button" class="btn btn-success">Következő</button>
+      </div>
     </div>
-  </div>
-</div>
+  </footer>
 </template>
 
 <style scoped>
