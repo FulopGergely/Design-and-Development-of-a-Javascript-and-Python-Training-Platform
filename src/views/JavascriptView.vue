@@ -1,11 +1,12 @@
 <script>
 import {defineComponent} from 'vue'
 import FootButtons from "@/components/FootButtons.vue";
+import JavascriptCodeEditor from "@/components/JavascriptCodeEditor.vue";
 import content from "../assets/content.js";
 
 export default defineComponent({
   name: "JavascriptView",
-  components: {FootButtons},
+  components: {FootButtons, JavascriptCodeEditor},
     data() {
   return {
     asd: content,
@@ -28,6 +29,7 @@ export default defineComponent({
           </div>
         </div>
       </div>
+      <JavascriptCodeEditor/>
       <FootButtons/>
     </div>
 

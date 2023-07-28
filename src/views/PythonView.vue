@@ -1,6 +1,6 @@
 <script>
 import {defineComponent} from 'vue'
-import PythonIDE from "../components/PythonIDE.vue";
+import PythonIDE from "../components/PythonCodeEditor.vue";
 import FootButtons from "@/components/FootButtons.vue";
 
 export default defineComponent({

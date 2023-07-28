@@ -33,3 +33,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+Edit and run Python,Javascript code in Vuejs:
+
+https://github.com/surmon-china/vue-codemirror
+https://github.com/synw/vuepython?ref=vuejsexamples.com
