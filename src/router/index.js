@@ -15,7 +15,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Python.vue')
+      component: () => import('../views/PythonView.vue')
     },
     {
       path: '/javascript',
@@ -23,7 +23,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/javascript.vue')
+      component: () => import('../views/JavascriptView.vue')
     }
   ]
 })
