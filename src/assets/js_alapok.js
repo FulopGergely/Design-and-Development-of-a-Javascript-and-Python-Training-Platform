@@ -113,7 +113,7 @@ module.exports = {
         {
             type: "info",
             question: "Típusok<br>",
-            links: [{a: 'Standard defined data stuctures and types', href: 'https://developer.mozilla.org/hu/docs/Web/JavaScript/Guide/Grammar_and_types'}],
+            links: [{a: 'Standard defined tasksJS stuctures and types', href: 'https://developer.mozilla.org/hu/docs/Web/JavaScript/Guide/Grammar_and_types'}],
             ecode: `var logikai = true;\nvar szám = 4;\nvar szöveg = 'cica';\nvar objektum = {};\nvar tömb = [1, 2, 3];\n`,
             q2: `A változó típusát az értékadás határozza meg.<br>Az alábbi pédaprogram rendre a következő változókat definiálja:
                 <br><li>logikai</li><li>szám</li><li>szöveges</li><li>objektum</li><li>tömb</li>`
@@ -328,7 +328,7 @@ module.exports = {
         {
             type: "info",
             question: "Típusok<br>",
-            links: [{a: 'Standard defined data stuctures and types', href: 'https://developer.mozilla.org/hu/docs/Web/JavaScript/Guide/Grammar_and_types'}],
+            links: [{a: 'Standard defined tasksJS stuctures and types', href: 'https://developer.mozilla.org/hu/docs/Web/JavaScript/Guide/Grammar_and_types'}],
             ecode: `var x = 1; \nvar y = x; \ny++; \nconsole.log( x ); \n\nvar x = [1]; \nvar y = x; \ny[0]++; \nconsole.log( x[0] );`,
             q2: `A JavaScript-ben gyakorlatilag minden típus objektum, de a primitívek másként viselkednek értékadás során mint az objektumok.
             Futtassa a pédaprogramot saját programozási környezetében és próbálja megérteni mitörténik és miért!`
