@@ -2,14 +2,15 @@
 import {defineComponent} from 'vue'
 import FootButtons from "@/components/FootButtons.vue";
 import JavascriptCodeEditor from "@/components/JavascriptCodeEditor.vue";
-import tasksJS from "../assets/tasksJS.js";
+import config from "../assets/js_alapok.js";
+config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
 
 export default defineComponent({
   name: "JavascriptView",
   components: {FootButtons, JavascriptCodeEditor},
     data() {
       return {
-        data: tasksJS
+        data: config
       }
   },
 })
@@ -23,8 +24,10 @@ export default defineComponent({
         <div class="container-fluid py-5">
           <div>
             <div v-for="item in data.tasks" :key="item.id">
-              <h2>{{ item.q2 }}</h2>
-              <p>{{ item.question }}</p>
+              <div v-if="1===item.id">
+                <h2>{{ item.q2 }}</h2>
+                <p>{{ item.question }}</p>
+              </div>
             </div>
           </div>
         </div>
