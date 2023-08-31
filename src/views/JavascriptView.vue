@@ -10,8 +10,17 @@ export default defineComponent({
   components: {FootButtons, JavascriptCodeEditor},
     data() {
       return {
-        data: config
+        data: config,
+        side: 0,
       }
+  },
+  methods: {
+    next() {
+      this.side++;
+    },
+    prev() {
+      this.side--;
+    }
   },
 })
 </script>
@@ -31,9 +40,11 @@ export default defineComponent({
             </div>
           </div>
         </div>
+
       </div>
       <JavascriptCodeEditor/>
-      <FootButtons/>
+      <FootButtons @prev="prev" @next="next"/>
+      <p>{{side}}</p>
     </div>
 
 
