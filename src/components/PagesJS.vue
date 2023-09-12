@@ -13,7 +13,11 @@ export default defineComponent({
 
   },
   watch: {
-  }
+  },
+  change() {
+    this.$store.commit('change')
+    console.log(this.$store.state.change)
+  },
 })
 </script>
 

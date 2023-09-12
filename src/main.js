@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
 import { basicSetup } from 'codemirror'
 import VueCodemirror from 'vue-codemirror'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import router from './router'
 import store from './store' //Vuex
 
 const app = createApp(App)

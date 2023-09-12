@@ -4,13 +4,18 @@ import { createStore } from 'vuex'
 const index = createStore({
     state () {
         return {
-            count: 0
+            count: 0,
+            input: ''
         }
     },
     mutations: {
         increment (state) {
+            console.log(state)
             state.count++
-        }
+        },
+        change (state) {
+            this.input = state
+        },
     }
 })
 
