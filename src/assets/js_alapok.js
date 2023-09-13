@@ -15,7 +15,8 @@ const js_alapok = {
                 {a: 'Python Wikipedia', href: 'https://hu.wikipedia.org/wiki/Python_(programoz%C3%A1si_nyelv)'},
                 {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/default.asp'},
                 {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/exercise.asp?filename=exercise_syntax1'}
-            ]
+            ],
+            code: 'asd1'
         },
         {
             type: "info",
@@ -32,7 +33,8 @@ const js_alapok = {
                  Ehhez készítsünk egy valami.html fájlt az alábbi tartalommal,
                  majd egyszerűen húzzuk bele egy böngésző ablakba. A fájl létrehozásához és szerkesztéséhez plain text szerkesztőre lesz szükségünk.
                  Ehhez az Atom vagy a Microsoft Visual Studio Code is jó választás, mindkét program ingyenes, minden platformon elérhető és számos
-                 kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)`
+                 kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)`,
+            code: 'asd2'
         },
         {
             type: "info",

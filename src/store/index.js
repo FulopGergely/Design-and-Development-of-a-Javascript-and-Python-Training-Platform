@@ -1,22 +1,31 @@
 import { createStore } from 'vuex'
+import config from "@/assets/js_alapok";
+config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
 
 // Vuex
 const index = createStore({
     state () {
         return {
-            count: 0,
-            input: ''
+            tasks: [],
         }
     },
     mutations: {
-        increment (state) {
-            console.log(state)
-            state.count++
+        initTasks(state) {
+            state.tasks = config.tasks
         },
-        change (state) {
-            this.input = state
+        changeCode() {
+
+        }
+    },
+    actions: {
+        initTasks(tasks){
+            tasks.commit('initTasks')
         },
-    }
+        changeCode() {
+
+        },
+    },
+
 })
 
 export default index
