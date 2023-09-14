@@ -1,38 +1,19 @@
-// eslint-disable-next-line no-undef
-module.exports = {
-    id: '2',
-    title: 'JavaScript alapok',
-    author: 'Dr. Németh Tamás',
-    date: '2020. április 31.',
-    pht: [
-        {ph: 0, eval:'elégtelen (1)'},
-        {ph: 3, eval:'elégséges (2)'},
-        {ph: 5, eval:'közepes (3)'  },
-        {ph: 7, eval:'jó (4)'       },
-        {ph: 9, eval:'jeles (5)'    }
-    ],
-    autoid: true,
+const py_alapok = {
     tasks: [
         {
             type: "info",
-            question: "JavaScript és Python nyelv<br>",
+            question: "Python nyelv<br>",
             q2: 'Olvassa el a megjelölt hivatkozásokat!' ,
-            img: "js.png",
-            img2: "python.png",
-            links: [
-                {a: 'JavaScript Wikipedia', href: 'https://hu.wikipedia.org/wiki/JavaScript'},
-                {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/'},
-                {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/exercise_js.asp?filename=exercise_js_variables1'}
-            ],
+            img: "py.png",
             links2: [
                 {a: 'Python Wikipedia', href: 'https://hu.wikipedia.org/wiki/Python_(programoz%C3%A1si_nyelv)'},
                 {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/default.asp'},
                 {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/exercise.asp?filename=exercise_syntax1'}
-            ]
+            ],
         },
         {
             type: "info",
-            question: "JavaScript futtatása<br>",
+            question: "Python futtatása<br>",
             links: [
                 {a: 'Atom', href: 'https://atom.io/'},
                 {a: 'Visual Studio Code', href: 'https://code.visualstudio.com/'},
@@ -45,7 +26,7 @@ module.exports = {
                  Ehhez készítsünk egy valami.html fájlt az alábbi tartalommal,
                  majd egyszerűen húzzuk bele egy böngésző ablakba. A fájl létrehozásához és szerkesztéséhez plain text szerkesztőre lesz szükségünk.
                  Ehhez az Atom vagy a Microsoft Visual Studio Code is jó választás, mindkét program ingyenes, minden platformon elérhető és számos
-                 kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)`
+                 kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)`,
         },
         {
             type: "info",
@@ -334,94 +315,25 @@ module.exports = {
             Futtassa a pédaprogramot saját programozási környezetében és próbálja megérteni mitörténik és miért!`
         }
     ],
-    tasksPy: [
-        {
-            type: "info",
-            question: "JavaScript és Python nyelv<br>",
-            q2: 'Olvassa el a megjelölt hivatkozásokat!' ,
-            img: "js.png",
-            img2: "python.png",
-            links: [
-                {a: 'JavaScript Wikipedia', href: 'https://hu.wikipedia.org/wiki/JavaScript'},
-                {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/'},
-                {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/exercise_js.asp?filename=exercise_js_variables1'}
-            ],
-            links2: [
-                {a: 'Python Wikipedia', href: 'https://hu.wikipedia.org/wiki/Python_(programoz%C3%A1si_nyelv)'},
-                {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/default.asp'},
-                {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/exercise.asp?filename=exercise_syntax1'}
-            ]
-        },
-        {
-            type: "info",
-            question: "Python futtatása<br>",
-            links: [
-                {a: 'Atom', href: 'https://atom.io/'},
-                {a: 'Visual Studio Code', href: 'https://code.visualstudio.com/'},
-                {a: 'Plain Text', href: 'https://en.wikipedia.org/wiki/Plain_text'},
-                {a: 'Chrome', href: 'https://www.google.com/chrome/'},
-                {a: 'GitHub', href: 'https://github.com/'}
-            ],
-            ecode: `\n\n    print("Hello World!")\n\n`,
-            q2: `A Python nyelven írt programok futtatásához szükségünk van egy értelmezőre, ami az alábbi linken érhető el: <br><br> https://www.python.org/downloads/ <br><br>
-                A telepítés sikerességét ellenőrizhetjük a parancssorban az alábbi paranccsal: (windows-on és linuxon): python --version
-
-                <br>Hozzunk létre egy .py kiterjesztésű fájlt, szerkesztéséhez plain text szerkesztőre lesz szükségünk. Ehhez az Atom vagy a Microsoft Visual Studio Code is jó választás, mindkét program ingyenes, minden platformon elérhető és számos kiegészítő funkcióval rendelkezik. (Syntax highlighting, Markdown preview, Github és GitLab támogatás, ...)
-`
-        },
-        {
-            type: "info",
-            question: "Kommentek<br>",
-            links: [{a: 'Comments', href: 'https://www.w3schools.com/python/python_comments.asp'}],
-            ecode: `#Egysoros komment.\nx = 4 #Egysoros komment kódsor mögött.\n""" \nTöbbsoros \nkomment. \n"""\nprint( x )`,
-            q2: `
-            A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>
-            A kommentbe helyezett programsorok nem hajtódnak végre, így tesztelés céljából is praktikus a használata.<br> 
-            Az egysoros kommentek a <code>#</code> jellel kezdődnek.           
-            <br>Bármi amit utána írunk, nem hajtódik végre.<hr>A többsoros kommentek a <code>""" ... """</code> jelek közé kell szúrni.
-            <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
-        },
-        {
-            type: "info",
-            question: "Kommentek<br>",
-            links: [{a: 'Comments', href: 'https://www.w3schools.com/python/python_comments.asp'}],
-            ecode: `// Egysoros komment.\nvar x = 1; // Egysoros komment kódsor mögött.\n/* \nTöbbsoros \nkomment. \n*/\nconsole.log( x + 1 );`,
-            q2: `
-            A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>
-            A kommentbe helyezett programsorok nem hajtódnak végre, így tesztelés céljából is praktikus a használata.<br> 
-            Az egysoros kommentek a <code>#</code> jellel kezdődnek.           
-            <br>Bármi amit utána írunk, nem hajtódik végre.<hr>A többsoros kommentek a <code>""" ... """</code> jelek közé kell szúrni.
-            <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
-        },
-        {
-            type: "info",
-            question: "Kommentek<br>",
-            links: [{a: 'Comments', href: 'https://www.w3schools.com/python/python_comments.asp'}],
-            ecode: `# This program adds two numbers
-num1 = 1.5
-num2 = 6.3
-# Add two numbers
-sum = num1 + num2
-# Display the sum print('The sum of {0} and {1} is {2}'.format(num1, num2, sum))q2: `,
-            q2: `
-            A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>
-            A kommentbe helyezett programsorok nem hajtódnak végre, így tesztelés céljából is praktikus a használata.<br> 
-            Az egysoros kommentek a <code>#</code> jellel kezdődnek.           
-            <br>Bármi amit utána írunk, nem hajtódik végre.<hr>A többsoros kommentek a <code>""" ... """</code> jelek közé kell szúrni.
-            <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
-        },
-        {
-            type: "code",
-            question: "Kommentelje ki az alábbi programkódból...",
-            q2: "az <code> a++;</code> utasítást tartalmazó sort!",
-            links: [
-                {a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments'}
-            ],
-            variables: [{ name: 'b', value: 6}],
-            tests: [{ name: 'b', value: 8 }],
-            ecode: `var a=b+5;\na++;\nreturn a`,
-            code: `var a=b+5;\na++;\nreturn a`,
-            rans: 13, fans: 11
-        },
-]
 }
+/*
+mezők:
+
+type        3 lehet: info, code, button. Ez nem jelenik meg az oldalon
+question
+q2
+img
+links
+links2
+ecode
+variables
+tests
+code
+rans
+options
+goodo
+tex
+
+*/
+
+export default py_alapok;

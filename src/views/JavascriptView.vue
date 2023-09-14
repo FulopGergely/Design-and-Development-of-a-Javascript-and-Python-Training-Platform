@@ -40,8 +40,25 @@ export default defineComponent({
           <div>
             <div v-for="item in this.$store.state.tasks" :key="item.id">
               <div v-if="side===item.id">
-                <p >{{ item.question }}</p>
-                <h2 >{{ item.q2 }}</h2>
+                <div v-html="item.question" class="question" ></div><hr>
+                <div v-html="item.q2" class="q2"></div>
+                <div v-html="item.img" ></div>
+                <div v-html="item.img2" ></div>
+                <div v-if="item.links" >
+                  <span v-for="(link, i) in item.links" :key="i+'link.a'">
+                            | <a :href="link.href" :target="i+'link.a'">{{ link.a }}</a> |
+                        </span>
+                </div>
+                <div v-if="item.links2" ></div>
+                <div v-if="item.ecode" class="kcim">Példaprogram</div>
+                <div v-html="item.ecode" ></div>
+                <div v-html="item.variables" ></div>
+                <div v-html="item.tests" ></div>
+                <div v-html="item.code" ></div>
+                <div v-html="item.rans" ></div>
+                <div v-html="item.options" ></div>
+                <div v-html="item.goodo" ></div>
+                <div v-html="item.tex" ></div>
                 <div v-if="item.code">
                   <JavascriptCodeEditor :sideValue="side"/>
                 </div>

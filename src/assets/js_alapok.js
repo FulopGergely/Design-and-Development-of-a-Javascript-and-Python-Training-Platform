@@ -2,10 +2,9 @@ const js_alapok = {
     tasks: [
         {
             type: "info",
-            question: "JavaScript és Python nyelv<br>",
+            question: "JavaScript nyelv<br>",
             q2: 'Olvassa el a megjelölt hivatkozásokat!' ,
             img: "js.png",
-            img2: "python.png",
             links: [
                 {a: 'JavaScript Wikipedia', href: 'https://hu.wikipedia.org/wiki/JavaScript'},
                 {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/'},
@@ -322,6 +321,24 @@ const js_alapok = {
         }
     ],
 }
+/*
+mezők:
 
+type        3 lehet: info, code, button. Ez nem jelenik meg az oldalon
+question
+q2
+img
+links
+links2
+ecode
+variables
+tests
+code
+rans
+options
+goodo
+tex
+
+*/
 
 export default js_alapok;
