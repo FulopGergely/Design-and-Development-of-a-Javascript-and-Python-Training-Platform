@@ -21,7 +21,7 @@ export default defineComponent({
   },
   watch: {
     side() {
-      this.side < 1 ? this.side = 1 : this.side
+      this.side < 0 ? this.side = 0 : this.side
     }
   },
 })
@@ -31,7 +31,11 @@ export default defineComponent({
   <div>
 
     <div class="container py-4">
-      <div class="p-5 mb-4 bg-light border rounded-3">
+
+      <div class="p-3 mb-4 bg-light border rounded-3">
+        <div class="d-flex align-items-start flex-column bd-highlight mb-1">
+          <div class="mb-auto p-1 bd-highlight">{{side}}</div>
+        </div>
         <div class="container-fluid py-5">
           <div>
             <div v-for="item in this.$store.state.tasks" :key="item.id">
@@ -39,9 +43,8 @@ export default defineComponent({
                 <p >{{ item.question }}</p>
                 <h2 >{{ item.q2 }}</h2>
                 <div v-if="item.code">
-                  <JavascriptCodeEditor/>
+                  <JavascriptCodeEditor :sideValue="side"/>
                 </div>
-                <p>oldal: {{item.id}}</p>
               </div>
             </div>
           </div>
@@ -55,6 +58,7 @@ export default defineComponent({
       />
 
     </div>
+
 
 
   </div>

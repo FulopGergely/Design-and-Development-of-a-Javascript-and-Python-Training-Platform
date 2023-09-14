@@ -1,15 +1,4 @@
-<template>
-  <div class="container mx-auto">
-    <div class="flex flex-row w-full p-3 primary">
-      <div class="flex justify-end flex-grow">
-        <py-status :py="py"></py-status>
-      </div>
-    </div>
-    <div class="p-8">
-      <py-code-block id="script" :py="py" :code="code"></py-code-block>
-    </div>
-  </div>
-</template>
+
 
 <script>
 import {defineComponent} from 'vue'
@@ -46,6 +35,20 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="container mx-auto">
+    <div class="flex flex-row w-full p-3 primary">
+      <div class="flex justify-end flex-grow">
+        <py-status :py="py"></py-status>
+      </div>
+    </div>
+    <div class="p-8">
+      <py-code-block id="script" :py="py" :code="code"></py-code-block>
+    </div>
+  </div>
+
+</template>
 
 <style scoped>
 

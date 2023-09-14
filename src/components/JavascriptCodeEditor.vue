@@ -8,6 +8,9 @@ export default defineComponent({
   components: {
     Codemirror
   },
+  props: {
+    sideValue: Number,
+  },
   setup() {
     //const code = ref(`console.log('Hello, world!'); 2+2;`)
     const extensions = [javascript(), oneDark]
@@ -42,8 +45,8 @@ export default defineComponent({
   },
   data() {
     return {
-      code: '1+1',
       result: '',
+      code: this.$store.state.tasks[this.sideValue-1].code,
     };
   },
   methods: {
@@ -60,22 +63,28 @@ export default defineComponent({
 </script>
 
 <template>
+  <div>
     <codemirror
-        v-model="code"
         placeholder="Code goes here..."
-        :style="{ height: '400px' }"
+        :style="{ borderRadius: '20px;' }"
         :autofocus="true"
         :indent-with-tab="true"
         :tab-size="2"
         :extensions="extensions"
+        v-model="code"
         @ready="handleReady"
         @change="log('change', $event)"
         @focus="log('focus', $event)"
         @blur="log('blur', $event)"
     />
-  <button @click="runCode">Futtatás</button>{{result}}
+    <button @click="runCode">Futtatás</button>{{result}}
+    {{ sideValue }}
+
+
+  </div>
 </template>
 
 <style scoped>
+
 
 </style>
