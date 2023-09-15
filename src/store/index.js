@@ -1,28 +1,31 @@
 import { createStore } from 'vuex'
-import config from "@/assets/js_alapok";
-config.tasks = config.tasks.map( (v,i) => v={ id:i+1, ...v } )
+import configJs from "@/assets/js_alapok";
+import configPy from "@/assets/py_alapok";
+configJs.tasks = configJs.tasks.map( (v,i) => v={ id:i+1, ...v } )
+configPy.tasks = configPy.tasks.map( (v,i) => v={ id:i+1, ...v } )
 
 // Vuex
 const index = createStore({
     state () {
         return {
-            tasks: [],
+            tasksJs: [],
+            tasksPy: [],
         }
     },
     mutations: {
-        initTasks(state) {
-            state.tasks = config.tasks
+        initTasksJs(state) {
+            state.tasksJs = configJs.tasks
         },
-        changeCode() {
-
-        }
+        initTasksPy(state) {
+            state.tasksPy = configPy.tasks
+        },
     },
     actions: {
-        initTasks(tasks){
-            tasks.commit('initTasks')
+        initTasksJs(tasks){
+            tasks.commit('initTasksJs')
         },
-        changeCode() {
-
+        initTasksPy(tasks){
+            tasks.commit('initTasksPy')
         },
     },
 

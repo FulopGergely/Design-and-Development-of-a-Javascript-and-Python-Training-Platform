@@ -46,7 +46,7 @@ export default defineComponent({
   data() {
     return {
       result: '',
-      code: this.$store.state.tasks[this.sideValue-1].code,
+      code: this.$store.state.tasksJs[this.sideValue-1].code,
     };
   },
   methods: {

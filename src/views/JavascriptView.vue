@@ -38,11 +38,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" type="image/png" href="@/public/js.png" />
-    <title>Javascript</title>
-  </head>
   <div>
     <div class="container py-4">
       <div class="p-3 mb-4 bg-light border rounded-3">
@@ -51,7 +46,7 @@ export default defineComponent({
         </div>
         <div class="container-fluid py-5">
           <div>
-            <div v-for="item in this.$store.state.tasks" :key="item.id">
+            <div v-for="item in this.$store.state.tasksJs" :key="item.id">
               <div v-if="side === item.id">
                 <div v-html="item.question" class="question"></div>
                 <hr />
@@ -75,7 +70,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="p-3 mb-4 bg-light border rounded-3">
-          <div v-for="item in this.$store.state.tasks" :key="item.id">
+          <div v-for="item in this.$store.state.tasksJs" :key="item.id">
             <div v-if="side === item.id">
               <div v-if="item.ecode" class="ecode">Példaprogram</div>
               <div v-if="item.code">
