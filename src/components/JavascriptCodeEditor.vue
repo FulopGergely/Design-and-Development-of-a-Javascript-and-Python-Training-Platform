@@ -63,26 +63,23 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <codemirror
-        placeholder="Code goes here..."
-        :style="{ borderRadius: '20px;' }"
-        :autofocus="true"
-        :indent-with-tab="true"
-        :tab-size="2"
-        :extensions="extensions"
-        v-model="code"
-        @ready="handleReady"
-        @change="log('change', $event)"
-        @focus="log('focus', $event)"
-        @blur="log('blur', $event)"
-    />
-    <button class="mt-3 mb-3 btn btn-secondary" @click="runCode">Futtatás</button>
-    <div> output: {{result}} </div>
 
+  <codemirror
+      placeholder="Code goes here..."
+      :style="{ borderRadius: '20px;' }"
+      :autofocus="true"
+      :indent-with-tab="true"
+      :tab-size="2"
+      :extensions="extensions"
+      v-model="code"
+      @ready="handleReady"
+      @change="log('change', $event)"
+      @focus="log('focus', $event)"
+      @blur="log('blur', $event)"
+  />
+  <button class="mt-3 mb-3 btn btn-secondary" @click="runCode">Futtatás</button>
+  <div> output: {{result}} </div>
 
-
-  </div>
 </template>
 
 <style scoped>

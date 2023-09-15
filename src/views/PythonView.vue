@@ -2,10 +2,33 @@
 import {defineComponent} from 'vue'
 import PythonIDE from "../components/PythonCodeEditor.vue";
 import FootButtons from "@/components/FootButtons.vue";
+import {useFavicon} from "@vueuse/core";
 
 export default defineComponent({
   name: "PythonView",
-  components: {FootButtons, PythonIDE, }
+  components: {FootButtons, PythonIDE, },
+  data() {
+    return {
+      side: 1
+    }
+  },
+  methods: {
+    next() {
+      this.side++
+    },
+    prev() {
+      this.side--
+      this.side === 0 ? this.$router.push('/') : this.side
+    }
+  },
+  created() {
+    const icon = useFavicon()
+    icon.value = '../../public/py_favicon.png'
+  },
+  unmounted() {
+    const icon = useFavicon()
+    icon.value = '../../public/favicon.png'
+  },
 })
 </script>
 
@@ -19,7 +42,7 @@ export default defineComponent({
         </div>
       </div>
       <PythonIDE/>
-      <FootButtons/>
+      <FootButtons @prev="prev" @next="next"/>
     </div>
 
 
