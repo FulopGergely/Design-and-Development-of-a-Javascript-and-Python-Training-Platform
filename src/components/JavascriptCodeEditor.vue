@@ -9,7 +9,8 @@ export default defineComponent({
     Codemirror
   },
   props: {
-    sideValue: Number,
+    sideProps: Number,
+    readOnlyProps: Boolean,
   },
   setup() {
     //const code = ref(`console.log('Hello, world!'); 2+2;`)
@@ -46,7 +47,8 @@ export default defineComponent({
   data() {
     return {
       result: '',
-      code: this.$store.state.tasksJs[this.sideValue-1].code,
+      code: this.$store.state.tasksJs[this.sideProps-1].ecode,
+      readOnly: this.readOnlyProps,
     };
   },
   methods: {
@@ -71,15 +73,15 @@ export default defineComponent({
       :indent-with-tab="true"
       :tab-size="2"
       :extensions="extensions"
+      :disabled="this.readOnly"
       v-model="code"
       @ready="handleReady"
       @change="log('change', $event)"
       @focus="log('focus', $event)"
       @blur="log('blur', $event)"
   />
-  <button class="mt-3 mb-3 btn btn-secondary" @click="runCode">Futtatás</button>
+  <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Futtatás</button>
   <div> output: {{result}} </div>
-
 </template>
 
 <style scoped>
