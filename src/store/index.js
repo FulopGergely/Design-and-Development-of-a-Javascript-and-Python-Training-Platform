@@ -9,14 +9,17 @@ const index = createStore({
     state () {
         return {
             tasks: [],
+            view: '',
         }
     },
     mutations: {
         initTasksJs(state) {
             state.tasks = configJs.tasks
+            state.view = 'javascript'
         },
         initTasksPy(state) {
             state.tasks = configPy.tasks
+            state.view = 'python'
         },
     },
     actions: {
