@@ -37,3 +37,9 @@ div.tex {}
     margin: 10px;
     text-align: center!important;
 }
+.katex {
+    margin: 10px;
+    text-align: center;
+    font-size: 24px;
+    color: rgb(4, 100, 111);
+}

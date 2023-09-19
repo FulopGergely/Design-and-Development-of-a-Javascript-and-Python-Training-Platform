@@ -2,7 +2,7 @@
 import {defineComponent, shallowRef} from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
-import { oneDark } from '@codemirror/theme-one-dark'
+import {oneDark} from "@codemirror/theme-one-dark";
 
 export default defineComponent({
   components: {
@@ -13,7 +13,6 @@ export default defineComponent({
     readOnlyProps: Boolean,
   },
   setup() {
-    //const code = ref(`console.log('Hello, world!'); 2+2;`)
     const extensions = [javascript(), oneDark]
 
     // Codemirror EditorView instance ref
@@ -21,23 +20,6 @@ export default defineComponent({
     const handleReady = (payload) => {
       view.value = payload.view
     }
-
-    // Status is available at all times via Codemirror EditorView
-    /*
-     const getCodemirrorStates = () => {
-      const state = view.value.state
-      const ranges = state.selection.ranges
-      const selected = ranges.reduce((r, range) => r + range.to - range.from, 0)
-      const cursor = ranges[0].anchor
-      const length = state.doc.length
-      const lines = state.doc.lines
-      // more state info ...
-      // return ...
-    }
-    *
-    */
-
-
     return {
       extensions,
       handleReady,
@@ -47,6 +29,7 @@ export default defineComponent({
   data() {
     return {
       result: '',
+      error: '',
       code: this.$store.state.tasksJs[this.sideProps-1].ecode,
       readOnly: this.readOnlyProps,
     };
@@ -55,9 +38,12 @@ export default defineComponent({
     runCode() {
       try {
         // JavaScript kód kiértékelése
-        this.result = eval(this.code);
+        this.error = ''
+        this.result = eval(this.code)
       } catch (error) {
-        console.error('Hiba a kód futtatása közben:', error);
+        console.log(error)
+        this.result = ''
+        this.error = 'Hiba a kód futtatása közben'
       }
     },
   },
@@ -68,7 +54,7 @@ export default defineComponent({
 
   <codemirror
       placeholder="Code goes here..."
-      :style="{ borderRadius: '20px;' }"
+      :style="{ borderRadius: '20px;'}"
       :autofocus="true"
       :indent-with-tab="true"
       :tab-size="2"
@@ -81,7 +67,8 @@ export default defineComponent({
       @blur="log('blur', $event)"
   />
   <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Futtatás</button>
-  <div> output: {{result}} </div>
+  <div> {{this.result}} </div>
+  <div v-if="this.error"> {{this.error}} </div>
 </template>
 
 <style scoped>

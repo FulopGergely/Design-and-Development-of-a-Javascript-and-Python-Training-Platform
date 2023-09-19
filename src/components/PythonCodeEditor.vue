@@ -1,12 +1,10 @@
-
-
 <script>
-import {defineComponent} from 'vue'
-import { onBeforeMount } from 'vue';
-import { usePython } from "usepython";
-import { PyStatus, PyCodeBlock } from "vuepython";
-import "vuepython/style.css";
-import "highlight.js/styles/stackoverflow-light.css"
+import { defineComponent } from 'vue'
+import { onBeforeMount } from 'vue'
+import { usePython } from 'usepython'
+import { PyStatus, PyCodeBlock } from 'vuepython'
+import 'vuepython/style.css'
+import 'highlight.js/styles/atom-one-dark.css'
 
 const py = usePython()
 const code = `print('starting python script')
@@ -15,22 +13,21 @@ b = 2
 print('finished python script')
 c = a + b
 # return value
-c`;
-
+c`
 
 export default defineComponent({
-  name: "PythonIDE",
-  components: {PyCodeBlock, PyStatus},
+  name: 'PythonIDE',
+  components: {PyCodeBlock, PyStatus },
   setup() {
     async function init() {
-      await py.load();
+      await py.load()
     }
-    onBeforeMount(() => init());
+    onBeforeMount(() => init())
   },
   data() {
     return {
       code: code,
-      py: py,
+      py: py
     }
   },
 })
@@ -47,9 +44,6 @@ export default defineComponent({
       <py-code-block id="script" :py="py" :code="code"></py-code-block>
     </div>
   </div>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

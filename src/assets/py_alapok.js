@@ -5,7 +5,7 @@ const py_alapok = {
             question: "Python nyelv<br>",
             q2: 'Olvassa el a megjelölt hivatkozásokat!' ,
             img: "py.png",
-            links2: [
+            links: [
                 {a: 'Python Wikipedia', href: 'https://hu.wikipedia.org/wiki/Python_(programoz%C3%A1si_nyelv)'},
                 {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/default.asp'},
                 {a: 'Python W3Schools', href: 'https://www.w3schools.com/python/exercise.asp?filename=exercise_syntax1'}
