@@ -18,7 +18,7 @@ export default defineComponent({
     },
     prev() {
       this.side--
-      this.side === 0 ? this.$router.push('/') : this.side
+      this.side < 0 ? this.$router.push('/') : this.side
     }
   },
   watch: {
@@ -46,7 +46,7 @@ export default defineComponent({
         </div>
         <div class="container-fluid py-5">
           <div>
-            <div v-for="task in this.$store.state.tasksJs" :key="task.id">
+            <div v-for="task in this.$store.state.tasks" :key="task.id">
               <div v-if="side === task.id">
                 <div v-html="task.question" class="question"></div>
                 <hr />

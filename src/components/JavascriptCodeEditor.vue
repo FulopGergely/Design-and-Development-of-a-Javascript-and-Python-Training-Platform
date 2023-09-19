@@ -30,7 +30,7 @@ export default defineComponent({
     return {
       result: '',
       error: '',
-      code: this.$store.state.tasksJs[this.sideProps-1].ecode,
+      code: this.$store.state.tasks[this.sideProps-1].ecode,
       readOnly: this.readOnlyProps,
     };
   },

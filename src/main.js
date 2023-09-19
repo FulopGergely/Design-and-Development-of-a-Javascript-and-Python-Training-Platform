@@ -4,7 +4,6 @@ import { basicSetup } from 'codemirror'
 import VueCodemirror from 'vue-codemirror'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
-import router from './router'
 import store from './store' //Vuex
 
 const app = createApp(App)
@@ -13,8 +12,6 @@ const app = createApp(App)
 
 
 app.use(store) //Vuex
-
-app.use(router)
 
 app.mount('#app')
 

@@ -8,24 +8,20 @@ configPy.tasks = configPy.tasks.map( (v,i) => v={ id:i+1, ...v } )
 const index = createStore({
     state () {
         return {
-            tasksJs: [],
-            tasksPy: [],
+            tasks: [],
         }
     },
     mutations: {
         initTasksJs(state) {
-            state.tasksJs = configJs.tasks
+            state.tasks = configJs.tasks
         },
         initTasksPy(state) {
-            state.tasksPy = configPy.tasks
+            state.tasks = configPy.tasks
         },
     },
     actions: {
-        initTasksJs(tasks){
-            tasks.commit('initTasksJs')
-        },
-        initTasksPy(tasks){
-            tasks.commit('initTasksPy')
+        initTasks(tasks, view){
+            view === 'javascript' ? tasks.commit('initTasksJs') : tasks.commit('initTasksPy')
         },
     },
 
