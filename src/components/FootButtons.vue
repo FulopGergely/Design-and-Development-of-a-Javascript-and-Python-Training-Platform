@@ -3,9 +3,17 @@ import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: "FootButtons",
+  props: {
+    sideProps: Number,
+  },
   data() {
     return {
     };
+  },
+  computed: {
+    tests() {
+      return this.$store.state.tasks[this.sideProps-1].tests
+    }
   },
   methods: {
     next() {
@@ -13,7 +21,7 @@ export default defineComponent({
     },
     prev() {
       this.$emit('prev')
-    }
+    },
   },
 })
 </script>
@@ -26,12 +34,18 @@ export default defineComponent({
                 class="btn btn-danger"
                 @click="prev"
         >Vissza</button>
-
+        <button v-if="tests" type="button"
+                class="btn btn-secondary"
+                @click="pass"
+        >Passz</button>
+        <button v-if="tests" type="button"
+                class="btn btn-secondary"
+                @click="reset"
+        >Reset</button>
         <button type="button"
                 class="btn btn-success"
                 @click="next"
         >Következő</button>
-
       </div>
     </div>
   </footer>

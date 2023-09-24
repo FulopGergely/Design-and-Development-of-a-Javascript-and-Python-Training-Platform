@@ -9,8 +9,8 @@ export default defineComponent({
     Codemirror
   },
   props: {
-    sideProps: Number,
     readOnlyProps: Boolean,
+    codeProps: String,
   },
   setup() {
     const extensions = [javascript(), oneDark]
@@ -30,8 +30,8 @@ export default defineComponent({
     return {
       result: '',
       error: '',
-      code: this.$store.state.tasks[this.sideProps-1].ecode,
       readOnly: this.readOnlyProps,
+      code: this.codeProps,
     };
   },
   methods: {
@@ -66,7 +66,8 @@ export default defineComponent({
       @focus="log('focus', $event)"
       @blur="log('blur', $event)"
   />
-  <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Futtatás</button>
+  <button v-if="readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Példa futtatása</button>
+  <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Megoldás futtatása</button>
   <div> {{this.result}} </div>
   <div v-if="this.error"> {{this.error}} </div>
 </template>
