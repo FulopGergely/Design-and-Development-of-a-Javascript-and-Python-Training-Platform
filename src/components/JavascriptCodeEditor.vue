@@ -62,7 +62,7 @@ export default defineComponent({
       :disabled="this.readOnly"
       v-model="code"
       @ready="handleReady"
-      @change="log('change', $event)"
+      @change="$store.dispatch('changeCode', $event)"
       @focus="log('focus', $event)"
       @blur="log('blur', $event)"
   />

@@ -8,41 +8,34 @@ const icon = useFavicon()
 
 export default {
   name: 'App',
-  components: { PythonIDE, FootButtons, JavascriptCodeEditor },
   data() {
     return {
-      side: 0,
     }
   },
-  computed: {
-    code() {
-      return this.$store.state.tasks[this.side-1].code
-    },
-    ecode() {
-      return this.$store.state.tasks[this.side-1].ecode
-    },
-  },
-  watch: {
-    side() {
-      this.side < 0 ? (this.side = 0) : this.side
-    }
-  },
+  components: {PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
+    this.$store.dispatch('initTasks', this.$store.state.view)
     icon.value = '../../public/favicon.png'
   },
   methods: {
     changeView(view) {
       this.$store.dispatch('initTasks', view)
+      //console.log(this.$store.state.view)
       this.next()
       icon.value = '../../public/' + view + 'Favicon.png'
     },
     next() {
-      this.side++
+      this.$store.dispatch('changeSide', 1)
     },
     prev() {
-      this.side--
+      this.$store.dispatch('changeSide', -1)
     }
   },
+  computed: {
+    side() {
+      return this.$store.state.side
+    }
+  }
 }
 </script>
 
@@ -80,7 +73,7 @@ export default {
                   <div>
                     <JavascriptCodeEditor
                         :readOnlyProps="true"
-                        :codeProps="ecode"
+                        :codeProps="task.ecode"
                     />
                   </div>
                 </div>
@@ -90,15 +83,15 @@ export default {
                     <JavascriptCodeEditor
                         v-if="this.$store.state.view === 'javascript' "
                         :readOnlyProps="false"
-                        :codeProps="code"
+                        :codeProps="task.code"
                     />
                     <PythonIDE
                         v-if="this.$store.state.view === 'python' "
-                        :sideValue="side"
                     />
                   </div>
                 </div>
-                <div v-html="task.options" class="options"></div>
+                <div v-if="task.options" class="options">
+                </div>
                 <div v-html="task.goodo" class="goodo"></div>
                 <div v-html="task.tex" class="tex"></div>
               </div>
@@ -123,7 +116,6 @@ export default {
           v-if="side !== 0"
           @prev="prev"
           @next="next"
-          :sideProps="side"
       />
     </div>
   </div>

@@ -12,7 +12,7 @@ export default defineComponent({
   },
   computed: {
     tests() {
-      return this.$store.state.tasks[this.sideProps-1].tests
+      return this.$store.state.tasks[this.$store.state.side-1].tests
     }
   },
   methods: {

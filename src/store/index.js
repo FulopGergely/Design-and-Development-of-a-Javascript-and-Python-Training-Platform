@@ -3,6 +3,7 @@ import configJs from "@/assets/js_alapok";
 import configPy from "@/assets/py_alapok";
 configJs.tasks = configJs.tasks.map( (v,i) => v={ id:i+1, ...v } )
 configPy.tasks = configPy.tasks.map( (v,i) => v={ id:i+1, ...v } )
+import createPersistedState from 'vuex-persistedstate';
 
 // Vuex
 const index = createStore({
@@ -10,6 +11,7 @@ const index = createStore({
         return {
             tasks: [],
             view: '',
+            side: 5,
         }
     },
     mutations: {
@@ -21,13 +23,31 @@ const index = createStore({
             state.tasks = configPy.tasks
             state.view = 'python'
         },
+        changeCode(state, code){
+            state.tasks[state.side-1].code = code
+        },
+        changeSide(state, increment){
+            state.side < 0 ? state.side = 0 : state.side = state.side + increment
+        },
     },
     actions: {
         initTasks(tasks, view){
             view === 'javascript' ? tasks.commit('initTasksJs') : tasks.commit('initTasksPy')
         },
+        changeCode(state, code){
+            state.commit('changeCode', code)
+        },
+        changeSide(state, increment){
+            state.commit('changeSide', increment)
+        }
     },
-
+    plugins: [ // Vuex Persist
+        createPersistedState({
+            key: 'my-app',
+            paths: ['tasks','view','side'],
+            storage: window.localStorage,
+        }),
+    ],
 })
 
 export default index
