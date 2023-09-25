@@ -32,6 +32,7 @@ const index = createStore({
     },
     actions: {
         initTasks(tasks, view){
+            //console.log(localStorage.getItem('my-app'))
             view === 'javascript' ? tasks.commit('initTasksJs') : tasks.commit('initTasksPy')
         },
         changeCode(state, code){

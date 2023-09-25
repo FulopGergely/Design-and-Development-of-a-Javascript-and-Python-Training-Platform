@@ -14,7 +14,7 @@ export default {
   },
   components: {PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
-    this.$store.dispatch('initTasks', this.$store.state.view)
+    //this.$store.dispatch('initTasks', this.$store.state.view)
     icon.value = '../../public/favicon.png'
   },
   methods: {
