@@ -4,6 +4,7 @@ import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
 import FootButtons from '@/components/FootButtons.vue'
 import { useFavicon } from '@vueuse/core'
 import PythonIDE from '@/components/PythonCodeEditor.vue'
+import SelectAnswer from "@/components/SelectAnswer.vue";
 const icon = useFavicon()
 
 export default {
@@ -12,7 +13,7 @@ export default {
     return {
     }
   },
-  components: {PythonIDE, FootButtons, JavascriptCodeEditor },
+  components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
     //this.$store.dispatch('initTasks', this.$store.state.view)
     icon.value = '../../public/favicon.png'
@@ -91,6 +92,7 @@ export default {
                   </div>
                 </div>
                 <div v-if="task.options" class="options">
+                  <SelectAnswer :answerButtons="task.options"/>
                 </div>
                 <div v-html="task.goodo" class="goodo"></div>
                 <div v-html="task.tex" class="tex"></div>
