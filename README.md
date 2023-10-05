@@ -38,3 +38,14 @@ Edit and run Python,Javascript code in Vuejs:
 
 https://github.com/surmon-china/vue-codemirror
 https://github.com/synw/vuepython?ref=vuejsexamples.com
+
+deploy:
+npm run build
+npm install -g firebase-tools
+firebase login
+firebase init ( y , Hosting:configure file.. , dist , n , n , n , n )
+firebase deploy
+
+redeploy:
+npm run build
+firebase deploy

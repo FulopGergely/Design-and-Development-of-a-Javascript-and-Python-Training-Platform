@@ -15,8 +15,13 @@ export default {
   },
   components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
-    //this.$store.dispatch('initTasks', this.$store.state.view)
+    if(!localStorage.getItem('my-app')){
+      this.$store.dispatch('initTasks', this.$store.state.view)
+    }
     icon.value = '../../public/favicon.png'
+  },
+  unload() {
+    console.log('unmount')
   },
   methods: {
     changeView(view) {
@@ -72,27 +77,22 @@ export default {
                 <div v-if="task.ecode" class="p-3 m-4 bg-light border rounded-3">
                   <div class="ecode">Példaprogram</div>
                   <div>
-                    <JavascriptCodeEditor
-                        :readOnlyProps="true"
-                        :codeProps="task.ecode"
-                    />
+                    <JavascriptCodeEditor :readOnlyProps="true" :codeProps="task.ecode" />
                   </div>
                 </div>
                 <div v-if="task.code" class="p-3 m-4 bg-light border rounded-3">
                   <div class="ecode">Kérem adja meg a megoldás kódját</div>
                   <div>
                     <JavascriptCodeEditor
-                        v-if="this.$store.state.view === 'javascript' "
-                        :readOnlyProps="false"
-                        :codeProps="task.code"
+                      v-if="this.$store.state.view === 'javascript'"
+                      :readOnlyProps="false"
+                      :codeProps="task.code"
                     />
-                    <PythonIDE
-                        v-if="this.$store.state.view === 'python' "
-                    />
+                    <PythonIDE v-if="this.$store.state.view === 'python'" />
                   </div>
                 </div>
                 <div v-if="task.options" class="options">
-                  <SelectAnswer :answerButtons="task.options"/>
+                  <SelectAnswer :answerButtons="task.options" />
                 </div>
                 <div v-html="task.goodo" class="goodo"></div>
                 <div v-html="task.tex" class="tex"></div>
@@ -102,23 +102,25 @@ export default {
           <div v-else>
             <div class="container">
               <div class="d-flex justify-content-center align-items-center" style="height: 300px">
-                <a style="cursor:pointer" class="p-2 fs-3 text-decoration-none" @click="changeView('python')">python</a
+                <a
+                  style="cursor: pointer"
+                  class="p-2 fs-3 text-decoration-none"
+                  @click="changeView('python')"
+                  >python</a
                 >
-                <a style="cursor:pointer" class="p-2 fs-3 text-decoration-none" @click="changeView('javascript')"
+                <a
+                  style="cursor: pointer"
+                  class="p-2 fs-3 text-decoration-none"
+                  @click="changeView('javascript')"
                   >javascript</a
                 >
-
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- {{this.$store.state.tasks[0].code}} -->
-      <FootButtons
-          v-if="side !== 0"
-          @prev="prev"
-          @next="next"
-      />
+      <FootButtons v-if="side !== 0" @prev="prev" @next="next" />
     </div>
   </div>
 </template>

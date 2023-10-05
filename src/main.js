@@ -9,8 +9,6 @@ import store from './store' //Vuex
 const app = createApp(App)
 
 
-
-
 app.use(store) //Vuex
 
 app.mount('#app')

@@ -11,7 +11,7 @@ const index = createStore({
         return {
             tasks: [],
             view: '',
-            side: 5,
+            side: 0,
         }
     },
     mutations: {
