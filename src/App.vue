@@ -1,11 +1,20 @@
 <script>
 import '@/assets/main.css'
-import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
-import FootButtons from '@/components/FootButtons.vue'
 import { useFavicon } from '@vueuse/core'
+//import js and python run
+import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
 import PythonIDE from '@/components/PythonCodeEditor.vue'
-import SelectAnswer from "@/components/SelectAnswer.vue";
+//import components
+import SelectAnswer from '@/components/SelectAnswer.vue'
+import FootButtons from '@/components/FootButtons.vue'
+//import the firestore instance and relevant methods
+import db from '@/firebase/index.js'
+import {collection, addDoc} from 'firebase/firestore'
 const icon = useFavicon()
+
+
+
+
 
 export default {
   name: 'App',
@@ -35,7 +44,28 @@ export default {
     },
     prev() {
       this.$store.dispatch('changeSide', -1)
+    },
+    async createUser() {
+      // 'user' collection reference
+      const colRef = collection(db, 'kvizmester')
+      // data to send
+      const dataObj = {
+        firstName: 'Jhon',
+        lastName: 'Doe',
+        dob: '1990'
+      }
+
+      // create document and return reference to it
+      const docRef = await addDoc(colRef, dataObj)
+
+      // acces auto-generated ID with 'id'
+      console.log('létrehozva egy Doc ezzel az id-vel: ', docRef.id)
+    },
+    created(){
+      this.createUser()
     }
+
+
   },
   computed: {
     side() {
