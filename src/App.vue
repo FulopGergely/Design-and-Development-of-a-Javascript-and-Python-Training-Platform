@@ -1,17 +1,20 @@
 <script>
 import '@/assets/main.css'
 import { useFavicon } from '@vueuse/core'
+const icon = useFavicon()
 //import js and python run
 import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
 import PythonIDE from '@/components/PythonCodeEditor.vue'
 //import components
 import SelectAnswer from '@/components/SelectAnswer.vue'
 import FootButtons from '@/components/FootButtons.vue'
-//import the firestore instance and relevant methods
+//import (database) the firestore instance and relevant methods
 import db from '@/firebase/index.js'
 import {collection, addDoc} from 'firebase/firestore'
-const icon = useFavicon()
-
+//import googleLogin
+import { getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
 
 
 
@@ -63,7 +66,15 @@ export default {
     },
     created(){
       this.createUser()
-    }
+    },
+    signInWithGoogle() {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log(result)
+        }).catch((error) => {
+          console.log(error)
+        });
+    },
 
 
   },
@@ -131,6 +142,10 @@ export default {
           </div>
           <div v-else>
             <div class="container">
+              <button type="button"
+                class="btn btn-danger"
+                @click="signInWithGoogle"
+              >signInWithGoogle</button>
               <div class="d-flex justify-content-center align-items-center" style="height: 300px">
                 <a
                   style="cursor: pointer"
