@@ -1,6 +1,7 @@
 <script>
 import '@/assets/main.css'
 import { useFavicon } from '@vueuse/core'
+import {defineComponent} from 'vue'
 const icon = useFavicon()
 //import js and python run
 import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
@@ -10,17 +11,14 @@ import SelectAnswer from '@/components/SelectAnswer.vue'
 import FootButtons from '@/components/FootButtons.vue'
 
 
-export default {
-  name: 'App',
+export default defineComponent({
+  name: "QuestionsComp",
   data() {
     return {
     }
   },
   components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
-    if(!localStorage.getItem('my-app')){
-      this.$store.dispatch('initTasks', this.$store.state.view)
-    }
     icon.value = '../../public/favicon.png'
   },
   methods: {
@@ -42,7 +40,7 @@ export default {
       return this.$store.state.side
     }
   }
-}
+})
 </script>
 
 <template>

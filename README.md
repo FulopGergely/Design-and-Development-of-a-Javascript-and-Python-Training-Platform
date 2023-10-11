@@ -49,3 +49,6 @@ firebase deploy
 redeploy:
 npm run build
 firebase deploy
+
+firestore docs:
+https://www.koderhq.com/tutorial/vue/firestore-database/

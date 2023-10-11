@@ -2,15 +2,12 @@
 import '@/assets/main.css'
 
 //import components
-import Questions from './components/Questions.vue'
+import QuestionsComp from './components/QuestionsComp.vue'
+import GoogleLogin from './components/GoogleLogin.vue'
+import Admin from './components/Admin.vue'
 //import (database) the firestore instance and relevant methods
 import db from '@/firebase/index.js'
-import { collection, addDoc, deleteDoc, doc, getDocs, query, getDoc, onSnapshot} from 'firebase/firestore';
-//import googleLogin
-import { getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
-
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
+import { collection, deleteDoc, getDocs, query, onSnapshot} from 'firebase/firestore';
 
 
 
@@ -22,33 +19,13 @@ export default {
       users: [],
     }
   },
-  components: { Questions },
+  components: { QuestionsComp , GoogleLogin , Admin },
   created() {
-    this.getUsers()
-    this.asd()
+    if(!localStorage.getItem('my-app')){
+      this.$store.dispatch('initTasks', this.$store.state.view)
+    }
   },
   methods: {
-    signInWithGoogle() {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          console.log(result)
-        }).catch((error) => {
-          console.log(error)
-        });
-    },
-    /** 
-     * @param {string} collectionName - collection name in Firestore (admin, tests, users)
-     * @param {number} test_id - unique ID
-     * @param {string} programmingLanguageName - 'js' or 'py'
-     * @param {number} testDurationMinutes - test duration in minutes
-     */
-    async addDocument(collectionName, test_id, programmingLanguageName, testDurationMinutes) {
-      await addDoc(collection(db, collectionName), {
-        programmingLanguageName: programmingLanguageName,
-        test_id: test_id,
-        testDurationMinutes: testDurationMinutes,
-      })
-    },
     async getAllDocument(collectionName) {
       // query to get all docs in 'countries' collection
       const querySnap = await getDocs(query(collection(db, collectionName)));
@@ -72,28 +49,18 @@ export default {
         deleteDoc(doc.ref);
       });
     },
-    async getAdminDoc(){
-      const userDocRef = doc(db, "users", 'IVfcekSm484ctmzX7ZlD'); // A felhasználó egyedi azonosítója alapján keresünk a "users" kollekcióban
-      const userDoc = await getDoc(userDocRef);
-      console.log(userDoc.id)
-      if (userDoc.exists() && userDoc.data().isAdmin) {
-        // Az adott felhasználó admin jogosultságokkal rendelkezik
-        // További műveletek végrehajtása
-      } else {
-        // Az adott felhasználó nem rendelkezik admin jogosultságokkal
-        // További műveletek végrehajtása vagy hibaüzenet megjelenítése
-      }
-    },
     isAdmin() {
-      console.log(this.getAllDocument('users'))
-    },
-    asd() {
-      console.log((this.users))
+      //this.signInWithGoogle()
+      //console.log('jaj')
+      //console.log(auth)
     },
     
 
-    
-
+  },
+  mounted(){
+    //this.getUsers() //init users ()
+    //this.isAdmin()
+    //console.log(auth)
   },
 
 }
@@ -104,18 +71,17 @@ export default {
 </script>
 
 <template>
-  <div class="container py-4">
-    <div class="p-3 mb-4 bg-light border rounded-3">
-      <div class="d-flex align-items-start flex-column bd-highlight mb-1">
-        <button type="button"
-          class="btn btn-danger"
-          @click="signInWithGoogle"
-        >signInWithGoogle</button>
-      </div>
-    </div>
-  </div>
+
   <div>
-    <Questions/>
+    <GoogleLogin/>
+  </div>
+  
+  <div>
+    <QuestionsComp/>
+  </div>
+
+  <div>
+    <Admin/>
   </div>
   
 </template>
