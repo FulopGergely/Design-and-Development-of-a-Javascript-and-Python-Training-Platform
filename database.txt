@@ -1,0 +1,28 @@
+async createCollections() {
+      // 'user' collection reference (table)
+      const colRef = collection(db, 'users')
+      // data to send
+      const dataObj = {
+        firstName: 'Fülöp',
+        lastName: 'Gergely',
+        email: 'biciklipumpa@gmail.com',
+        score: 0,
+        test_id: 123
+      }
+      // create document and return reference to it (rekord)
+      const docRef = await addDoc(collection(db, 'users'), dataObj)
+      // acces auto-generated ID with 'id'
+      console.log('létrehozva egy Doc ezzel az id-vel: ', docRef.id)
+
+      
+      await addDoc(collection(db, 'tests'), {
+        programmingLanguageName: 'js',
+        test_id: 123,
+        testDurationMinutes: 30,
+      })
+
+      await addDoc(collection(db, 'admin'), {
+        name: 'kvizmester42'
+      })
+
+    },
