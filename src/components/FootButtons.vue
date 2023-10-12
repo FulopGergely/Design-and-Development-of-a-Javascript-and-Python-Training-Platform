@@ -12,7 +12,12 @@ export default defineComponent({
   },
   computed: {
     tests() {
-      return this.$store.state.tasks[this.$store.state.side-1].tests
+      try {
+        return this.$store.state.tasks[this.$store.state.side-1].tests
+      } catch (error) {
+        console.log('out of index')
+        return error
+      }
     }
   },
   methods: {

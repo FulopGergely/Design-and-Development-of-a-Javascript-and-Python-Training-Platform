@@ -100,7 +100,7 @@ export default defineComponent({
           </div>
         </div>
         <!-- {{this.$store.state.tasks[0].code}} -->
-        <FootButtons v-if="side !== 0" @prev="prev" @next="next" />
+        <FootButtons  @prev="prev" @next="next" />
       </div>
     </div>
   </template>

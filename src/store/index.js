@@ -11,7 +11,8 @@ const index = createStore({
         return {
             tasks: [],
             view: '',
-            side: 0,
+            side: 1,
+            auth: {},
         }
     },
     mutations: {
@@ -29,6 +30,9 @@ const index = createStore({
         changeSide(state, increment){
             state.side < 0 ? state.side = 0 : state.side = state.side + increment
         },
+        changeAuth(state, auth){
+            state.auth = auth
+        },
     },
     actions: {
         initTasks(tasks, view){
@@ -40,12 +44,15 @@ const index = createStore({
         },
         changeSide(state, increment){
             state.commit('changeSide', increment)
-        }
+        },
+        changeAuth(state, auth){
+            state.commit('changeAuth', auth)
+        },
     },
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['tasks','view','side'],
+            paths: ['tasks','view','side','auth'],
             storage: window.localStorage,
         }),
     ],

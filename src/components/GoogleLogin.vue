@@ -1,7 +1,7 @@
 <script>
 import {defineComponent} from 'vue'
 import db from '@/firebase/index.js'
-import { collection, addDoc, getDoc, doc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
@@ -10,18 +10,16 @@ export default defineComponent({
   name: "GoogleLogin",
   data() {
     return {
-      admin: '',
     }
   },
   components: { },
   methods: {
     async signInWithGoogle() {
-      this.getAdmin()
       this.$store.dispatch('initTasks', this.$store.state.view) //emptying the local storage
       await signInWithPopup(auth, provider)
         .then((result) => {
-          console.log(this.admin)
-          this.admin == 'kvizmester42@gmail.com' ? this.asd() : this.addDocument( 'users' , result.user.displayName , result.user.email , 0 , 0)
+          this.$store.dispatch('changeAuth', result.user.email)
+          result.user.email == 'kvizmester42@gmail.com' ? this.adminLogin() : this.addDocument( 'users' , result.user.displayName , result.user.email , 0 , 0)
         }).catch((error) => {
           console.log(error)
         });
@@ -41,17 +39,6 @@ export default defineComponent({
         score: score,
       })
     },
-    async getAdmin() {
-      const docSnap = await getDoc(doc(db, 'admin', 'Qp35O28pkpaWEvYdohIQ'))
-      if (docSnap.exists()) {
-        this.admin = docSnap.data().email
-      } else {
-        console.log('Qp35O28pkpaWEvYdohIQ (admin) document does not exist')
-      }
-    },
-    asd() {
-      console.log('adminnnn:' + this.admin)
-    }
   },
 })
 </script>
