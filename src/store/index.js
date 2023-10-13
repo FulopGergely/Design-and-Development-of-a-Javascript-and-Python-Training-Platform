@@ -4,7 +4,6 @@ import configPy from "@/assets/py_alapok";
 configJs.tasks = configJs.tasks.map( (v,i) => v={ id:i+1, ...v } )
 configPy.tasks = configPy.tasks.map( (v,i) => v={ id:i+1, ...v } )
 import createPersistedState from 'vuex-persistedstate';
-
 // Vuex
 const index = createStore({
     state () {
@@ -33,6 +32,13 @@ const index = createStore({
         changeAuth(state, auth){
             state.auth = auth
         },
+        RESET_MODULE_STATE(state) {
+            state.tasks = [];
+            state.view = '';
+            state.side = 0;
+            state.auth = {};
+            console.log('urites')
+          },
     },
     actions: {
         initTasks(tasks, view){
@@ -46,8 +52,12 @@ const index = createStore({
             state.commit('changeSide', increment)
         },
         changeAuth(state, auth){
+            console.log(auth)
             state.commit('changeAuth', auth)
         },
+        resetModuleState({ commit }) {
+            commit('RESET_MODULE_STATE');
+          },
     },
     plugins: [ // Vuex Persist
         createPersistedState({
