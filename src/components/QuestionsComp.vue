@@ -20,6 +20,10 @@ export default defineComponent({
   components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
     icon.value = '../../public/favicon.png'
+    console.log('created')
+    if(!localStorage.getItem('my-app')){
+      this.$store.dispatch('initTasks', 'js')
+    }
   },
   methods: {
     changeView(view) {
@@ -46,7 +50,7 @@ export default defineComponent({
 <template>
     <div>
       <div class="container py-4">
-        <div class="p-3 mb-4 bg-light border rounded-3">
+        <div v-if="this.side != 0" class="p-3 mb-4 bg-light border rounded-3">
           <div class="d-flex align-items-start flex-column bd-highlight mb-1">
             <div class="mb-auto p-1 bd-highlight">{{ side }}. oldal</div>
           </div>
@@ -99,8 +103,24 @@ export default defineComponent({
             </div>
           </div>
         </div>
+        <div v-else class="p-3 mb-4 bg-light border rounded-3">
+          <div class="col-md-4">
+            <label for="validationServer01" class="form-label">First name</label>
+            <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="validationServer03" class="form-label">City</label>
+            <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required>
+            <div id="validationServer03Feedback" class="invalid-feedback">
+              Please provide a valid city.
+            </div>
+          </div>
+        </div>
         <!-- {{this.$store.state.tasks[0].code}} -->
-        <FootButtons  @prev="prev" @next="next" />
+        <FootButtons v-if="this.side != 0"  @prev="prev" @next="next" />
       </div>
     </div>
   </template>

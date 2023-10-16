@@ -12,6 +12,7 @@ const index = createStore({
             view: '',
             side: 1,
             auth: {},
+            loading: true,
         }
     },
     mutations: {
@@ -38,7 +39,10 @@ const index = createStore({
             state.side = 0;
             state.auth = {};
             console.log('urites')
-          },
+        },
+        setLoading(state, isLoading) {
+            state.loading = isLoading;
+        },
     },
     actions: {
         initTasks(tasks, view){
@@ -57,7 +61,11 @@ const index = createStore({
         },
         resetModuleState({ commit }) {
             commit('RESET_MODULE_STATE');
-          },
+        },
+        setLoading(state, isLoading) {
+            state.commit('setLoading', isLoading)
+            console.log('asd')
+        },
     },
     plugins: [ // Vuex Persist
         createPersistedState({
