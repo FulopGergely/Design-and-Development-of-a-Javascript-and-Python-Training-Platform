@@ -25,6 +25,7 @@ export default defineComponent({
         }).catch((error) => {
           console.log(error)
         });
+
     },
     signOutWithGoogle(){
        signOut(auth).then(() => {
@@ -57,12 +58,12 @@ export default defineComponent({
 <template>
 <div class="bg-dark p-4">
   <div v-if="!this.$store.state.auth.displayName">
-    <button class="button-36" type="button">
+    <button @click="signInWithGoogle" class="button-36" type="button">
       <li class="list-inline-item">
         <img src="public/user.png" alt="Avatar" class="rounded-circle" width="40" height="40"> 
       </li>
       <li class="list-inline-item">
-        <div class="m-2" @click="signInWithGoogle"> bejelentkezés </div>
+        <div class="m-2"> bejelentkezés </div>
       </li>
     </button>
   </div>

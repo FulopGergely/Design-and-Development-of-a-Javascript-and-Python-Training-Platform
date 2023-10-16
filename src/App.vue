@@ -37,9 +37,6 @@ export default {
 
 <template>
 
-
-   {{ asd() }}
-
   <div v-if="this.$store.state.auth == undefined"> 
     <GoogleLogin/>
     asd

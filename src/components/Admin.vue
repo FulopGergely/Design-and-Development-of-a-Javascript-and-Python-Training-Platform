@@ -9,6 +9,12 @@ export default {
     return {
       tests: [],
       users: [],
+      items: [
+          { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
+          { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+          { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+          { age: 38, first_name: 'Jami', last_name: 'Carney' }
+        ]
     }
   },
   components: { },
@@ -19,7 +25,6 @@ export default {
   },
   mounted() {
     this.getAllDocument('tests')
-
     this.getAllDocument('users')
 
   },
@@ -86,6 +91,7 @@ export default {
 </script>
 
 <template>
+  <b-table striped hover :items="items"></b-table>
   <div v-if="!$store.state.loading">
     <div class="container py-5">
     <div class="p-3 mb-4 bg-light border rounded-3">
@@ -143,9 +149,19 @@ export default {
     </div>
   </div>
 </div>
-  <div v-else>
-    <p>Loading...</p>
+<div v-esle class="container py-4">
+  <div class="p-3 mb-4">
+      <div class="h4 m-4 d-flex justify-content-center">
+        <div class="spinner-border m-5" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div> 
   </div>
+</div>
+
+  
+  
+ 
 
  <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
