@@ -38,7 +38,6 @@ const index = createStore({
             state.view = '';
             state.side = 0;
             state.auth = {};
-            console.log('urites')
         },
         setLoading(state, isLoading) {
             state.loading = isLoading;
@@ -56,7 +55,6 @@ const index = createStore({
             state.commit('changeSide', increment)
         },
         changeAuth(state, auth){
-            console.log(auth)
             state.commit('changeAuth', auth)
         },
         resetModuleState({ commit }) {
@@ -64,7 +62,6 @@ const index = createStore({
         },
         setLoading(state, isLoading) {
             state.commit('setLoading', isLoading)
-            console.log('asd')
         },
     },
     plugins: [ // Vuex Persist

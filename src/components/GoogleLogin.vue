@@ -56,7 +56,7 @@ export default defineComponent({
 
 
 <template>
-<div class="bg-dark p-4">
+<div class="navbar navbar-light p-4 border-bottom" style="background-color: #34383f;">
   <div v-if="!this.$store.state.auth.displayName">
     <button @click="signInWithGoogle" class="button-36" type="button">
       <li class="list-inline-item">
@@ -90,7 +90,7 @@ export default defineComponent({
 
 /* CSS */
 .button-36 {
-  background-image: linear-gradient(0deg, #414141 9.16%, #414141 43.89%, #414141 64.72%);
+  background-image: linear-gradient(0deg, #4a4e54 9.16%, #4a4e54 43.89%, #4a4e54 64.72%);
   border-radius: 8px;
   border-style: none;
   box-sizing: border-box;
@@ -109,7 +109,7 @@ export default defineComponent({
 }
 
 .button-36:hover {
-  box-shadow: rgba(255, 255, 255, 0.5) 0 1px 20px;
+  box-shadow: rgb(0, 0, 0) 0 1px 20px;
   transition-duration: .1s;
 }
 

@@ -13,20 +13,9 @@ export default {
   name: 'App',
   data() {
     return {
-      users: [],
     }
   },
   components: { GoogleLogin , Admin, QuestionsComp },
-  mounted(){
-    //this.getUsers() //init users ()
-    //this.isAdmin()
-    //console.log(auth)
-  },
-  methods: {
-    asd(){
-        console.log(this.$store.state.auth.email )
-    }
-  }
 
 }
 
