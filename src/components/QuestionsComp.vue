@@ -3,6 +3,8 @@ import '@/assets/main.css'
 import { useFavicon } from '@vueuse/core'
 import {defineComponent} from 'vue'
 const icon = useFavicon()
+//import vuex
+import { mapGetters } from 'vuex';
 //import js and python run
 import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
 import PythonIDE from '@/components/PythonCodeEditor.vue'
@@ -22,6 +24,9 @@ export default defineComponent({
       test_id: null,
       isValid: true,
     }
+  },
+  mounted() {
+    this.$store.dispatch('startCountdown');
   },
   components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
@@ -61,12 +66,24 @@ export default defineComponent({
         this.isValid = false
       }
     },
+    handleCountdownEnd() {
+      // Kezelni a lejárt visszaszámlálót
+      console.log('A visszaszámláló lejárt!');
+    },
+    formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      const formattedMinutes = String(minutes).padStart(2, '0');
+      const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+      return `${formattedMinutes}:${formattedSeconds}`;
+    },
       
   },
   computed: {
     side() {
       return this.$store.state.side
     },
+    ...mapGetters(['formattedCountdown']),
   },
 })
 </script>
@@ -75,8 +92,9 @@ export default defineComponent({
     <div >
       <div class="container py-4">
         <div v-if="this.side != 0" class="p-3 mb-4 bg-light border rounded-3 ">
-          <div class="d-flex align-items-start flex-column bd-highlight mb-1">
+          <div class="d-flex justify-content-between bd-highlight mb-1">
             <div class="mb-auto p-1 bd-highlight">{{ side }}. oldal</div>
+            <div class="mb-auto p-1 bd-highlight">{{ formattedCountdown  }}</div>
           </div>
           <div class="container-fluid py-5">
             <div>

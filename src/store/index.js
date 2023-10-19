@@ -13,6 +13,7 @@ const index = createStore({
             side: 1,
             auth: {},
             loading: true,
+            countdown: 1200, // 20 perc másodpercekben
         }
     },
     mutations: {
@@ -42,6 +43,12 @@ const index = createStore({
         setLoading(state, isLoading) {
             state.loading = isLoading;
         },
+        decrementCountdown(state) {
+            state.countdown--;
+            if (state.countdown < 0) {
+              state.countdown = 0;
+            }
+          },
     },
     actions: {
         initTasks(tasks, view){
@@ -63,11 +70,25 @@ const index = createStore({
         setLoading(state, isLoading) {
             state.commit('setLoading', isLoading)
         },
+        startCountdown({ commit }) {
+            setInterval(() => {
+              commit('decrementCountdown');
+            }, 1000);
+          },
     },
+    getters: {
+        formattedCountdown(state) {
+          const minutes = Math.floor(state.countdown / 60);
+          const remainingSeconds = state.countdown % 60;
+          const formattedMinutes = String(minutes).padStart(2, '0');
+          const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+          return `${formattedMinutes}:${formattedSeconds}`;
+        },
+      },
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['tasks','view','side','auth'],
+            paths: ['tasks','view','side','auth','countdown'],
             storage: window.localStorage,
         }),
     ],
