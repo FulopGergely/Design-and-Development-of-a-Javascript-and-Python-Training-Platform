@@ -26,9 +26,8 @@ export default {
 
 <template>
 
-  <div v-if="this.$store.state.auth == undefined"> 
+  <div v-if="this.$store.state.auth.email == undefined"> 
     <GoogleLogin/>
-    asd
   </div>
   <div v-else-if="this.$store.state.auth.email != 'kvizmester42@gmail.com'">
     <GoogleLogin/>

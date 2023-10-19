@@ -185,7 +185,7 @@ export default {
           <tr>
             <td>
               <button type="button"
-                  class="btn btn-success m-3"
+                  class="btn btn-success"
                   @click="openModal('saveTest')"
               >Új teszt</button>
             </td>
@@ -205,8 +205,8 @@ export default {
   
  
 
-  <div class="container py-4">
-    <div class="p-3 mb-4 bg-light border rounded-3">
+  <div class="container py-5">
+    <div class="p-3 mb-4 rounded-3">
       <div class="h4 m-4 d-flex justify-content-center">Felhasználók</div> 
       <table class="table table-striped table-hover">
         <thead>
@@ -295,8 +295,8 @@ export default {
           <div class="input-group mb-3">
             <label class="input-group-text" >programozási nyelv</label>
             <select class="form-select" v-model="programmingLanguageName" required>
-              <option selected value="js">javascript</option>
-              <option value="py">python</option>
+              <option selected value="javascript">javascript</option>
+              <option value="python">python</option>
             </select>
           </div>
           <div class="input-group mb-3">

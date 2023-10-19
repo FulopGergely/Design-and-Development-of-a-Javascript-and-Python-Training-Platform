@@ -9,16 +9,23 @@ import PythonIDE from '@/components/PythonCodeEditor.vue'
 //import components
 import SelectAnswer from '@/components/SelectAnswer.vue'
 import FootButtons from '@/components/FootButtons.vue'
+//import firabase
+import db from '@/firebase/index.js'
+import { collection, getDocs, query } from 'firebase/firestore';
 
 
 export default defineComponent({
   name: "QuestionsComp",
   data() {
     return {
+      tests: [],
+      test_id: null,
+      isValid: true,
     }
   },
   components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
+    this.getAllDocument('tests')
     icon.value = '../../public/favicon.png'
     console.log('created')
     if(!localStorage.getItem('my-app')){
@@ -26,6 +33,14 @@ export default defineComponent({
     }
   },
   methods: {
+    async getAllDocument(collectionName) {
+      console.log('getAllDocument')
+      const querySnap = await getDocs(query(collection(db, collectionName)));
+      querySnap.forEach((doc) => {
+        this.tests.push(doc.data())
+        //console.log(doc.data())
+      })
+    },
     changeView(view) {
       this.$store.dispatch('initTasks', view)
       //console.log(this.$store.state.view)
@@ -38,19 +53,28 @@ export default defineComponent({
     prev() {
       this.$store.dispatch('changeSide', -1)
     },
+    submit(){
+      if (this.tests.map(test => test.test_id).includes(this.test_id)) {
+        this.next()
+        this.isValid = true
+      } else {
+        this.isValid = false
+      }
+    },
+      
   },
   computed: {
     side() {
       return this.$store.state.side
-    }
-  }
+    },
+  },
 })
 </script>
 
 <template>
-    <div>
+    <div >
       <div class="container py-4">
-        <div v-if="this.side != 0" class="p-3 mb-4 bg-light border rounded-3">
+        <div v-if="this.side != 0" class="p-3 mb-4 bg-light border rounded-3 ">
           <div class="d-flex align-items-start flex-column bd-highlight mb-1">
             <div class="mb-auto p-1 bd-highlight">{{ side }}. oldal</div>
           </div>
@@ -103,24 +127,25 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <div v-else class="p-3 mb-4 bg-light border rounded-3">
-          <div class="col-md-4">
-            <label for="validationServer01" class="form-label">First name</label>
-            <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required>
-            <div class="valid-feedback">
-              Looks good!
+        <div v-else class="p-3 mb-4 bg-light border rounded-3 mx-auto " style="max-width: 450px;">
+          <form @submit.prevent="submit" class="needs-validation" >
+              <div class="input-group mb-3">
+                  <span  class="input-group-text" id="inputGroup-sizing-default">teszt ID</span>
+                  <input  v-model="test_id" :class="{'form-control':true, 'is-invalid' : !isValid}" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                    <div v-if="!isValid" class="invalid-feedback">
+                      Nem létezik ilyen id!
+                    </div>
+              </div>
+            <div class="p-2 bd-highlight">
+              <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-          </div>
-          <div class="col-md-6">
-            <label for="validationServer03" class="form-label">City</label>
-            <input type="text" class="form-control is-invalid" id="validationServer03" aria-describedby="validationServer03Feedback" required>
-            <div id="validationServer03Feedback" class="invalid-feedback">
-              Please provide a valid city.
-            </div>
-          </div>
+          </form>
+            
+       
         </div>
         <!-- {{this.$store.state.tasks[0].code}} -->
-        <FootButtons v-if="this.side != 0"  @prev="prev" @next="next" />
+        <FootButtons v-if="this.side != 0"  @prev="prev" @next="next"  />
       </div>
+      
     </div>
   </template>
