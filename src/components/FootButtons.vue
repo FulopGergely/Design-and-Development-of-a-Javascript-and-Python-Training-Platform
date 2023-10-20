@@ -18,16 +18,19 @@ export default defineComponent({
         console.log('out of index')
         return error
       }
-    }
+    },
+    disableBackButton() {
+      return this.$store.state.side == 1 ? true : false
+    },
   },
   methods: {
-    next() {
-      this.$emit('next')
+      next() {
+        this.$emit('next')
+      },
+      prev() {
+        this.$emit('prev')
+      }
     },
-    prev() {
-      this.$emit('prev')
-    },
-  },
 })
 </script>
 
@@ -35,7 +38,8 @@ export default defineComponent({
   <footer>
     <div class="p-2 bg-light border rounded-3">
       <div class="d-flex justify-content-evenly">
-        <button type="button"
+        <button :class="{disabled:disableBackButton}" 
+                type="button"
                 class="btn btn-danger"
                 @click="prev"
         >Vissza</button>

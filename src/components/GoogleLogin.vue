@@ -13,9 +13,15 @@ export default defineComponent({
     }
   },
   components: { },
+  created() {
+    
+  },
+  mounted() {
+    
+  },
   methods: {
     async signInWithGoogle() {
-      this.$store.dispatch('initTasks', this.$store.state.view) //emptying the local storage
+      //this.$store.dispatch('initTasks', this.$store.state.programmingLanguageName) //emptying the local storage
       console.log('bejelnetkezés:')
       console.log(auth)
       await signInWithPopup(auth, provider)

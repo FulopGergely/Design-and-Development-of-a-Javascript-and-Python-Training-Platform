@@ -9,21 +9,21 @@ const index = createStore({
     state () {
         return {
             tasks: [],
-            view: '',
+            programmingLanguageName: '',
             side: 1,
             auth: {},
             loading: true,
-            countdown: 1200, // 20 perc másodpercekben
+            countDownTime: 0, // 20 perc másodpercekben
         }
     },
     mutations: {
         initTasksJs(state) {
             state.tasks = configJs.tasks
-            state.view = 'javascript'
+            state.programmingLanguageName = 'javascript'
         },
         initTasksPy(state) {
             state.tasks = configPy.tasks
-            state.view = 'python'
+            state.programmingLanguageName = 'python'
         },
         changeCode(state, code){
             state.tasks[state.side-1].code = code
@@ -35,25 +35,31 @@ const index = createStore({
             state.auth = auth
         },
         RESET_MODULE_STATE(state) {
-            state.tasks = [];
-            state.view = '';
-            state.side = 0;
-            state.auth = {};
+            state.tasks = []
+            state.programmingLanguageName = ''
+            state.side = 0
+            state.auth = {}
+            state.countDownTime = 60 // 20 perc másodpercekben
+            state.toggle = false
         },
         setLoading(state, isLoading) {
             state.loading = isLoading;
         },
         decrementCountdown(state) {
-            state.countdown--;
-            if (state.countdown < 0) {
-              state.countdown = 0;
+            state.countDownTime--;
+            if (state.countDownTime < 0) {
+              state.countDownTime = 0;
             }
           },
+        changeCountdownTime(state, changeCountdownTime){
+            console.log(changeCountdownTime)
+            state.countDownTime = changeCountdownTime;
+        }
     },
     actions: {
-        initTasks(tasks, view){
+        initTasks(tasks, programmingLanguageName){
             //console.log(localStorage.getItem('my-app'))
-            view === 'javascript' ? tasks.commit('initTasksJs') : tasks.commit('initTasksPy')
+            programmingLanguageName === 'javascript' ? tasks.commit('initTasksJs') : tasks.commit('initTasksPy')
         },
         changeCode(state, code){
             state.commit('changeCode', code)
@@ -71,15 +77,17 @@ const index = createStore({
             state.commit('setLoading', isLoading)
         },
         startCountdown({ commit }) {
-            setInterval(() => {
-              commit('decrementCountdown');
-            }, 1000);
-          },
+            commit('decrementCountdown')
+        },
+        changeCountdownTime(state, changeCountdownTime){
+            state.commit('changeCountdownTime', changeCountdownTime)
+        },
+
     },
     getters: {
         formattedCountdown(state) {
-          const minutes = Math.floor(state.countdown / 60);
-          const remainingSeconds = state.countdown % 60;
+          const minutes = Math.floor(state.countDownTime / 60);
+          const remainingSeconds = state.countDownTime % 60;
           const formattedMinutes = String(minutes).padStart(2, '0');
           const formattedSeconds = String(remainingSeconds).padStart(2, '0');
           return `${formattedMinutes}:${formattedSeconds}`;
@@ -88,7 +96,7 @@ const index = createStore({
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['tasks','view','side','auth','countdown'],
+            paths: ['tasks','programmingLanguageName','side','auth','countDownTime', 'timerIsRunning'],
             storage: window.localStorage,
         }),
     ],

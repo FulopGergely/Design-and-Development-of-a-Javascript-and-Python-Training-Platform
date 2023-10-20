@@ -3,8 +3,6 @@ import '@/assets/main.css'
 import { useFavicon } from '@vueuse/core'
 import {defineComponent} from 'vue'
 const icon = useFavicon()
-//import vuex
-import { mapGetters } from 'vuex';
 //import js and python run
 import JavascriptCodeEditor from '@/components/JavascriptCodeEditor.vue'
 import PythonIDE from '@/components/PythonCodeEditor.vue'
@@ -14,7 +12,7 @@ import FootButtons from '@/components/FootButtons.vue'
 //import firabase
 import db from '@/firebase/index.js'
 import { collection, getDocs, query } from 'firebase/firestore';
-
+var refreshIntervalId;
 
 export default defineComponent({
   name: "QuestionsComp",
@@ -26,7 +24,11 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.$store.dispatch('startCountdown');
+    clearInterval(refreshIntervalId);
+    this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime-1)
+    refreshIntervalId = setInterval(() => {
+                  this.$store.dispatch('startCountdown');
+                }, 1000);
   },
   components: {SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
   created() {
@@ -46,12 +48,12 @@ export default defineComponent({
         //console.log(doc.data())
       })
     },
-    changeView(view) {
-      this.$store.dispatch('initTasks', view)
-      //console.log(this.$store.state.view)
+    /*changeProgrammingLanguageName(programmingLanguageName) {
+      this.$store.dispatch('initTasks', programmingLanguageName)
+      //console.log(this.$store.state.programmingLanguageName)
       this.next()
-      icon.value = '../../public/' + view + 'Favicon.png'
-    },
+      icon.value = '../../public/' + programmingLanguageName + 'Favicon.png'
+    },*/
     next() {
       this.$store.dispatch('changeSide', 1)
     },
@@ -59,23 +61,15 @@ export default defineComponent({
       this.$store.dispatch('changeSide', -1)
     },
     submit(){
-      if (this.tests.map(test => test.test_id).includes(this.test_id)) {
+      const found = this.tests.find(test => test.test_id === this.test_id)
+      if (found) {
+        this.$store.dispatch('changeCountdownTime', found.testDurationMinutes*60)
+        this.$store.dispatch('initTasks', found.programmingLanguageName)
         this.next()
         this.isValid = true
       } else {
         this.isValid = false
       }
-    },
-    handleCountdownEnd() {
-      // Kezelni a lejárt visszaszámlálót
-      console.log('A visszaszámláló lejárt!');
-    },
-    formatTime(seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      const formattedMinutes = String(minutes).padStart(2, '0');
-      const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-      return `${formattedMinutes}:${formattedSeconds}`;
     },
       
   },
@@ -83,7 +77,13 @@ export default defineComponent({
     side() {
       return this.$store.state.side
     },
-    ...mapGetters(['formattedCountdown']),
+    formattedCountdown() {
+      console.log(this.$store.state.countDownTime)
+      if (this.$store.state.countDownTime == 0) {
+        console.log('pontszám Comp Betöltése')
+      }
+      return this.$store.getters.formattedCountdown;
+    },
   },
 })
 </script>
@@ -128,11 +128,11 @@ export default defineComponent({
                     <div class="ecode">Kérem adja meg a megoldás kódját</div>
                     <div>
                       <JavascriptCodeEditor
-                        v-if="this.$store.state.view === 'javascript'"
+                        v-if="this.$store.state.programmingLanguageName === 'javascript'"
                         :readOnlyProps="false"
                         :codeProps="task.code"
                       />
-                      <PythonIDE v-if="this.$store.state.view === 'python'" />
+                      <PythonIDE v-if="this.$store.state.programmingLanguageName === 'python'" />
                     </div>
                   </div>
                   <div v-if="task.options" class="options">
