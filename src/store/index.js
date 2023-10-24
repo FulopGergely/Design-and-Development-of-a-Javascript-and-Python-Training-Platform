@@ -56,6 +56,7 @@ const index = createStore({
             console.log(changeCountdownTime)
             state.countDownTime = changeCountdownTime;
         },
+        //no actions
         appendToAuth(state, data) {
             state.auth = { ...state.auth, ...data };
         },

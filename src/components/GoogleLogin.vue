@@ -1,10 +1,13 @@
 <script>
 import {defineComponent} from 'vue'
-import db from '@/firebase/index.js'
+import firebaseObjects from '@/firebase/index.js'
 import { collection, addDoc } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut  } from 'firebase/auth'
-const auth = getAuth();
+import { GoogleAuthProvider, signInWithPopup, signOut, signInWithRedirect } from 'firebase/auth'
+const db = firebaseObjects.db;
+const auth = firebaseObjects.auth;
 const provider = new GoogleAuthProvider();
+
+
 
 export default defineComponent({
   name: "GoogleLogin",
@@ -17,16 +20,23 @@ export default defineComponent({
     
   },
   mounted() {
-    
+    console.log(auth)
   },
   methods: {
+    async signOutGoogle(){
+      await signOut(auth).then(() => {
+        console.log(auth)
+        console.log('Sign-out successful.')
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     async signInWithGoogle() {
       console.log('bejelnetkezés:')
-      console.log(auth)
       await signInWithPopup(auth, provider)
         .then((result) => {
           this.$store.dispatch('changeAuth', result.user)
-          result.user.email == 'kvizmester42@gmail.com' ? console.log('admin bejelentkezés') : this.addDocument( 'users' , result.user.displayName , result.user.email , 0 , 0)
+          result.user.email == 'kvizmester42@gmail.com' ? console.log('admin bejelentkezés') : this.addDocument( 'users' , result.user.displayName , result.user.email ,  'A teszt még nem lett elindítva' , 0)
         }).catch((error) => {
           console.log(error)
         });
@@ -38,9 +48,11 @@ export default defineComponent({
         console.error(error);
       });
     },
-   
-    
-    
+    signIn() {
+      console.log(auth)
+      console.log(provider)
+      signInWithRedirect(auth, provider)
+    },
    
     /** 
      * @param {string} collectionName - collection name in Firestore (tests, users)
@@ -93,6 +105,17 @@ export default defineComponent({
     </ul>
   </div>
 </div>
+
+<div v-if="false" class="container text-center py-5">
+      <div class="d-inline-flex p-4 mb-5 bg-light border rounded-3">
+        <div class="h4 m-4 d-flex justify-content-center">
+
+        <button @click="signIn()">signIn</button>
+
+        </div> 
+      </div> 
+    </div> 
+
 </template>
 
 <style scoped>

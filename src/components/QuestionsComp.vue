@@ -10,9 +10,12 @@ import PythonIDE from '@/components/PythonCodeEditor.vue'
 import SelectAnswer from '@/components/SelectAnswer.vue'
 import FootButtons from '@/components/FootButtons.vue'
 //import firabase
-import db from '@/firebase/index.js'
+import firebaseObjects from '@/firebase/index.js'
+const db = firebaseObjects.db;
 import { collection, getDocs, query, updateDoc, doc } from 'firebase/firestore';
 var refreshIntervalId;
+
+
 
 export default defineComponent({
   name: "titlesComp",

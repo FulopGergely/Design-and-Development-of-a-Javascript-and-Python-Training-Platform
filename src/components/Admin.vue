@@ -1,12 +1,14 @@
 <script>
 //import (database) the firestore instance and relevant methods
-import db from '@/firebase/index.js'
+import firebaseObjects from '@/firebase/index.js'
 import { collection, doc, deleteDoc, addDoc, getDocs, query } from 'firebase/firestore';
 import { Modal } from 'bootstrap'
+const db = firebaseObjects.db;
 let newTest;
 let confirmDelete;
 
 export default {
+  name: "AdminComp",
   data() {
     return {
       tests: [],
@@ -160,90 +162,94 @@ export default {
 <template>
   <div v-if="!$store.state.loading">
     <div class="container py-5">
-    <div class="p-3 mb-4 bg-light border rounded-3">
-      <div class="h4 m-4 d-flex justify-content-center">Tesztek</div> 
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">teszt ID</th>
-            <th scope="col">programozási nyelv</th>
-            <th scope="col">időtartam (perc)</th>
-            <th scope="col">törlés</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="test in this.tests" :key="test.test_id">
-            <!-- <td v-for="test in this.asd2 :key="test.id"></td>-->
-            <td>{{ test.test_id }}</td>
-            <td>{{ test.programmingLanguageName }}</td>
-            <td>{{ test.testDurationMinutes }} </td>
-            <td><button @click="openModal('deleteTestRecord',test.test_id)" type="button" class="btn btn-secondary">Törlés</button></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>
-              <button type="button"
-                  class="btn btn-success"
-                  @click="openModal('saveTest')"
-              >Új teszt</button>
-            </td>
-            <td></td>
-            <td></td>
-            <td>
-              <button type="button"
-                      class="btn btn-danger"
-                      @click="openModal('deleteAllTests')"
-              >Összes teszt törlése</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="p-4 mb-5 bg-light border rounded-3">
+        <div class="h4 m-4 d-flex justify-content-center">Felhasználók</div> 
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">teszt ID</th>
+              <th scope="col">név</th>
+              <th scope="col">email</th>
+              <th scope="col">pontszám</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in this.users" :key="user.test_id">
+              <!-- <td v-for="test in this.asd2 :key="test.id"></td>-->
+              <td>{{ user.test_id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.score }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <button type="button"
+                  class="btn btn-danger"
+                  @click="openModal('deleteAllUsers')"
+                  >Összes felhasználó törlése</button>
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        </div>
+
+        
+      <div class="p-4 mb-4 bg-light border rounded-3">
+        <div class="h4 m-4 d-flex justify-content-center">Tesztek</div> 
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">teszt ID</th>
+              <th scope="col">programozási nyelv</th>
+              <th scope="col">időtartam (perc)</th>
+              <th scope="col">törlés</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="test in this.tests" :key="test.test_id">
+              <!-- <td v-for="test in this.asd2 :key="test.id"></td>-->
+              <td>{{ test.test_id }}</td>
+              <td>{{ test.programmingLanguageName }}</td>
+              <td>{{ test.testDurationMinutes }} </td>
+              <td><button @click="openModal('deleteTestRecord',test.test_id)" type="button" class="btn btn-secondary">Törlés</button></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <button type="button"
+                    class="btn btn-success"
+                    @click="openModal('saveTest')"
+                >Új teszt</button>
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                <button type="button"
+                        class="btn btn-danger"
+                        @click="openModal('deleteAllTests')"
+                >Összes teszt törlése</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
-  </div>
   
  
 
-  <div class="container py-5">
-    <div class="p-3 mb-4 rounded-3">
-      <div class="h4 m-4 d-flex justify-content-center">Felhasználók</div> 
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">teszt ID</th>
-            <th scope="col">név</th>
-            <th scope="col">email</th>
-            <th scope="col">pontszám</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in this.users" :key="user.test_id">
-            <!-- <td v-for="test in this.asd2 :key="test.id"></td>-->
-            <td>{{ user.test_id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.score }}</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>
-              <button type="button"
-                class="btn btn-danger"
-                @click="openModal('deleteAllUsers')"
-                >Összes felhasználó törlése</button>
-            </td>
-            <td></td>
-            <td></td>
-            <td>
-              
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+    <div class="container py-5">
+      
+      </div>
   </div>
-  </div>
+  
   <div v-else class="container py-4">
     <div class="p-3 mb-4">
         <div class="h4 m-4 d-flex justify-content-center">
