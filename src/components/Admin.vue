@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     async getAllDocument(collectionName) {
-      // query to get all docs in 'countries' collection
       console.log('getAllDocument')
       const querySnap = await getDocs(query(collection(db, collectionName)));
       if (collectionName == 'tests') {

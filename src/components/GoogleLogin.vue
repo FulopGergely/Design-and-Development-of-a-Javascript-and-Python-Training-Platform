@@ -2,7 +2,7 @@
 import {defineComponent} from 'vue'
 import db from '@/firebase/index.js'
 import { collection, addDoc } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut  } from 'firebase/auth'
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
@@ -21,7 +21,6 @@ export default defineComponent({
   },
   methods: {
     async signInWithGoogle() {
-      //this.$store.dispatch('initTasks', this.$store.state.programmingLanguageName) //emptying the local storage
       console.log('bejelnetkezés:')
       console.log(auth)
       await signInWithPopup(auth, provider)
@@ -31,7 +30,6 @@ export default defineComponent({
         }).catch((error) => {
           console.log(error)
         });
-
     },
     signOutWithGoogle(){
        signOut(auth).then(() => {
@@ -41,6 +39,9 @@ export default defineComponent({
       });
     },
    
+    
+    
+   
     /** 
      * @param {string} collectionName - collection name in Firestore (tests, users)
      * @param {string} username
@@ -49,12 +50,17 @@ export default defineComponent({
      * @param {number} score
      */
      async addDocument(collectionName, name, email, test_id, score) {
-      await addDoc(collection(db, collectionName), {
+      const docRef = await addDoc(collection(db, collectionName), {
         name: name,
         email: email,
         test_id: test_id,
         score: score,
       })
+      //miután létrehozta firebase a docId-t az adatokkal, utána vuex-ben tároljuk a docId-t.
+      //bejelentkezés után tudni fogjuk melyik docId van bejelentkezve: this.$store.state.auth.docRef
+      this.$store.commit('appendToAuth', {
+        docRef: docRef.id
+      });
     },
   },
 })
@@ -66,7 +72,7 @@ export default defineComponent({
   <div v-if="!this.$store.state.auth.displayName">
     <button @click="signInWithGoogle" class="button-36" type="button">
       <li class="list-inline-item">
-        <img src="public/user.png" alt="Avatar" class="rounded-circle" width="40" height="40"> 
+        <img src="/public/user.png" alt="Avatar" class="rounded-circle" width="40" height="40"> 
       </li>
       <li class="list-inline-item">
         <div class="m-2"> bejelentkezés </div>

@@ -11,11 +11,11 @@ import SelectAnswer from '@/components/SelectAnswer.vue'
 import FootButtons from '@/components/FootButtons.vue'
 //import firabase
 import db from '@/firebase/index.js'
-import { collection, getDocs, query } from 'firebase/firestore';
+import { collection, getDocs, query, updateDoc, doc } from 'firebase/firestore';
 var refreshIntervalId;
 
 export default defineComponent({
-  name: "QuestionsComp",
+  name: "titlesComp",
   data() {
     return {
       tests: [],
@@ -25,6 +25,7 @@ export default defineComponent({
   },
   mounted() {
     clearInterval(refreshIntervalId);
+    console.log('mounted question comp')
     this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime-1)
     refreshIntervalId = setInterval(() => {
                   this.$store.dispatch('startCountdown');
@@ -48,6 +49,13 @@ export default defineComponent({
         //console.log(doc.data())
       })
     },
+    //adatbázishoz hozzáadjuk a kiválasztott test_id értéket, refId segítségével, amit GoogleLoginnál mentettünk el. 
+    async updateSelectedTesdId() {
+      //this.$store.state.auth.docRef
+      await updateDoc(doc(db, 'users', this.$store.state.auth.docRef), {
+        test_id: this.test_id
+      })
+    },
     /*changeProgrammingLanguageName(programmingLanguageName) {
       this.$store.dispatch('initTasks', programmingLanguageName)
       //console.log(this.$store.state.programmingLanguageName)
@@ -65,6 +73,8 @@ export default defineComponent({
       if (found) {
         this.$store.dispatch('changeCountdownTime', found.testDurationMinutes*60)
         this.$store.dispatch('initTasks', found.programmingLanguageName)
+        //this.ChangeUser(found.test_id)//console.log(this.tests)
+        this.updateSelectedTesdId()
         this.next()
         this.isValid = true
       } else {
@@ -78,7 +88,6 @@ export default defineComponent({
       return this.$store.state.side
     },
     formattedCountdown() {
-      console.log(this.$store.state.countDownTime)
       if (this.$store.state.countDownTime == 0) {
         console.log('pontszám Comp Betöltése')
       }
@@ -100,9 +109,9 @@ export default defineComponent({
             <div>
               <div v-for="task in this.$store.state.tasks" :key="task.id">
                 <div v-if="side === task.id">
-                  <div v-html="task.question" class="question"></div>
+                  <div v-html="task.title" class="title"></div>
                   <hr />
-                  <div v-html="task.q2" class="q2"></div>
+                  <div v-html="task.text" class="text"></div>
                   <div v-if="task.img" class="img">
                     <img :alt="task.img" :src="task.img" />
                   </div>

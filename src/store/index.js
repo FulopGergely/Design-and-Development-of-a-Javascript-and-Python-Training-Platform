@@ -10,7 +10,7 @@ const index = createStore({
         return {
             tasks: [],
             programmingLanguageName: '',
-            side: 1,
+            side: 0,
             auth: {},
             loading: true,
             countDownTime: 0, // 20 perc másodpercekben
@@ -39,7 +39,7 @@ const index = createStore({
             state.programmingLanguageName = ''
             state.side = 0
             state.auth = {}
-            state.countDownTime = 60 // 20 perc másodpercekben
+            state.countDownTime = 1 // sec
             state.toggle = false
         },
         setLoading(state, isLoading) {
@@ -47,6 +47,7 @@ const index = createStore({
         },
         decrementCountdown(state) {
             state.countDownTime--;
+            //console.log(state.countDownTime)
             if (state.countDownTime < 0) {
               state.countDownTime = 0;
             }
@@ -54,7 +55,10 @@ const index = createStore({
         changeCountdownTime(state, changeCountdownTime){
             console.log(changeCountdownTime)
             state.countDownTime = changeCountdownTime;
-        }
+        },
+        appendToAuth(state, data) {
+            state.auth = { ...state.auth, ...data };
+        },
     },
     actions: {
         initTasks(tasks, programmingLanguageName){

@@ -1,9 +1,9 @@
-div.question {
+div.title {
     font-family: 'Roboto', sans-serif;
     text-align: center;
     font-size: 25px;
 }
-div.q2 {
+div.text {
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     text-align: justify;
