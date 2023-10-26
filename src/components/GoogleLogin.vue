@@ -67,6 +67,7 @@ export default defineComponent({
         email: email,
         test_id: test_id,
         score: score,
+        time: 0,
       })
       //miután létrehozta firebase a docId-t az adatokkal, utána vuex-ben tároljuk a docId-t.
       //bejelentkezés után tudni fogjuk melyik docId van bejelentkezve: this.$store.state.auth.docRef

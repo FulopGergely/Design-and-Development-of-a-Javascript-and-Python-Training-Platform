@@ -21,7 +21,7 @@ const js_alapok = {
                 {a: 'Chrome', href: 'https://www.google.com/chrome/'},
                 {a: 'GitHub', href: 'https://github.com/'}
             ],
-            ecode: `<script>\n\n    document.write('Hello World!');\n\n</script>`,
+            ecode: `document.write('Hello World!');`,
             text: `A JavaScript nyelven írt programok futtatására sok lehetőség létezik, a legegyszerűbb, hogy közvetlenül a böngészőben futtatjuk.<br>
                  Ehhez készítsünk egy valami.html fájlt az alábbi tartalommal,
                  majd egyszerűen húzzuk bele egy böngésző ablakba. A fájl létrehozásához és szerkesztéséhez plain text szerkesztőre lesz szükségünk.

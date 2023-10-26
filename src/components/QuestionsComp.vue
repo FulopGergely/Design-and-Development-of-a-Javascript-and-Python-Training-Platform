@@ -27,6 +27,7 @@ export default defineComponent({
     }
   },
   mounted() {
+    this.$store.dispatch('initTasks', 'javascript');
     clearInterval(refreshIntervalId);
     console.log('mounted question comp')
     this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime-1)

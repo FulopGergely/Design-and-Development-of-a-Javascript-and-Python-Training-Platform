@@ -32,18 +32,47 @@ export default defineComponent({
       error: '',
       readOnly: this.readOnlyProps,
       code: this.codeProps,
+      resultCode: '',
+      asd: '',
     };
   },
   methods: {
     runCode() {
-      try {
-        // JavaScript kód kiértékelése
-        this.error = ''
-        this.result = eval(this.code)
+      const originalConsoleLog = console.log;
+      const originalAppendChild = Element.prototype.appendChild;
+      const originalRemoveChild = Element.prototype.removeChild;
+      try { 
+      // Felülírjuk a console.log függvényt, hogy az eredményeket begyűjtsük
+      let consoleOutput = '';
+      console.log = function(output) {
+      consoleOutput += output + '\n'; // Új sorban logoljuk az eredményeket
+      originalConsoleLog.apply(console, arguments); // Eredeti console.log hívása
+      };
+
+      
+      Element.prototype.appendChild = function (child) {
+        console.log("appendChild:", child);
+      };
+
+      Element.prototype.removeChild = function (child) {
+        console.log("removeChild:", child);
+        
+      };
+      
+      document.write = function(content) {
+        console.log(content); // Kiírás a konzolra
+      };
+      
+        const dynamicFunction = new Function(this.code);
+        dynamicFunction();
+        this.resultCode = consoleOutput;
       } catch (error) {
-        console.log(error)
-        this.result = ''
-        this.error = 'Hiba a kód futtatása közben'
+        this.resultCode = 'Hiba: ' + error;
+      } finally {
+        // Visszaállítjuk az eredeti console.log függvényt
+        console.log = originalConsoleLog;
+        Element.prototype.appendChild = originalAppendChild;
+        Element.prototype.removeChild = originalRemoveChild;
       }
     },
   },
@@ -68,7 +97,7 @@ export default defineComponent({
   />
   <button v-if="readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Példa futtatása</button>
   <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Megoldás futtatása</button>
-  <div> {{this.result}} </div>
+  <div> {{resultCode}} </div>
   <div v-if="this.error"> {{this.error}} </div>
 </template>
 

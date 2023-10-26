@@ -170,6 +170,7 @@ export default {
               <th scope="col">teszt ID</th>
               <th scope="col">név</th>
               <th scope="col">email</th>
+              <th scope="col">Idő</th>
               <th scope="col">pontszám</th>
             </tr>
           </thead>
@@ -179,7 +180,17 @@ export default {
               <td>{{ user.test_id }}</td>
               <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.score }}</td>
+              <td>{{ user.time }}</td>
+              <td>{{ user.score }} 
+                <button type="button"
+                  class="btn btn-secondary"
+                  @click="openModal('deleteAllUsers')"
+                  > > </button>
+
+                 
+
+                
+              </td>
             </tr>
           </tbody>
           <tfoot>
@@ -192,9 +203,8 @@ export default {
               </td>
               <td></td>
               <td></td>
-              <td>
-                
-              </td>
+              <td></td>
+              <td></td>
             </tr>
           </tfoot>
         </table>
@@ -328,6 +338,24 @@ export default {
 
 </template>
 
-<style>
+<style scoped>
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css');
 
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid black;
+  display: inline-block;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
 </style>
