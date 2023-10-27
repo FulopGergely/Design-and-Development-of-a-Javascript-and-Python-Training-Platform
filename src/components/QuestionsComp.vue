@@ -29,7 +29,6 @@ export default defineComponent({
   mounted() {
     this.$store.dispatch('initTasks', 'javascript');
     clearInterval(refreshIntervalId);
-    console.log('mounted question comp')
     this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime-1)
     refreshIntervalId = setInterval(() => {
                   this.$store.dispatch('startCountdown');
@@ -39,14 +38,12 @@ export default defineComponent({
   created() {
     this.getAllDocument('tests')
     icon.value = '../../public/favicon.png'
-    console.log('created')
     if(!localStorage.getItem('my-app')){
       this.$store.dispatch('initTasks', 'js')
     }
   },
   methods: {
     async getAllDocument(collectionName) {
-      console.log('getAllDocument')
       const querySnap = await getDocs(query(collection(db, collectionName)));
       querySnap.forEach((doc) => {
         this.tests.push(doc.data())
@@ -93,7 +90,7 @@ export default defineComponent({
     },
     formattedCountdown() {
       if (this.$store.state.countDownTime == 0) {
-        console.log('pontszám Comp Betöltése')
+        //pontszám Comp Betöltése
       }
       return this.$store.getters.formattedCountdown;
     },

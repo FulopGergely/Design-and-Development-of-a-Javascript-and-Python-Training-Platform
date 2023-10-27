@@ -53,7 +53,6 @@ const index = createStore({
             }
           },
         changeCountdownTime(state, changeCountdownTime){
-            console.log(changeCountdownTime)
             state.countDownTime = changeCountdownTime;
         },
         //no actions

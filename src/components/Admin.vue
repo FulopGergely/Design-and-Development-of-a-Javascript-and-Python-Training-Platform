@@ -170,7 +170,6 @@ export default {
               <th scope="col">teszt ID</th>
               <th scope="col">név</th>
               <th scope="col">email</th>
-              <th scope="col">Idő</th>
               <th scope="col">pontszám</th>
             </tr>
           </thead>
@@ -180,12 +179,8 @@ export default {
               <td>{{ user.test_id }}</td>
               <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.time }}</td>
               <td>{{ user.score }} 
-                <button type="button"
-                  class="btn btn-secondary"
-                  @click="openModal('deleteAllUsers')"
-                  > > </button>
+              
 
                  
 
@@ -204,7 +199,7 @@ export default {
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
+             
             </tr>
           </tfoot>
         </table>
@@ -239,13 +234,13 @@ export default {
                     @click="openModal('saveTest')"
                 >Új teszt</button>
               </td>
-              <td></td>
-              <td></td>
-              <td>
-                <button type="button"
+              <td><button type="button"
                         class="btn btn-danger"
                         @click="openModal('deleteAllTests')"
-                >Összes teszt törlése</button>
+                >Összes teszt törlése</button></td>
+              <td></td>
+              <td>
+                
               </td>
             </tr>
           </tfoot>

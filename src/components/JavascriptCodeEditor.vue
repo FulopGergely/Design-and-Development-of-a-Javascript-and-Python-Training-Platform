@@ -33,38 +33,53 @@ export default defineComponent({
       readOnly: this.readOnlyProps,
       code: this.codeProps,
       resultCode: '',
-      asd: '',
+      variables: this.$store.state.tasks[this.$store.state.side-1].variables,
+      tests: this.$store.state.tasks[this.$store.state.side-1].tests,
     };
   },
   methods: {
     runCode() {
+      
+      if (this.variables && this.variables.length > 0) {
+          var b = this.variables[0].value
+          const dynamicFunction = new Function('b',this.code);
+          console.log(dynamicFunction(b))
+      } else {
+          const dynamicFunction = new Function(this.code);
+          dynamicFunction()
+      }
+ 
+    },
+    isReturn() {
+      //console.log(this.variables[0].value)
+    },
+    /*
+    this.code -ban lévő console.log() függvényt felülírjuk hogy html elemben jelenjen meg.
+    html manipulálást is felülírjuk hogy ha sandbox-ba valaki beír ilyet az ne tudjon változtatni az appon.
+    */ 
+    secureEnvironment() {
+      
       const originalConsoleLog = console.log;
       const originalAppendChild = Element.prototype.appendChild;
       const originalRemoveChild = Element.prototype.removeChild;
-      try { 
-      // Felülírjuk a console.log függvényt, hogy az eredményeket begyűjtsük
-      let consoleOutput = '';
-      console.log = function(output) {
-      consoleOutput += output + '\n'; // Új sorban logoljuk az eredményeket
-      originalConsoleLog.apply(console, arguments); // Eredeti console.log hívása
-      };
-
-      
-      Element.prototype.appendChild = function (child) {
-        console.log("appendChild:", child);
-      };
-
-      Element.prototype.removeChild = function (child) {
-        console.log("removeChild:", child);
-        
-      };
-      
-      document.write = function(content) {
-        console.log(content); // Kiírás a konzolra
-      };
-      
-        const dynamicFunction = new Function(this.code);
-        dynamicFunction();
+      const originalDocumentWrite = document.write;
+        try { 
+        // Felülírjuk a console.log függvényt, hogy az eredményeket begyűjtsük
+        let consoleOutput = '';
+        console.log = function(output) {
+        consoleOutput += output + '\n'; // Új sorban logoljuk az eredményeket
+        originalConsoleLog.apply(console, arguments); // Eredeti console.log hívása
+        };
+        Element.prototype.appendChild = function (child) {
+          console.log("appendChild:", child);
+        };
+        Element.prototype.removeChild = function (child) {
+          console.log("removeChild:", child);
+        };
+        document.write = function(content) {
+          console.log(content); // Kiírás a konzolra
+        };
+        this.runCode()
         this.resultCode = consoleOutput;
       } catch (error) {
         this.resultCode = 'Hiba: ' + error;
@@ -73,8 +88,9 @@ export default defineComponent({
         console.log = originalConsoleLog;
         Element.prototype.appendChild = originalAppendChild;
         Element.prototype.removeChild = originalRemoveChild;
+        document.write = originalDocumentWrite;
       }
-    },
+    }
   },
 })
 </script>
@@ -95,9 +111,9 @@ export default defineComponent({
       @focus="log('focus', $event)"
       @blur="log('blur', $event)"
   />
-  <button v-if="readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Példa futtatása</button>
-  <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="runCode">Megoldás futtatása</button>
-  <div> {{resultCode}} </div>
+  <button v-if="readOnly" class="mt-3 mb-3 btn btn-secondary" @click="secureEnvironment">Példa futtatása</button>
+  <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="secureEnvironment">Megoldás futtatása</button>
+  <div> output: {{resultCode}} </div>
   <div v-if="this.error"> {{this.error}} </div>
 </template>
 
