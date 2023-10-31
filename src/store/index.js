@@ -1,12 +1,12 @@
 import { createStore } from 'vuex'
 import configJs from "@/assets/js_alapok";
 import configPy from "@/assets/py_alapok";
-configJs.tasks = configJs.tasks.map( (v,i) => v={ id:i+1, ...v } )
-configPy.tasks = configPy.tasks.map( (v,i) => v={ id:i+1, ...v } )
+configJs.tasks = configJs.tasks.map((v, i) => v = { id: i + 1, ...v })
+configPy.tasks = configPy.tasks.map((v, i) => v = { id: i + 1, ...v })
 import createPersistedState from 'vuex-persistedstate';
 // Vuex
 const index = createStore({
-    state () {
+    state() {
         return {
             tasks: [],
             programmingLanguageName: '',
@@ -14,6 +14,7 @@ const index = createStore({
             auth: {},
             loading: true,
             countDownTime: 0, // 20 perc másodpercekben
+            correctTask: [],
         }
     },
     mutations: {
@@ -25,13 +26,13 @@ const index = createStore({
             state.tasks = configPy.tasks
             state.programmingLanguageName = 'python'
         },
-        changeCode(state, code){
-            state.tasks[state.side-1].code = code
+        changeCode(state, code) {
+            state.tasks[state.side - 1].code = code
         },
-        changeSide(state, increment){
+        changeSide(state, increment) {
             state.side < 0 ? state.side = 0 : state.side = state.side + increment
         },
-        changeAuth(state, auth){
+        changeAuth(state, auth) {
             state.auth = auth
         },
         RESET_MODULE_STATE(state) {
@@ -49,29 +50,39 @@ const index = createStore({
             state.countDownTime--;
             //console.log(state.countDownTime)
             if (state.countDownTime < 0) {
-              state.countDownTime = 0;
+                state.countDownTime = 0;
             }
-          },
-        changeCountdownTime(state, changeCountdownTime){
+        },
+        changeCountdownTime(state, changeCountdownTime) {
             state.countDownTime = changeCountdownTime;
+        },
+        correctTask(state, correctTask) {
+            if (correctTask.side < state.correctTask.length) {
+                state.correctTask[correctTask.side] = 1;
+            } else {
+                console.error('Érvénytelen oldal (side) érték');
+            }
         },
         //no actions
         appendToAuth(state, data) {
             state.auth = { ...state.auth, ...data };
         },
+        InitCorreactArrayLenght(state, length) {
+            state.correctTask = Array(length).fill(0);
+        },
     },
     actions: {
-        initTasks(tasks, programmingLanguageName){
+        initTasks(tasks, programmingLanguageName) {
             //console.log(localStorage.getItem('my-app'))
             programmingLanguageName === 'javascript' ? tasks.commit('initTasksJs') : tasks.commit('initTasksPy')
         },
-        changeCode(state, code){
+        changeCode(state, code) {
             state.commit('changeCode', code)
         },
-        changeSide(state, increment){
+        changeSide(state, increment) {
             state.commit('changeSide', increment)
         },
-        changeAuth(state, auth){
+        changeAuth(state, auth) {
             state.commit('changeAuth', auth)
         },
         resetModuleState({ commit }) {
@@ -83,24 +94,30 @@ const index = createStore({
         startCountdown({ commit }) {
             commit('decrementCountdown')
         },
-        changeCountdownTime(state, changeCountdownTime){
+        changeCountdownTime(state, changeCountdownTime) {
             state.commit('changeCountdownTime', changeCountdownTime)
+        },
+        correctTask(state, correctTask) {
+            state.commit('correctTask', correctTask)
         },
 
     },
     getters: {
         formattedCountdown(state) {
-          const minutes = Math.floor(state.countDownTime / 60);
-          const remainingSeconds = state.countDownTime % 60;
-          const formattedMinutes = String(minutes).padStart(2, '0');
-          const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-          return `${formattedMinutes}:${formattedSeconds}`;
+            const minutes = Math.floor(state.countDownTime / 60);
+            const remainingSeconds = state.countDownTime % 60;
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+            return `${formattedMinutes}:${formattedSeconds}`;
         },
-      },
+        getCorrectTask(state) {
+            return state.correctTask
+        }
+    },
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['tasks','programmingLanguageName','side','auth','countDownTime', 'timerIsRunning'],
+            paths: ['tasks', 'programmingLanguageName', 'side', 'auth', 'countDownTime', 'timerIsRunning', 'correctTask'],
             storage: window.localStorage,
         }),
     ],

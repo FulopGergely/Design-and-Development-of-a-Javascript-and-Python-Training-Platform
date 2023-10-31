@@ -1,5 +1,5 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: "FootButtons",
@@ -10,10 +10,13 @@ export default defineComponent({
     return {
     };
   },
+  mounted() {
+    //this.$store.dispatch('correctTask', { correctTask: 1, side: this.sideProps })
+  },
   computed: {
     tests() {
       try {
-        return this.$store.state.tasks[this.$store.state.side-1].tests
+        return this.$store.state.tasks[this.$store.state.side - 1].tests
       } catch (error) {
         console.log('out of index')
         return error
@@ -22,15 +25,18 @@ export default defineComponent({
     disableBackButton() {
       return this.$store.state.side == 1 ? true : false
     },
+    getCorrectTask() {
+      return this.$store.getters.getCorrectTask
+    },
   },
   methods: {
-      next() {
-        this.$emit('next')
-      },
-      prev() {
-        this.$emit('prev')
-      }
+    next() {
+      this.$emit('next')
     },
+    prev() {
+      this.$emit('prev')
+    }
+  },
 })
 </script>
 
@@ -38,28 +44,15 @@ export default defineComponent({
   <footer>
     <div class="p-2 bg-light border rounded-3">
       <div class="d-flex justify-content-evenly">
-        <button :class="{disabled:disableBackButton}" 
-                type="button"
-                class="btn btn-danger"
-                @click="prev"
-        >Vissza</button>
-        <button v-if="tests" type="button"
-                class="btn btn-secondary"
-                @click="pass"
-        >Passz</button>
-        <button v-if="tests" type="button"
-                class="btn btn-secondary"
-                @click="reset"
-        >Reset</button>
-        <button type="button"
-                class="btn btn-success"
-                @click="next"
-        >Következő</button>
+        <button :class="{ disabled: disableBackButton }" type="button" class="btn btn-danger"
+          @click="prev">Vissza</button>
+        <button v-if="tests" type="button" class="btn btn-secondary" @click="next">Passz</button>
+        <button v-if="!tests || this.$store.state.correctTask[this.sideProps] == 1" type="button" class="btn btn-success"
+          @click="next">Következő</button>
       </div>
     </div>
+    {{ getCorrectTask }}
   </footer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

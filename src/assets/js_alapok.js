@@ -65,7 +65,7 @@ const js_alapok = {
             tests: [{ name: 'b', value: 8 }],
             ecode: `var a=b+5;\na++;\nreturn a`,
             code: `var a=b+5;\na++;\nreturn a`,
-            rans: 13, fans: 11
+            testResult: 13, result: 11
         },
         {
             type: "info",
@@ -89,7 +89,7 @@ const js_alapok = {
             tests: [{ name: 'csík', value: 12}],
             ecode: `var zebra = 3;\nreturn zebra + csík;`,
             code: `//ide írja a deklarációt!\nreturn zebra + csík;`,
-            rans: 15, fans: 9
+            testResult: 15, result: 9
         },
         {
             type: "info",
@@ -156,7 +156,7 @@ const js_alapok = {
             tests: [{ name: 'a', value: 2 }, { name: 'b', value: 4 }],
             ecode: `f(a,b) {\n\tvar c=...;\n\treturn c;\n}`,
             code: `a*b`,
-            rans: 6, fans: 8
+            testResult: 6, result: 8
         },
         {
             type: "info",
@@ -180,7 +180,7 @@ const js_alapok = {
             text: `hogy a visszatérési érték a <code>cica</code> karaktersorozat legyen!`,
             ecode: `return 'csacsi'`,
             code: `return 'csacsi'`,
-            rans: 'cica', fans: 'cica'
+            testResult: 'cica', result: 'cica'
         },
         {
             type: "code",
@@ -193,7 +193,7 @@ const js_alapok = {
             variables: [{ name: 's', value: '"indul a görög aludni"' }],
             tests: [{ name: 's', value: '`géza kék az ég`' }],
             code: '\r',
-            rans: 14, fans: 20
+            testResult: 14, result: 20
         },
         {
             type: "info",
@@ -235,7 +235,7 @@ const js_alapok = {
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`'}],
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`'}],
             code: `\r`,
-            rans: 10, fans: 14
+            testResult: 10, result: 14
         },
         {
             type: "code",
@@ -250,7 +250,7 @@ const js_alapok = {
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`'}],
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`'}],
             code: `\r`,
-            rans: 23, fans: 17
+            testResult: 23, result: 17
         },
         {
             type: "code",
@@ -267,7 +267,7 @@ const js_alapok = {
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`'}],
             ecode: `s\t.split(';')\n\t.map((v,i)=>[i+1,Number(v)])\n\t.sort((a,b)=>b[1]-a[1]);`,
             code: `s\t.split(';')\n\t.map((v,i)=>[i+1,Number(v)])\n\t.sort((a,b)=>b[1]-a[1]);`,
-            rans: 3, fans: 5
+            testResult: 3, result: 5
         },
         {
             type: "code",
@@ -286,7 +286,7 @@ const js_alapok = {
             ecode: `var maxv = Math.max( ...s.split(';').map( v => Number( v ) ) )\nvar minv = Math.min( ...s.split(';').map( v => Number( v ) ) )\nreturn maxv + minv`,
             //code: `s.split(';').map( v => Number(v) ).reduce( (o, v) => o += v, 0 )`,
             code: `\r`,
-            rans: 52, fans: 63
+            testResult: 52, result: 63
         },
         {
             type: "code",
@@ -304,7 +304,7 @@ const js_alapok = {
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`'}],
             ecode: `var sum = s.split(';').map( v => Number(v) ).reduce( (o, v) => (o.o+=v,o.n++,o), {o:0,n:0} )\nreturn sum.o`,
             code: `var sum = s.split(';').map( v => Number(v) ).reduce( (o, v) => (o.o+=v,o.n++,o), {o:0,n:0} )\nreturn sum.o`,
-            rans: 5.2, fans: 3.07
+            testResult: 5.2, result: 3.07
         },
         {
             type: "info",
@@ -329,7 +329,7 @@ ecode
 variables
 tests
 code
-rans
+testResult
 options
 goodo
 tex
