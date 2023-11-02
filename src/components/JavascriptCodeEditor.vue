@@ -43,49 +43,33 @@ export default defineComponent({
     isCode() {
       return this.$store.getters.isCode
     },
+    getType() {
+      return this.$store.getters.getType
+    },
+    getOptions() {
+      return this.$store.getters.getOptions
+    }
   },
   methods: {
     runCode() { //felülírt console log fut
       let side = this.$store.state.side - 1
       //console.log(side)
-      if (side < 4 || side == 5) {
+      if (this.getType == 'info') {
         const dynamicFunction = new Function(this.code);
         dynamicFunction()
       }
-      if (side >= 4 && side < 5) {
-        var param = this.variables[0].value
+      if (this.getType == 'code-1') {
         const dynamicFunction = new Function(this.variables[0].name, this.code);
-        this.result = dynamicFunction(param)
+        this.result = dynamicFunction(this.variables[0].value)
         this.correctAnswer(this.result, this.$store.state.tasks[side].result)
       }
-
-      /*
-        const code = `
-          return function(a, b) {
-            var c = a + b; // Itt van a függvény törzse
-            return c;
-          }
-        `;
-        var param1 = this.variables[0].value
-        var param2 = this.variables[1].value
+      if (this.getType == 'code-2') {
+        let code = this.code
+        code = 'return ' + code
         const dynamicFunction = new Function(this.variables[0].name, this.variables[1].name, code)();
-        this.result = dynamicFunction(param1, param2)
-        console.log(this.result)
-        //this.correctAnswer(this.result, this.$store.state.tasks[this.$store.state.side - 1].result)
-      */
-
-
-      /*
-            const dynamicFunction = new Function(this.code);
-            dynamicFunction()
-      */
-
-
-
-
-
-
-
+        this.result = dynamicFunction(this.variables[0].value, this.variables[1].value)
+        this.correctAnswer(this.result, this.$store.state.tasks[side].result)
+      }
 
     },
     correctAnswer(runAnswer, correctAnswer) {
@@ -153,7 +137,8 @@ export default defineComponent({
   <codemirror placeholder="Code goes here..." :style="{ borderRadius: '20px;' }" :autofocus="true" :indent-with-tab="true"
     :tab-size="2" :extensions="extensions" :disabled="this.readOnly" v-model="code" @ready="handleReady"
     @change="$store.dispatch('changeCode', $event)" @focus="log('focus', $event)" @blur="log('blur', $event)" />
-  <button v-if="!readOnly" class="mt-3 mb-3 btn btn-secondary" @click="secureEnvironment">Megoldás futtatása</button>
+  <button v-if="!readOnly && !getOptions" class="mt-3 mb-3 btn btn-secondary" @click="secureEnvironment">Megoldás
+    futtatása</button>
   <button v-if="readOnly && !isCode" class="mt-3 mb-3 btn btn-secondary" @click="secureEnvironment">Példa
     futtatása</button>
   <div v-if="this.logs">

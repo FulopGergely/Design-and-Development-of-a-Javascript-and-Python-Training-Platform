@@ -55,7 +55,7 @@ const js_alapok = {
             <br>Bármi amit a két jel közé szírunk be, nem hajtódik végre.`
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Kommentelje ki az alábbi programkódból...",
             text: "az <code> a++;</code> utasítást tartalmazó sort!",
             links: [
@@ -79,7 +79,7 @@ const js_alapok = {
             Változókat a <code>var</code>, <code>let</code> vagy a <code>const</code>kulcsszó segítségével deklarálhatunk:`
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Definiáljon egy zebra azonosítójú változót...",
             text: "a változó vegye fel a <code>3</code> numerikus értéket! A deklarációt a return parancs elé írja!",
             links: [
@@ -95,9 +95,9 @@ const js_alapok = {
             type: "info",
             title: "Típusok<br>",
             links: [{ a: 'Standard defined tasksJS stuctures and types', href: 'https://developer.mozilla.org/hu/docs/Web/JavaScript/Guide/Grammar_and_types' }],
-            exampleCode: `var logikai = true;\nvar szám = 4;\nvar szöveg = 'cica';\nvar objektum = {};\nvar tömb = [1, 2, 3];\n`,
+            exampleCode: "var logikai = true;\nvar szám = 4;\nvar szöveg = 'cica';\nvar objektum = {};\nvar tömb = [1, 2, 3];\nconsole.log(`\n ${ typeof logikai } ${ typeof szám } ${ typeof szöveg } ${ typeof objektum } ${ typeof tömb }\n `); ",
             text: `A változó típusát az értékadás határozza meg.<br>Az alábbi pédaprogram rendre a következő változókat definiálja:
-                <br><li>logikai</li><li>szám</li><li>szöveges</li><li>objektum</li><li>tömb</li>`
+                <br><li>logikai</li><li>szám</li><li>szöveges</li><li>objektum</li><li>tömb (javascriptben a tömbök az objektumok egy speciális típusa)</li>`
         },
         {
             type: "buttons",
@@ -107,7 +107,7 @@ const js_alapok = {
                 { a: 'Operators', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators' },
                 { a: 'Operators', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation' }
             ],
-            exampleCode: "var ↀ = 3, ↈ=11;\nconsole.log(\n\tↀ**ↀ--*ↀ-++ↈ\n);",
+            code: "var ↀ = 3, ↈ=11;\nconsole.log(\n\tↀ**ↀ--*ↀ-++ↈ\n);",
             options: [
                 { label: 22, isSelected: false, isCorrect: false, disableButton: false },
                 { label: 0, isSelected: false, isCorrect: false, disableButton: false },
@@ -159,11 +159,11 @@ const js_alapok = {
                 { label: 'age', isSelected: false, isCorrect: false, disableButton: false },
                 { label: 'o.age', isSelected: false, isCorrect: false, disableButton: false },
             ],
-            exampleCode: "var o = { \n\tname: 'John Doe',\n\tage: 39,\n\töregszik( év = 1 ) { \n\t\tthis.age += év \n\t}\n};\no.öregszik( 3 ); \t// az o objektum öregszik metódusának meghívása\nconsole.log(\n\to.age \t\t\t// az o objektum age tulajdonságának elérése\n);",
+            code: "var o = { \n\tname: 'John Doe',\n\tage: 39,\n\töregszik( év = 1 ) { \n\t\tthis.age += év \n\t}\n};\no.öregszik( 3 ); \t// az o objektum öregszik metódusának meghívása\nconsole.log(\n\to.age \t\t\t// az o objektum age tulajdonságának elérése\n);",
             result: 42
         },
         {
-            type: "code",
+            type: "code-2",
             title: "JavaScript Függvények<br>",
             links: [
                 { a: 'MDN Object', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions' },
@@ -174,7 +174,7 @@ const js_alapok = {
             variables: [{ name: 'a', value: 3 }, { name: 'b', value: 5 }],
             tests: [{ name: 'a', value: 2 }, { name: 'b', value: 4 }],
             exampleCode: `f(a,b) {\n\tvar c=...;\n\treturn c;\n}`,
-            code: `a*b`,
+            code: `\n`,
             testResult: 6, result: 8
         },
         {
@@ -191,27 +191,16 @@ const js_alapok = {
             exampleCode: "var macs = 'cica';\nconsole.log(`\nEgy ${ macs }, két ${ macs }, száz ${ macs }, haj!\nAzt hiszi, hogy megfogja az egeret.\n`); "
         },
         {
-            type: "code",
-            title: "Módosítsa a programot...",
-            links: [
-                { a: 'MDN String', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String' },
-            ],
-            text: `hogy a visszatérési érték a <code>cica</code> karaktersorozat legyen!`,
-            exampleCode: `return 'csacsi'`,
-            code: `return 'csacsi'`,
-            testResult: 'cica', result: 'cica'
-        },
-        {
-            type: "code",
+            type: "code-1",
             title: "Stringek mint objektumok.",
             links: [
                 { a: 'MDN String -> length', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length' },
             ],
             text: `Mivel a JavaScript-ben a primitív típusok is objektumok, egyes jellemzőik és metódusaik az objektumokra jellemző módon hivatkozhatóak.<br>
-            adja meg az s string hosszát az objektumoknál ismertetett módszerrel! A stinrg hosszát a String objektum <code>length</code> jellemzőének kiolvasásával kérdezhetjük le.`,
-            variables: [{ name: 's', value: '"indul a görög aludni"' }],
+            adja meg az s string hosszát az objektumoknál ismertetett módszerrel! A string hosszát a String objektum <code>length</code> jellemzőének kiolvasásával kérdezhetjük le.`,
+            variables: [{ name: 's', value: 'indul a görög aludni' }],
             tests: [{ name: 's', value: '`géza kék az ég`' }],
-            code: '\r',
+            code: 'return ',
             testResult: 14, result: 20
         },
         {
@@ -226,7 +215,7 @@ const js_alapok = {
             A t2 definíciójában az Array(10) létrehoz egy 10 elemű tömböt, majd feltölti 0-val. A map metódus ezt a 10 darab nullát (0) tartalmazó
             tömböt módosítja a paraméterben kapott függvény végrehajtásával. Az Array objektum map metódusa egy függvényt vár paraméterként, melynek az első bemeneti változója
             az aktuális tömb-elem értéke, a második paraméter pedig ennek indexe. Mivel az első tömb-elem indexe 0, ezért az első értéket 0+1=1 értékre állítja be és így tovább.`,
-            exampleCode: "var t1 = [1 ,2 ,3, 4, 5, 6, 7, 8, 9, 10];\nvar t2 = Array(10).fill(0).map((v,i)=>i+1);"
+            exampleCode: "var t1 = [1 ,2 ,3, 4, 5, 6, 7, 8, 9, 10];\nvar t2 = Array(10).fill(0).map((v,i)=>i+1);\nconsole.log(t1)\nconsole.log(t2)"
         },
         {
             type: "info",
@@ -240,10 +229,10 @@ const js_alapok = {
             ],
             text: `Az alábbi kódrészlet a jövő heti 5-ös lottó nyerőszámait számítja ki. A megértéshez olvassa el az MDN súgót a felhasznált metódusokról,
                  majd próbálgassa ki őket külön-külön is a saját fejlesztői környezetében!`,
-            exampleCode: "var t1 = Array( 90 )\n\t\t\t.fill( 0 )\n\t\t\t.map( ( v, i ) => i + 1 )\n\t\t\t.sort( () => Math.random() - 0.5 )\n\t\t\t.slice( 0, 5 )\n\t\t\t.sort( ( a, b ) => a - b );"
+            exampleCode: "var t1 = Array( 90 )\n\t\t\t.fill( 0 )\n\t\t\t.map( ( v, i ) => i + 1 )\n\t\t\t.sort( () => Math.random() - 0.5 )\n\t\t\t.slice( 0, 5 )\n\t\t\t.sort( ( a, b ) => a - b );\nconsole.log(t1)"
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Az s string számadatokat tartalmaz, pontosvesszővel elválasztva.",
             text: "Határozza meg az adatok darabszámát!",
             links: [
@@ -253,13 +242,13 @@ const js_alapok = {
             ],
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`' }],
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`' }],
-            code: `\r`,
+            code: `let db = 1;\n//ide írja a megoldás kódját\nreturn db`,
             testResult: 10, result: 14
         },
         {
             type: "code",
             title: "Az s string számadatokat tartalmaz, pontosvesszővel elválasztva.",
-            text: `Határozza meg a legnagyobb elem értékét! A megoldáshoz a tömbbé alakítás után használhatja a sort metódust a csökkenő rendezéshez, majd az így lapott tömb 0. eleme a legnagyobb.
+            text: `Határozza meg a legnagyobb elem értékét! A megoldáshoz a tömbbé alakítás után használhatja a sort metódust a csökkenő rendezéshez, majd az így kapott tömb 0. eleme a legnagyobb.
             `,
             links: [
                 { a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split' },

@@ -38,7 +38,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container">
+  <div class="container pt-4">
     <div class="row">
       <div v-for="(button, index) in getOptions" :key="index" class="col-auto mb-2">
         <button type="button"

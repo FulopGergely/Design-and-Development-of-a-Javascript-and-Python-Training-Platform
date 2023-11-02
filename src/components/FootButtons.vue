@@ -28,6 +28,9 @@ export default defineComponent({
     getCorrectTask() {
       return this.$store.getters.getCorrectTask
     },
+    getType() {
+      return this.$store.getters.getType
+    }
   },
   methods: {
     next() {
@@ -46,10 +49,10 @@ export default defineComponent({
       <div class="d-flex justify-content-evenly">
         <button :class="{ disabled: disableBackButton }" type="button" class="btn btn-danger"
           @click="prev">Vissza</button>
-        <button v-if="tests && this.$store.state.correctTask[this.sideProps] == 0" type="button" class="btn btn-secondary"
-          @click="next">Passz</button>
-        <button v-if="!tests || this.$store.state.correctTask[this.sideProps] == 1" type="button" class="btn btn-success"
-          @click="next">Következő</button>
+        <button v-if="getType != 'info' && this.$store.state.correctTask[this.sideProps] == 0" type="button"
+          class="btn btn-secondary" @click="next">Passz</button>
+        <button v-if="getType == 'info' || this.$store.state.correctTask[this.sideProps] == 1" type="button"
+          class="btn btn-success" @click="next">Következő</button>
       </div>
     </div>
     {{ getCorrectTask }}

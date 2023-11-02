@@ -100,6 +100,9 @@ export default defineComponent({
       }
       return this.$store.getters.formattedCountdown;
     },
+    getOptions() {
+      return this.$store.getters.getOptions
+    },
   },
 })
 </script>
@@ -141,15 +144,14 @@ export default defineComponent({
                   </div>
                 </div>
                 <div v-if="task.code" class="p-3 m-4 bg-light border rounded-3">
-                  <div class="exampleCode">Kérem adja meg a megoldás kódját</div>
+                  <div v-if="!getOptions" class="exampleCode">Kérem adja meg a megoldás kódját</div>
+                  <div v-else class="exampleCode">Kérem tippelje meg a megoldást (csak egyszer tippelhet)</div>
                   <div>
                     <JavascriptCodeEditor v-if="this.$store.state.programmingLanguageName === 'javascript'"
                       :readOnlyProps="false" :codeProps="task.code" :sideProps="side" />
                     <PythonIDE v-if="this.$store.state.programmingLanguageName === 'python'" />
+                    <SelectAnswer v-if="task.options" :answerButtons="task.options" :sideProps="side" />
                   </div>
-                </div>
-                <div v-if="task.options" class="options">
-                  <SelectAnswer :answerButtons="task.options" :sideProps="side" />
                 </div>
                 <div v-html="task.tex" class="tex"></div>
               </div>

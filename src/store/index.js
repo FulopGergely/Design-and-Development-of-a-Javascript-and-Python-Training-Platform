@@ -129,6 +129,9 @@ const index = createStore({
         },
         isCode(state) {
             return state.tasks[state.side - 1].code
+        },
+        getType(state){
+            return state.tasks[state.side - 1].type
         }
     },
     plugins: [ // Vuex Persist
