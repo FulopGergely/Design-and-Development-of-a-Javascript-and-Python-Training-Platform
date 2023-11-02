@@ -27,6 +27,7 @@ export default defineComponent({
     }
   },
   mounted() {
+    // Tesztelés alatt az oldal frissítésnél újból meghívom az initTaskot, ezt a sort majd törlni kell:
     this.$store.dispatch('initTasks', 'javascript');
     clearInterval(refreshIntervalId);
     this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime - 1)
@@ -133,14 +134,14 @@ export default defineComponent({
                 <div v-if="task.variables" class="katex">
                   <div class="katex" v-html="task.variables.map((v) => `${v.name} = ${v.value}`).join('; ')" />
                 </div>
-                <div v-if="task.ecode" class="p-3 m-4 bg-light border rounded-3">
-                  <div class="ecode">Példaprogram</div>
+                <div v-if="task.exampleCode" class="p-3 m-4 bg-light border rounded-3">
+                  <div class="exampleCode">Példakód</div>
                   <div>
-                    <JavascriptCodeEditor :readOnlyProps="true" :codeProps="task.ecode" />
+                    <JavascriptCodeEditor :readOnlyProps="true" :codeProps="task.exampleCode" />
                   </div>
                 </div>
                 <div v-if="task.code" class="p-3 m-4 bg-light border rounded-3">
-                  <div class="ecode">Kérem adja meg a megoldás kódját</div>
+                  <div class="exampleCode">Kérem adja meg a megoldás kódját</div>
                   <div>
                     <JavascriptCodeEditor v-if="this.$store.state.programmingLanguageName === 'javascript'"
                       :readOnlyProps="false" :codeProps="task.code" :sideProps="side" />
@@ -148,9 +149,8 @@ export default defineComponent({
                   </div>
                 </div>
                 <div v-if="task.options" class="options">
-                  <SelectAnswer :answerButtons="task.options" />
+                  <SelectAnswer :answerButtons="task.options" :sideProps="side" />
                 </div>
-                <div v-html="task.goodo" class="goodo"></div>
                 <div v-html="task.tex" class="tex"></div>
               </div>
             </div>

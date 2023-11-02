@@ -11,7 +11,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    //this.$store.dispatch('correctTask', { correctTask: 1, side: this.sideProps })
+
   },
   computed: {
     tests() {
@@ -46,7 +46,8 @@ export default defineComponent({
       <div class="d-flex justify-content-evenly">
         <button :class="{ disabled: disableBackButton }" type="button" class="btn btn-danger"
           @click="prev">Vissza</button>
-        <button v-if="tests" type="button" class="btn btn-secondary" @click="next">Passz</button>
+        <button v-if="tests && this.$store.state.correctTask[this.sideProps] == 0" type="button" class="btn btn-secondary"
+          @click="next">Passz</button>
         <button v-if="!tests || this.$store.state.correctTask[this.sideProps] == 1" type="button" class="btn btn-success"
           @click="next">Következő</button>
       </div>

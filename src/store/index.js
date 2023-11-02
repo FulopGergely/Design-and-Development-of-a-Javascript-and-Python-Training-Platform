@@ -19,10 +19,12 @@ const index = createStore({
     },
     mutations: {
         initTasksJs(state) {
+            console.log('initTasksJs')
             state.tasks = configJs.tasks
             state.programmingLanguageName = 'javascript'
         },
         initTasksPy(state) {
+            console.log('initTasksPy')
             state.tasks = configPy.tasks
             state.programmingLanguageName = 'python'
         },
@@ -70,6 +72,12 @@ const index = createStore({
         InitCorreactArrayLenght(state, length) {
             state.correctTask = Array(length).fill(0);
         },
+        changeDisableButton(state) {
+            console.log(state.tasks[state.side - 1].options)
+            state.tasks[state.side - 1].options.map((button) => {
+                button.disableButton = true
+            })
+        }
     },
     actions: {
         initTasks(tasks, programmingLanguageName) {
@@ -112,6 +120,15 @@ const index = createStore({
         },
         getCorrectTask(state) {
             return state.correctTask
+        },
+        getCorrectOptionsValue(state) {
+            return state.tasks[state.side - 1].result
+        },
+        getOptions(state) {
+            return state.tasks[state.side - 1].options
+        },
+        isCode(state) {
+            return state.tasks[state.side - 1].code
         }
     },
     plugins: [ // Vuex Persist
