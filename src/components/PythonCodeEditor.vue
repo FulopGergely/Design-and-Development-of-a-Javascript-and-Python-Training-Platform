@@ -1,36 +1,37 @@
 <script>
-import { defineComponent } from 'vue'
-import { onBeforeMount } from 'vue'
-import { usePython } from 'usepython'
-import { PyStatus, PyCodeBlock } from 'vuepython'
-import 'vuepython/style.css'
-import 'highlight.js/styles/atom-one-dark.css'
-
-const py = usePython()
-const code = `print('starting python script')
-a = 1
-b = 2
-print('finished python script')
-c = a + b
-# return value
-c`
+import { defineComponent, ref, onBeforeMount } from 'vue';
+import { usePython } from 'usepython';
+import { PyStatus, PyCodeBlock } from 'vuepython';
+import 'vuepython/style.css';
+import 'highlight.js/styles/atom-one-dark.css';
 
 export default defineComponent({
   name: 'PythonIDE',
-  components: {PyCodeBlock, PyStatus },
-  setup() {
+  props: {
+    codeProps: String,
+  },
+  components: { PyCodeBlock, PyStatus },
+  setup(props) {
+    const py = usePython();
+    const code = ref(`c = 2\n${props.codeProps}`);
+
     async function init() {
-      await py.load()
+      await py.load();
     }
-    onBeforeMount(() => init())
-  },
-  data() {
+
+    onBeforeMount(() => init());
+
+    function handleResult(result) {
+      console.log('Eredmény:', result);
+    }
+
     return {
-      code: code,
-      py: py
-    }
+      py,
+      code,
+      handleResult,
+    };
   },
-})
+});
 </script>
 
 <template>
@@ -41,7 +42,7 @@ export default defineComponent({
       </div>
     </div>
     <div class="p-8">
-      <py-code-block id="script" :py="py" :code="code"></py-code-block>
+      <py-code-block id="script" :py="py" :code="code" @result="handleResult"></py-code-block>
     </div>
   </div>
 </template>

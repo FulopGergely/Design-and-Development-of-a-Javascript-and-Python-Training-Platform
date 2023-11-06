@@ -57,3 +57,8 @@ div.tex {}
     font-size: 24px;
     color: rgb(4, 100, 111);
 }
+
+textarea:focus {
+    outline: none;
+    border: none;
+}

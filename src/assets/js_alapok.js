@@ -246,7 +246,7 @@ const js_alapok = {
             testResult: 10, result: 14
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Az s string számadatokat tartalmaz, pontosvesszővel elválasztva.",
             text: `Határozza meg a legnagyobb elem értékét! A megoldáshoz a tömbbé alakítás után használhatja a sort metódust a csökkenő rendezéshez, majd az így kapott tömb 0. eleme a legnagyobb.
             `,
@@ -257,11 +257,11 @@ const js_alapok = {
             ],
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`' }],
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`' }],
-            code: `\r`,
+            code: `//ide írja a kódot\n\nreturn eredmeny`,
             testResult: 23, result: 17
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Az s string számadatokat tartalmaz, pontosvesszővel elválasztva.",
             text: `Határozza meg a legnagyobb elem helyzetét, azaz azt, hogy hanyadik adat a legnagyobb adat!<br>
                  A megadott példaprogram egy kiindulási átalakítást végez a bemeneti adatokon, amely a megoldást karnyújtásnyi közelségbe helyezi.<br>
@@ -278,29 +278,29 @@ const js_alapok = {
             testResult: 3, result: 5
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Az s string számokat tartalmaz, pontosvesszővel elválasztva.",
             text: `Határozza meg a számok összegét!<br>A megadott példaprogram a tömbben előforduló legnagyobb és legkisebb szám összegét adja meg.<br>
                  A megoldáshoz a reduce metódus alkalmazása javasolt.`,
-            tex: '\\sum _{i=1}^n\\:x_i',
+            //tex: '\\sum _{i=1}^n\\:x_i',
             links: [
                 { a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split' },
                 { a: 'MDN Array -> map', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map' },
                 { a: 'MDN Number', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number' },
                 { a: 'MDN Array -> reduce', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce' }
             ],
-            variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`' }],
-            tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`' }],
+            variables: [{ name: 's', value: '6;2;3;5;7;1;2;4;6;2;3;17;2;3' }],
+            tests: [{ name: 's', value: '1;12;23;5;7;1;2;4;-6;3' }],
             exampleCode: `var maxv = Math.max( ...s.split(';').map( v => Number( v ) ) )\nvar minv = Math.min( ...s.split(';').map( v => Number( v ) ) )\nreturn maxv + minv`,
             //code: `s.split(';').map( v => Number(v) ).reduce( (o, v) => o += v, 0 )`,
             code: `\r`,
             testResult: 52, result: 63
         },
         {
-            type: "code",
+            type: "code-1",
             title: "Az s string számokat tartalmaz, pontosvesszővel elválasztva.",
             text: "Határozza meg a számok számtani közepét (átlagát) két tizedesjegy pontosságúra kerekítve!<br>A megadott példaprogram a számok összegét határozza meg.",
-            tex: '\\frac{\\sum _{i=1}^n\\:x_i}{n}',
+            //tex: '\\frac{\\sum _{i=1}^n\\:x_i}{n}',
             links: [
                 { a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split' },
                 { a: 'MDN Array -> map', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map' },

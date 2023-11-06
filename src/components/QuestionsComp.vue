@@ -9,6 +9,7 @@ import PythonIDE from '@/components/PythonCodeEditor.vue'
 //import components
 import SelectAnswer from '@/components/SelectAnswer.vue'
 import FootButtons from '@/components/FootButtons.vue'
+import FinalResults from '@/components/FinalResults.vue'
 //import firabase
 import firebaseObjects from '@/firebase/index.js'
 const db = firebaseObjects.db;
@@ -24,25 +25,36 @@ export default defineComponent({
       tests: [],
       test_id: null,
       isValid: true,
+      testResult: null,
     }
   },
   mounted() {
     // Tesztelés alatt az oldal frissítésnél újból meghívom az initTaskot, ezt a sort majd törlni kell:
-    this.$store.dispatch('initTasks', 'javascript');
+    this.$store.dispatch('initTasks', 'python');
     clearInterval(refreshIntervalId);
-    this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime - 1)
+    if (this.$store.state.countDownTime > 0) {
+      this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime - 1)
+    }
+    console.log(this.$store.state.countDownTime)
     refreshIntervalId = setInterval(() => {
       this.$store.dispatch('startCountdown');
+      if (this.$store.state.countDownTime <= 0) {
+        clearInterval(refreshIntervalId);
+      }
     }, 1000);
+
     //this.$store.commit('InitCorreactArrayLenght', this.$store.state.tasks.length)
     //console.log(this.$store.state.correctTask)
+    //this.$store.commit('changeFinishTest', false)
+    //console.log(this.$store.state.finishTest)
   },
-  components: { SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor },
+  components: { SelectAnswer, PythonIDE, FootButtons, JavascriptCodeEditor, FinalResults },
   created() {
     this.getAllDocument('tests')
     icon.value = '../../public/favicon.png'
     if (!localStorage.getItem('my-app')) {
-      this.$store.dispatch('initTasks', 'js')
+      console.log('az initTasks lefutott')
+      this.$store.dispatch('initTasks', 'javascript')
     }
   },
   methods: {
@@ -58,6 +70,13 @@ export default defineComponent({
       //this.$store.state.auth.docRef
       await updateDoc(doc(db, 'users', this.$store.state.auth.docRef), {
         test_id: this.test_id
+      })
+    },
+    async updateScore(sum) {
+      console.log('updateScore' + sum)
+      //this.$store.state.auth.docRef
+      await updateDoc(doc(db, 'users', this.$store.state.auth.docRef), {
+        score: sum
       })
     },
     /*changeProgrammingLanguageName(programmingLanguageName) {
@@ -83,12 +102,15 @@ export default defineComponent({
         this.isValid = true
         console.log(this.$store.state.tasks.length)
         this.$store.commit('InitCorreactArrayLenght', this.$store.state.tasks.length)
-
       } else {
         this.isValid = false
       }
     },
-
+    submitTestResult() {//teszt végeredménye (csak egyszer hívódik meg)
+      let sum = this.getArrayCorrectTasks.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      this.$store.commit('changeResult', sum)
+      this.updateScore(sum)
+    },
   },
   computed: {
     side() {
@@ -102,6 +124,12 @@ export default defineComponent({
     },
     getOptions() {
       return this.$store.getters.getOptions
+    },
+    getTasksLength() {
+      return this.$store.getters.getTasksLength
+    },
+    getArrayCorrectTasks() {
+      return this.$store.getters.getArrayCorrectTasks
     },
   },
 })
@@ -140,7 +168,10 @@ export default defineComponent({
                 <div v-if="task.exampleCode" class="p-3 m-4 bg-light border rounded-3">
                   <div class="exampleCode">Példakód</div>
                   <div>
-                    <JavascriptCodeEditor :readOnlyProps="true" :codeProps="task.exampleCode" />
+                    <JavascriptCodeEditor v-if="this.$store.state.programmingLanguageName === 'javascript'"
+                      :readOnlyProps="true" :codeProps="task.exampleCode" />
+                    <PythonIDE v-if="this.$store.state.programmingLanguageName === 'python'"
+                      :codeProps="task.exampleCode" />
                   </div>
                 </div>
                 <div v-if="task.code" class="p-3 m-4 bg-light border rounded-3">
@@ -153,9 +184,9 @@ export default defineComponent({
                     <SelectAnswer v-if="task.options" :answerButtons="task.options" :sideProps="side" />
                   </div>
                 </div>
-                <div v-html="task.tex" class="tex"></div>
               </div>
             </div>
+            <FinalResults v-if="side > getTasksLength" />
           </div>
         </div>
       </div>
@@ -178,7 +209,8 @@ export default defineComponent({
 
       </div>
       <!-- {{this.$store.state.tasks[0].code}} -->
-      <FootButtons v-if="this.side != 0" @prev="prev" @next="next" :sideProps="side" />
+      <FootButtons v-if="this.side != 0" @prev="prev" @next="next" :sideProps="side"
+        @submitTestResult="submitTestResult" />
     </div>
 
   </div>

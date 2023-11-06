@@ -15,6 +15,8 @@ const index = createStore({
             loading: true,
             countDownTime: 0, // 20 perc másodpercekben
             correctTask: [],
+            finishTest: false,
+            result: 0,
         }
     },
     mutations: {
@@ -42,17 +44,22 @@ const index = createStore({
             state.programmingLanguageName = ''
             state.side = 0
             state.auth = {}
-            state.countDownTime = 1 // sec
-            state.toggle = false
+            state.countDownTime = 99999 // sec
+            state.correctTask = []
+            state.finishTest = false
+            state.result = 0
         },
         setLoading(state, isLoading) {
             state.loading = isLoading;
         },
         decrementCountdown(state) {
-            state.countDownTime--;
+            if (state.countDownTime > 0) {
+                state.countDownTime--;
+            }
             //console.log(state.countDownTime)
-            if (state.countDownTime < 0) {
-                state.countDownTime = 0;
+            if (state.countDownTime <= 0 && !state.finishTest) {
+                state.side = state.tasks.length + 1
+                state.finishTest = true
             }
         },
         changeCountdownTime(state, changeCountdownTime) {
@@ -77,6 +84,13 @@ const index = createStore({
             state.tasks[state.side - 1].options.map((button) => {
                 button.disableButton = true
             })
+        },
+        changeFinishTest(state, bool) {
+            console.log('vuex:' + bool)
+            state.finishTest = bool
+        },
+        changeResult(state, result) {
+            state.result = result
         }
     },
     actions: {
@@ -118,7 +132,7 @@ const index = createStore({
             const formattedSeconds = String(remainingSeconds).padStart(2, '0');
             return `${formattedMinutes}:${formattedSeconds}`;
         },
-        getCorrectTask(state) {
+        getArrayCorrectTasks(state) {
             return state.correctTask
         },
         getCorrectOptionsValue(state) {
@@ -130,14 +144,17 @@ const index = createStore({
         isCode(state) {
             return state.tasks[state.side - 1].code
         },
-        getType(state){
+        getType(state) {
             return state.tasks[state.side - 1].type
+        },
+        getTasksLength(state) {
+            return state.tasks.length
         }
     },
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['tasks', 'programmingLanguageName', 'side', 'auth', 'countDownTime', 'timerIsRunning', 'correctTask'],
+            paths: ['tasks', 'programmingLanguageName', 'side', 'auth', 'countDownTime', 'timerIsRunning', 'correctTask', 'finishTest', 'result'],
             storage: window.localStorage,
         }),
     ],
