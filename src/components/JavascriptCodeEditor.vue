@@ -12,7 +12,6 @@ export default defineComponent({
     readOnlyProps: Boolean,
     codeProps: String,
     sideProps: Number,
-
   },
   setup() {
     const extensions = [javascript(), oneDark]

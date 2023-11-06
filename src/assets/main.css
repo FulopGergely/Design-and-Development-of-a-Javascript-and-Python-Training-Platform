@@ -62,3 +62,12 @@ textarea:focus {
     outline: none;
     border: none;
 }
+
+.outer {}
+
+.top {}
+
+.bot {
+    margin-top: -40px;
+
+}
