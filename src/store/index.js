@@ -149,6 +149,15 @@ const index = createStore({
         },
         getTasksLength(state) {
             return state.tasks.length
+        },
+        getCodeDisplay(state) {
+            if (state.tasks[state.side - 1].code && state.tasks[state.side - 1].exampleCode) {
+                return 3
+            } else if (state.tasks[state.side - 1].code) {
+                return 2
+            } else {
+                return 1
+            }
         }
     },
     plugins: [ // Vuex Persist

@@ -21,14 +21,47 @@ const py_alapok = {
                 { a: 'Chrome', href: 'https://www.google.com/chrome/' },
                 { a: 'GitHub', href: 'https://github.com/' }
             ],
-            exampleCode: `print('starting python script')
-a = 1
-b = 2
-print('finished python script')
-c = a + b
-# return value
-c`,
-            text: `hali`,
+            exampleCode: `print('starting python script')`,
+            text: `hello world példaprogram`,
+        },
+        {
+            type: "info",
+            title: "Kommentek<br>",
+            links: [{ a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments' }],
+            exampleCode: `# Egysoros komment.\nx = 1\nx `,
+            text: `A <i>Python</i>ben a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>`
+        },
+        {
+            type: "code-1",
+            title: "Kommentelje ki az alábbi programkódból...",
+            text: "az <code> a++;</code> utasítást tartalmazó sort!",
+            links: [
+                { a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments' }
+            ],
+            variables: [{ name: 'b', value: 6 }],
+            tests: [{ name: 'b', value: 8 }],
+            exampleCode: `x = 5
+y = "John"
+print(x)
+print(y)`,
+            code: `x = 5
+y = "John"
+print(x)
+print(y)`,
+            testResult: 13, result: 11
+        },
+        {
+            type: "code-1",
+            title: "Kommentelje ki az alábbi programkódból...",
+            text: "az <code> a++;</code> utasítást tartalmazó sort!",
+            links: [
+                { a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments' }
+            ],
+            variables: [{ name: 'b', value: 6 }],
+            tests: [{ name: 'b', value: 8 }],
+            exampleCode: `var a=b+5;\na++;\nreturn a`,
+            code: `var a=b+5;\na++;\nreturn a`,
+            testResult: 13, result: 11
         },
     ],
 }

@@ -165,25 +165,35 @@ export default defineComponent({
                 <div v-if="task.variables" class="katex">
                   <div class="katex" v-html="task.variables.map((v) => `${v.name} = ${v.value}`).join('; ')" />
                 </div>
-                <div v-if="task.exampleCode" class="p-3 m-4 bg-light border rounded-3">
-                  <div class="exampleCode">Példakód</div>
-                  <div>
-                    <JavascriptCodeEditor v-if="this.$store.state.programmingLanguageName === 'javascript'"
-                      :readOnlyProps="true" :codeProps="task.exampleCode" />
-                    <PythonIDE v-if="this.$store.state.programmingLanguageName === 'python'"
-                      :codeProps="task.exampleCode" />
+                <div v-if="this.$store.state.programmingLanguageName === 'javascript'">
+                  <div v-if="task.exampleCode" class="p-3 m-4 bg-light border rounded-3">
+                    <div class="exampleCode">Példakód</div>
+                    <div>
+                      <JavascriptCodeEditor v-if="this.$store.state.programmingLanguageName === 'javascript'"
+                        :readOnlyProps="true" :codeProps="task.exampleCode" />
+                    </div>
+                  </div>
+                  <div v-if="task.code" class="p-3 m-4 bg-light border rounded-3">
+                    <div v-if="!getOptions" class="exampleCode">Kérem adja meg a megoldás kódját</div>
+                    <div v-else class="exampleCode">Kérem tippelje meg a megoldást (csak egyszer tippelhet)</div>
+                    <div>
+                      <JavascriptCodeEditor :readOnlyProps="false" :codeProps="task.code" :sideProps="side" />
+                      <SelectAnswer v-if="task.options" :answerButtons="task.options" :sideProps="side" />
+                    </div>
                   </div>
                 </div>
-                <div v-if="task.code" class="p-3 m-4 bg-light border rounded-3">
-                  <div v-if="!getOptions" class="exampleCode">Kérem adja meg a megoldás kódját</div>
-                  <div v-else class="exampleCode">Kérem tippelje meg a megoldást (csak egyszer tippelhet)</div>
-                  <div>
-                    <JavascriptCodeEditor v-if="this.$store.state.programmingLanguageName === 'javascript'"
-                      :readOnlyProps="false" :codeProps="task.code" :sideProps="side" />
-                    <PythonIDE v-if="this.$store.state.programmingLanguageName === 'python'" />
-                    <SelectAnswer v-if="task.options" :answerButtons="task.options" :sideProps="side" />
+                <div v-else>
+                  <div v-if="!task.code" class="p-3 m-4 bg-light border rounded-3">
+                    <div class="exampleCode">Példakód</div>
+                    <PythonIDE :readOnlyProps="true" :codeProps="task.exampleCode" display="example" />
                   </div>
+                  <div v-else class="p-3 m-4 bg-light border rounded-3">
+                    <div v-if="!getOptions" class="exampleCode">Kérem adja meg a megoldás kódját</div>
+                    <PythonIDE v-if="task.code" :readOnlyProps="true" :codeProps="task.exampleCode" display="example" />
+                  </div>
+
                 </div>
+
               </div>
             </div>
             <FinalResults v-if="side > getTasksLength" />
