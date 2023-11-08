@@ -68,6 +68,7 @@ export default defineComponent({
       <div class="d-flex justify-content-evenly">
         <button :class="{ disabled: disableBackButton }" type="button" class="btn btn-danger"
           @click="prev">Vissza</button>
+
         <button v-if="getType != 'info' && this.$store.state.correctTask[this.sideProps] == 0" type="button"
           class="btn btn-secondary" @click="next">Passz</button>
         <button

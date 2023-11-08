@@ -29,40 +29,48 @@ const py_alapok = {
             title: "Kommentek<br>",
             links: [{ a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments' }],
             exampleCode: `# Egysoros komment.\nx = 1\nx `,
-            text: `A <i>Python</i>ben a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>`
+            text: `A <i>Python</i>ban a kommenteket általában az egyes programrészek rövid bemutatására használjuk.<br>`
+        },
+        {
+            type: "info",
+            title: "Futtatás",
+            exampleCode: `a = 2\n## a megoldást a két komment között adja majd meg\n\nresult = a\n\n##\n\nresult`,
+            text: "<b>A teszt során az első és utolsó soron ne változtasson\nkülönben a teszt nem ad pontot a megoldására.</b> <br><br>\nAz első sorban a feladathoz tartozó bementei érték/értekek szerepelnek<br>\nAz utolsó sorban pedig a kimeneti érték, aminek fel kell vennie a megoldás eredményét."
         },
         {
             type: "code-1",
-            title: "Kommentelje ki az alábbi programkódból...",
-            text: "az <code> a++;</code> utasítást tartalmazó sort!",
+            title: "Kommentelje vagy törölje ki az alábbi programkódból...",
+            text: "az <code> x = 1</code> utasítást tartalmazó sort, hogy az <code> x </code> változó a kezdeti bemeneti értékkel térjen vissza",
             links: [
                 { a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments' }
             ],
-            variables: [{ name: 'b', value: 6 }],
-            tests: [{ name: 'b', value: 8 }],
-            exampleCode: `x = 5
-y = "John"
-print(x)
-print(y)`,
-            code: `x = 5
-y = "John"
-print(x)
-print(y)`,
-            testResult: 13, result: 11
+            testLine: `x = 5`,
+            exampleCode: `x = 3\n\nprint(x)\nx = 1\n\nx`,
+            code: `x = 3\n\nprint(x)\nx = 1
+            \n\nx`,
+            testResult: 5, result: 3
         },
         {
             type: "code-1",
-            title: "Kommentelje ki az alábbi programkódból...",
-            text: "az <code> a++;</code> utasítást tartalmazó sort!",
-            links: [
-                { a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments' }
-            ],
-            variables: [{ name: 'b', value: 6 }],
-            tests: [{ name: 'b', value: 8 }],
-            exampleCode: `var a=b+5;\na++;\nreturn a`,
-            code: `var a=b+5;\na++;\nreturn a`,
-            testResult: 13, result: 11
+            title: "Tegyük abc sorrendbe az autómárkákat...",
+            text: " a <code> .sort() </code> utasítással!",
+            exampleCode: `cars = ['VOLVO','TESLA','BMW']\n\n\ncars`,
+            code: `cars = ['VOLVO','TESLA','BMW']\n\n\ncars`,
+            result: `BMW,TESLA,VOLVO`,
+            testLine: `cars = ['FORD','BMW','SUZUKI']`,
+            testResult: `BMW,FORD,SUZUKI`,
+
         },
+        {
+            type: "info",
+            title: "További tesztek gyakorlásra",
+            text: " ",
+            links: [
+                { a: 'codingbat', href: 'https://codingbat.com/python' },
+                { a: 'cses', href: 'https://cses.fi/' }
+            ],
+        }
+
     ],
 }
 /*

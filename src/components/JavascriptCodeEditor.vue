@@ -75,7 +75,7 @@ export default defineComponent({
     correctAnswer(runAnswer, correctAnswer) {
       if (runAnswer == correctAnswer) {
         console.log('Helyes válasz')
-        this.$store.dispatch('correctTask', { correctTask: 1, side: this.sideProps })
+        this.$store.dispatch('correctTask')
       }
     },
     isReturn() {

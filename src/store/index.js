@@ -16,7 +16,7 @@ const index = createStore({
             countDownTime: 0, // 20 perc másodpercekben
             correctTask: [],
             finishTest: false,
-            result: 0,
+            result: 0, //teszt végeredménye
         }
     },
     mutations: {
@@ -31,10 +31,15 @@ const index = createStore({
             state.programmingLanguageName = 'python'
         },
         changeCode(state, code) {
+            console.log('changeCode')
             state.tasks[state.side - 1].code = code
         },
+        changeExampleCode(state, exampleCode) {
+            console.log('changeExampleCode')
+            state.tasks[state.side - 1].exampleCode = exampleCode
+        },
         changeSide(state, increment) {
-            state.side < 0 ? state.side = 0 : state.side = state.side + increment
+            state.side <= 0 ? state.side = 1 : state.side = state.side + increment
         },
         changeAuth(state, auth) {
             state.auth = auth
@@ -65,9 +70,9 @@ const index = createStore({
         changeCountdownTime(state, changeCountdownTime) {
             state.countDownTime = changeCountdownTime;
         },
-        correctTask(state, correctTask) {
-            if (correctTask.side < state.correctTask.length) {
-                state.correctTask[correctTask.side] = 1;
+        correctTask(state) {
+            if (state.side < state.correctTask.length) {
+                state.correctTask[state.side] = 1;
             } else {
                 console.error('Érvénytelen oldal (side) érték');
             }
@@ -91,7 +96,7 @@ const index = createStore({
         },
         changeResult(state, result) {
             state.result = result
-        }
+        },
     },
     actions: {
         initTasks(tasks, programmingLanguageName) {
@@ -100,6 +105,9 @@ const index = createStore({
         },
         changeCode(state, code) {
             state.commit('changeCode', code)
+        },
+        changeExampleCode(state, exampleCode) {
+            state.commit('changeExampleCode', exampleCode)
         },
         changeSide(state, increment) {
             state.commit('changeSide', increment)
@@ -150,14 +158,30 @@ const index = createStore({
         getTasksLength(state) {
             return state.tasks.length
         },
-        getCodeDisplay(state) {
-            if (state.tasks[state.side - 1].code && state.tasks[state.side - 1].exampleCode) {
-                return 3
-            } else if (state.tasks[state.side - 1].code) {
-                return 2
-            } else {
-                return 1
+        getCode(state) {
+            //console.log('vuex:')
+            //console.log(state.tasks[4].code)
+            //console.log(state.tasks[state.side - 1].code)
+            try {
+                return state.tasks[state.side - 1].code
+            } catch {
+                return ''
             }
+
+        },
+        getExampleCode(state) {
+            try {
+                return state.tasks[state.side - 1].exampleCode
+            } catch {
+                return ''
+            }
+
+        },
+        getTask(state) {
+            return state.tasks[state.side - 1]
+        },
+        getfinishTest(state) {
+            return state.finishTest
         }
     },
     plugins: [ // Vuex Persist
