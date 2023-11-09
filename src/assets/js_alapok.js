@@ -115,7 +115,6 @@ const js_alapok = {
                 { label: 42, isSelected: false, isCorrect: true, disableButton: false },
                 { label: 72, isSelected: false, isCorrect: false, disableButton: false },
                 { label: 112, isSelected: false, isCorrect: false, disableButton: false },
-                { label: NaN, isSelected: false, isCorrect: false, disableButton: false },
             ],
             result: 42
         },

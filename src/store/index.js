@@ -13,7 +13,7 @@ const index = createStore({
             side: 0,
             auth: {},
             loading: true,
-            countDownTime: 0, // 20 perc másodpercekben
+            countDownTime: 999999, // 20 perc másodpercekben
             correctTask: [],
             finishTest: false,
             result: 0, //teszt végeredménye
@@ -45,6 +45,7 @@ const index = createStore({
             state.auth = auth
         },
         RESET_MODULE_STATE(state) {
+            console.log('RESET_MODULE_STATE mutáció lefutott');
             state.tasks = []
             state.programmingLanguageName = ''
             state.side = 0
@@ -188,7 +189,7 @@ const index = createStore({
         createPersistedState({
             key: 'my-app',
             paths: ['tasks', 'programmingLanguageName', 'side', 'auth', 'countDownTime', 'timerIsRunning', 'correctTask', 'finishTest', 'result'],
-            storage: window.localStorage,
+            storage: window.sessionStorage,
         }),
     ],
 })

@@ -77,7 +77,8 @@ export default defineComponent({
     })
     const showDivLastLine = computed(() => { return lastLineValid.value })
     const getTask = computed(() => { return store.getters.getTask })
-    const correctTask = computed(() => { return store.getters.correctTask })
+    //const correctTask = computed(() => { return store.getters.correctTask })
+    //const showDivCorrectAnswer = computed(() => { return store.getters.})
 
     watch(getExampleCode, () => {
       console.log('watch')
@@ -178,7 +179,7 @@ export default defineComponent({
       lastLineValid,
       showDivFirstLine,
       showDivLastLine,
-      correctTask,
+      //correctTask,
     };
   },
   mounted() {
@@ -205,10 +206,11 @@ export default defineComponent({
   created() {
     this.getAllDocument('tests')
     icon.value = '../../public/favicon.png'
-    if (!localStorage.getItem('my-app')) {
+    //console.log(localStorage.getItem('my-app'))
+    /*if (!localStorage.getItem('my-app')) {
       console.log('az initTasks lefutott')
       this.$store.dispatch('initTasks', 'javascript')
-    }
+    }*/
   },
   methods: {
     runPythonCode() {
@@ -305,6 +307,7 @@ export default defineComponent({
 
 <template>
   <div>
+
     <div class="container py-4">
       <div v-if="this.side != 0" class="p-3 mb-4 bg-light border rounded-3 ">
         <div class="d-flex justify-content-between bd-highlight mb-1">
@@ -375,7 +378,9 @@ export default defineComponent({
                       </div>
                       <div v-if="showDivFirstLine" style="color: red">Az első sor változott</div>
                       <div v-if="showDivLastLine" style="color: red">Az utolsó sor változott</div>
+                      <div v-if="this.$store.state.correctTask[this.side] == 1" style="color: green">Helyes válasz</div>
                     </div>
+
                   </div>
 
                 </div>
