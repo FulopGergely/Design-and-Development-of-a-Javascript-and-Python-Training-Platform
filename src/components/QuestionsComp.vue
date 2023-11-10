@@ -15,10 +15,11 @@ const db = firebaseObjects.db;
 import { collection, getDocs, query, updateDoc, doc } from 'firebase/firestore';
 var refreshIntervalId;
 
+
+
 //python
 import { ref, onBeforeMount, shallowRef } from 'vue';
 import { usePython } from 'usepython';
-import { PyCodeBlock } from 'vuepython';
 import 'vuepython/style.css';
 import 'highlight.js/styles/atom-one-dark.css';
 //codemirror
@@ -41,13 +42,14 @@ export default defineComponent({
       isValid: true,
       testResult: null,
       code: '',
-
     }
   },
   setup() {
     const store = useStore();
     let firstLineValid = ref(false);
     let lastLineValid = ref(false);
+    let pylog = ref([]);
+    let pyResult = ref('')
     onMounted(() => {
       console.log('A komponens mounted hook-ja futott le');
       //currentCode mindig az aktuális code-ot vegye fel, lap váltáskor ha egyből futtatunk, és ha változtatjuk a kódot. Külön kezelni kell hogy van mikor csak a sima examplecode jelenik meg az oldalon, akkor azt kell felvennie, amikor mindkettő akkor pedig a code-ot
@@ -82,6 +84,8 @@ export default defineComponent({
 
     watch(getExampleCode, () => {
       console.log('watch')
+      pylog.value = []
+      pyResult.value = ''
       if (!getCode.value) { //ha csak a példakód van a taskban
         currentCode.value = getExampleCode.value
       } else {
@@ -101,8 +105,39 @@ export default defineComponent({
     async function init() {
       await py.load();
     }
+
     onBeforeMount(() => init());
 
+    async function logStdOut() {
+      await py.log.value
+      pylog.value = py.log.value.stdOut
+    }
+
+    function runPyCode() {
+      if (!getCode.value) {
+        py.run(getExampleCode.value).then(result => {
+          console.log('getExampleCode kód eredménye:')
+          this.logStdOut()
+          console.log(result.results)
+          pyResult.value = result.results
+          console.log(pyResult.value)
+        }).catch(error => {
+          console.error('Hiba történt:', error.error)
+        });
+      } else {
+        py.run(getCode.value).then(result => {
+          console.log('getCode kód eredménye:')
+          this.logStdOut()
+          console.log(result.results)
+          pyResult.value = result.results
+          console.log(pyResult.value)
+        }).catch(error => {
+          console.error('Hiba történt:', error.error)
+        });
+      }
+
+
+    }
     //execute gomb hívja meg
     function handleResult(result) {
       RunTestCode(result)
@@ -179,7 +214,10 @@ export default defineComponent({
       lastLineValid,
       showDivFirstLine,
       showDivLastLine,
-      //correctTask,
+      runPyCode,
+      logStdOut,
+      pylog,
+      pyResult,
     };
   },
   mounted() {
@@ -202,7 +240,7 @@ export default defineComponent({
     //this.$store.commit('changeFinishTest', false)
     //console.log(this.$store.state.finishTest)
   },
-  components: { SelectAnswer, FootButtons, JavascriptCodeEditor, FinalResults, PyCodeBlock, Codemirror },
+  components: { SelectAnswer, FootButtons, JavascriptCodeEditor, FinalResults, Codemirror },
   created() {
     this.getAllDocument('tests')
     icon.value = '../../public/favicon.png'
@@ -354,12 +392,27 @@ export default defineComponent({
                   </div>
                 </div>
                 <div v-else>
-                  <div v-if="task.exampleCode && !task.code" class="p-3 m-4 bg-light border rounded-3">
+                  <div v-if="task.exampleCode && !task.code || task.exampleCode == ''"
+                    class="p-3 m-4 bg-light border rounded-3">
                     <div class="exampleCode">Példakód</div>
                     <div class="container mx-auto">
                       <div class="p-8">
-                        <py-code-block id="script" @input="onInput" :py="py" :code="getExampleCode"
+                        <codemirror placeholder="" :style="{ borderRadius: '20px;' }" :autofocus="true"
+                          :indent-with-tab="true" :tab-size="2" :extensions="extensions" :disabled="false"
+                          @ready="handleReady" v-model="getExampleCode"
+                          @change="$store.dispatch('changeExampleCode', $event)" @focus="log('focus', $event)"
+                          @blur="log('blur', $event)" />
+                        <button class="mt-3 mb-3 btn btn-secondary" @click="runPyCode">Példakód Futtatása</button>
+                        <!--
+                          <py-code-block id="script" @input="onInput" :py="py" :code="getCode"
                           @result="handleResult"></py-code-block>
+                         -->
+                        <div v-if="pylog">
+                          <div v-for="(log, index) in pylog" :key="index">
+                            {{ log }}
+                          </div>
+                        </div>
+                        <div v-if="pyResult"> Eredmény: {{ pyResult }}</div>
                       </div>
                     </div>
                   </div>
@@ -373,8 +426,23 @@ export default defineComponent({
                     <div class="exampleCode">Kérem adja meg a megoldás kódját</div>
                     <div class="container mx-auto">
                       <div class="p-3 m-4 bg-light border rounded-3">
-                        <py-code-block id="script" @input="onInput" :py="py" :code="getCode"
+                        <codemirror placeholder="" :style="{ borderRadius: '20px;' }" :autofocus="true"
+                          :indent-with-tab="true" :tab-size="2" :extensions="extensions" :disabled="false"
+                          @ready="handleReady" v-model="getCode" @change="$store.dispatch('changeCode', $event)"
+                          @focus="log('focus', $event)" @blur="log('blur', $event)" />
+                        <!--
+                          <py-code-block id="script" @input="onInput" :py="py" :code="getCode"
                           @result="handleResult"></py-code-block>
+
+                         -->
+                        <button class="mt-3 mb-3 btn btn-secondary" @click="runPyCode">Megoldás Futtatása</button>
+                        <div v-if="pylog">
+                          <div v-for="(log, index) in pylog" :key="index">
+                            {{ log }}
+                          </div>
+                        </div>
+                        <div v-if="pyResult"> Eredmény: {{ pyResult }}</div>
+
                       </div>
                       <div v-if="showDivFirstLine" style="color: red">Az első sor változott</div>
                       <div v-if="showDivLastLine" style="color: red">Az utolsó sor változott</div>
@@ -415,5 +483,7 @@ export default defineComponent({
         @submitTestResult="submitTestResult" />
     </div>
 
+
   </div>
 </template>
+
