@@ -1,28 +1,20 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { basicSetup } from 'codemirror'
-import VueCodemirror from 'vue-codemirror'
+//bootstrap 5
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
-import store from './store' //Vuex
+//vuex
+import store from './store'
+//router
+import router from './router/index.js'
+
 
 const app = createApp(App)
-
-
 app.use(store) //Vuex
-
+app.use(router) //router
 app.mount('#app')
 
-app.use(VueCodemirror, {
-    // optional default global options
-    autofocus: true,
-    disabled: false,
-    indentWithTab: true,
-    tabSize: 2,
-    placeholder: 'Code goes here...',
-    extensions: [basicSetup]
-    // ...
-})
+
 
 
 

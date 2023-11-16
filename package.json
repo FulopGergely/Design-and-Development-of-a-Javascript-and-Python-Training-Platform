@@ -19,7 +19,6 @@
     "@vueuse/core": "^10.4.1",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.1",
-    "codemirror": "^6.0.1",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.11.0",
     "firebaseui": "^6.1.0",
@@ -27,7 +26,7 @@
     "usepython": "^0.0.11",
     "vue": "^3.3.4",
     "vue-codemirror": "^6.1.1",
-    "vue-router": "^4.2.4",
+    "vue-router": "^4.2.5",
     "vuepython": "^0.0.18",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"

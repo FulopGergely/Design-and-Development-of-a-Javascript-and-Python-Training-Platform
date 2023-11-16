@@ -1,10 +1,4 @@
 <script>
-import '@/assets/main.css'
-
-//import components
-import LoginWithGoogle from './components/LoginWithGoogle.vue'
-
-
 
 
 export default {
@@ -13,17 +7,13 @@ export default {
     return {
     }
   },
-  components: { LoginWithGoogle },
 
 }
-
-
-
 
 </script>
 
 <template>
-  <LoginWithGoogle></LoginWithGoogle>
+  <router-view />
 </template>
 
 
