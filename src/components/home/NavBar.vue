@@ -5,60 +5,27 @@ export default {
         return {
             items: [
                 {
-                    label: 'Bejelentkezés',
+                    label: 'Bejelentkezés'
                 },
                 {
                     label: 'Teszt',
                     icon: 'pi pi-pencil'
                 },
                 {
-                    label: 'Features',
-                    icon: 'pi pi-star'
+                    label: 'Tesztjeim',
+                    icon: 'pi pi-book'
                 },
                 {
-                    label: 'Projects',
-                    icon: 'pi pi-search',
-                    items: [
-                        {
-                            label: 'Core',
-                            icon: 'pi pi-bolt',
-                            shortcut: '⌘+S'
-                        },
-                        {
-                            label: 'Blocks',
-                            icon: 'pi pi-server',
-                            shortcut: '⌘+B'
-                        },
-                        {
-                            label: 'UI Kit',
-                            icon: 'pi pi-pencil',
-                            shortcut: '⌘+U'
-                        },
-                        {
-                            separator: true
-                        },
-                        {
-                            label: 'Templates',
-                            icon: 'pi pi-palette',
-                            items: [
-                                {
-                                    label: 'Apollo',
-                                    icon: 'pi pi-palette',
-                                    badge: 2
-                                },
-                                {
-                                    label: 'Ultima',
-                                    icon: 'pi pi-palette',
-                                    badge: 3
-                                }
-                            ]
-                        }
-                    ]
+                    label: 'Teszt létrehozása',
+                    icon: 'pi pi-plus',
                 },
                 {
-                    label: 'Contact',
-                    icon: 'pi pi-envelope',
-                    badge: 3
+                    label: 'Eredmények',
+                    icon: 'pi pi-chart-bar',
+                },
+                {
+                    label: 'Megosztás',
+                    icon: 'pi pi-share-alt',
                 }
             ]
         }
@@ -67,6 +34,7 @@ export default {
 
     },
 
+
 }
 </script>
 
@@ -74,11 +42,29 @@ export default {
     <router-view />
     <Menubar :model="items">
         <template #start>
-            <Avatar class="mr-2" size="large" shape="circle"><i class="pi pi-user" style="font-size: 2rem"></i></Avatar>
+            <Avatar style="margin-right: 2rem" size="large" shape="circle">
+                <i class="pi pi-user" style="font-size: 2rem"></i>
+            </Avatar>
+        </template>
+        <template #item="{ item, props }">
+            <router-link to="/" v-ripple v-bind="props.action">
+                <span style="margin-right: 5px" :class="item.icon" />
+                <span>{{ item.label }}</span>
+            </router-link>
         </template>
         <template #end>
-            <div class="flex align-items-center gap-2">
+            <div>
+                <a href="https://github.com/FulopGergely/szakdolgozat/tree/CreateQuiz">
+                    <img src="@/assets/github.svg" style="height: 30px" alt="GitHub">
+                </a>
+
             </div>
         </template>
     </Menubar>
 </template>
+
+<style scoped>
+.asd {
+    margin-right: 0;
+}
+</style>
