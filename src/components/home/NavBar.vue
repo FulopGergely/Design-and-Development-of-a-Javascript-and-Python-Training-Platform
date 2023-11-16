@@ -1,47 +1,84 @@
-<script></script>
+<script>
+
+export default {
+    data() {
+        return {
+            items: [
+                {
+                    label: 'Bejelentkezés',
+                },
+                {
+                    label: 'Teszt',
+                    icon: 'pi pi-pencil'
+                },
+                {
+                    label: 'Features',
+                    icon: 'pi pi-star'
+                },
+                {
+                    label: 'Projects',
+                    icon: 'pi pi-search',
+                    items: [
+                        {
+                            label: 'Core',
+                            icon: 'pi pi-bolt',
+                            shortcut: '⌘+S'
+                        },
+                        {
+                            label: 'Blocks',
+                            icon: 'pi pi-server',
+                            shortcut: '⌘+B'
+                        },
+                        {
+                            label: 'UI Kit',
+                            icon: 'pi pi-pencil',
+                            shortcut: '⌘+U'
+                        },
+                        {
+                            separator: true
+                        },
+                        {
+                            label: 'Templates',
+                            icon: 'pi pi-palette',
+                            items: [
+                                {
+                                    label: 'Apollo',
+                                    icon: 'pi pi-palette',
+                                    badge: 2
+                                },
+                                {
+                                    label: 'Ultima',
+                                    icon: 'pi pi-palette',
+                                    badge: 3
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    label: 'Contact',
+                    icon: 'pi pi-envelope',
+                    badge: 3
+                }
+            ]
+        }
+    },
+    components: {
+
+    },
+
+}
+</script>
 
 <template>
     <router-view />
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!-- Container wrapper -->
-        <div class="container">
-
-
-            <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtonsExample"
-                aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarButtonsExample">
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <router-link to="/">Home</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link to="/myTest">myTest</router-link>
-                    </li>
-                </ul>
-                <!-- Left links -->
-
-                <div class="d-flex align-items-center">
-                    <button type="button" class="btn btn-link px-3 me-2">
-                        Login
-                    </button>
-                    <button type="button" class="btn btn-primary me-3">
-                        Sign up for free
-                    </button>
-                    <a class="btn btn-dark px-3" href="https://github.com/mdbootstrap/mdb-ui-kit" role="button"><i
-                            class="fab fa-github"></i></a>
-                </div>
+    <Menubar :model="items">
+        <template #start>
+            <Avatar class="mr-2" size="large" shape="circle"><i class="pi pi-user" style="font-size: 2rem"></i></Avatar>
+        </template>
+        <template #end>
+            <div class="flex align-items-center gap-2">
             </div>
-            <!-- Collapsible wrapper -->
-        </div>
-        <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
+        </template>
+    </Menubar>
 </template>

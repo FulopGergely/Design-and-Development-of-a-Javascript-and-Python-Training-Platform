@@ -1,15 +1,27 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-//bootstrap 5
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
 //vuex
 import store from './store'
 //router
 import router from './router/index.js'
+//global my_css
+import '@/assets/main.css';
+//PrimeVue
+import PrimeVue from 'primevue/config';
+import "primeicons/primeicons.css";
+import 'primevue/resources/themes/lara-light-teal/theme.css'
+import Button from "primevue/button"
+import Menubar from 'primevue/menubar';
+import Avatar from 'primevue/avatar';
+
+
 
 
 const app = createApp(App)
+app.use(PrimeVue, { ripple: true }); //PrimeVue
+app.component('Button', Button);
+app.component('Menubar', Menubar);
+app.component('Avatar', Avatar);
 app.use(store) //Vuex
 app.use(router) //router
 app.mount('#app')

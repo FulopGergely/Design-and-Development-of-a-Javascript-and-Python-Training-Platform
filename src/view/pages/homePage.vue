@@ -18,4 +18,5 @@ export default {
 <template>
     <NavBar />
     homepage
+    <Button>submit</Button>
 </template>
