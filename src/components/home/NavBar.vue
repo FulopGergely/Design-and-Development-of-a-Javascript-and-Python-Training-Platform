@@ -60,6 +60,7 @@ export default {
 
             </div>
         </template>
+        test
     </Menubar>
 </template>
 
