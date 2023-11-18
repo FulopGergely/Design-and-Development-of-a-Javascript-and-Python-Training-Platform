@@ -1,23 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 
-import HomePage from '@/view/pages/HomePage.vue'
-import myTest from '@/view/pages/myTest.vue'
+
+//views: async import
+const routes = [
+    { path: '/', component: () => import('@/view/pages/HomePage.vue') },
+    { path: '/Teszt', component: () => import('@/view/pages/writeTest.vue') },
+    { path: '/Tesztjeim', component: () => import('@/view/pages/myTest.vue') },
+    { path: '/Eredmenyek', component: () => import('@/view/pages/scoreTest.vue') },
+    { path: '/Tesztletrehozasa', component: () => import('@/view/pages/testMaker.vue') },
+];
 
 const router = createRouter({
-    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
     history: createWebHistory(),
-    routes: [{
-        path: '/',
-        name: 'Home',
-        component: HomePage
-    },
-    {
-        path: '/myTest',
-        name: 'myTest',
-        component: myTest
-    },
-    ] // short for `routes: routes`
+    routes,
 })
 
 

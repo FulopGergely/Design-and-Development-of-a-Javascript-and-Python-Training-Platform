@@ -1,19 +1,9 @@
 <script>
 //components
-import NavBar from '@/components/home/NavBar.vue'
 
-export default {
-    data() {
-        return {
-        }
-    },
-    components: {
-        NavBar,
-    },
 
-}
+
 </script>
 <template>
-    <NavBar />
-    myTest
+    <div class="layout-main-container">myTest</div>
 </template>

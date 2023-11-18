@@ -1,19 +1,17 @@
-<script>
+<script setup>
+/*
+import { defineAsyncComponent } from 'vue'
 
+const NavBar = defineAsyncComponent({
+  loader: () => import('@/components/home/NavBar.vue'),
+});*/
 
-export default {
-  name: 'App',
-  data() {
-    return {
-    }
-  },
-
-}
+import NavBar from '@/components/home/NavBar.vue'
 
 </script>
 
 <template>
-  <router-view />
+  <NavBar />
 </template>
 
 

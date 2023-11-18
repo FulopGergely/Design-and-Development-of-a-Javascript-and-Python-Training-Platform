@@ -194,4 +194,3 @@ const index = createStore({
     ],
 })
 
-export default index

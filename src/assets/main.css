@@ -12,10 +12,6 @@ div.text {
     padding: 10px;
 }
 
-div.img {}
-
-div.img2 {}
-
 div.links {
     font-size: 15px;
     text-decoration: none;
@@ -23,46 +19,17 @@ div.links {
     text-align: center;
 }
 
-div.links:hover {}
-
-div.links2 {}
-
 div.exampleCode {
     text-align: center;
     font-size: 20px;
 }
-
-div.variables {}
-
-div.tests {}
-
-div.code {}
-
-div.rans {}
-
-div.options {}
-
-div.goodo {}
-
-div.tex {}
 
 .img {
     margin: 10px;
     text-align: center !important;
 }
 
-.katex {
-    margin: 10px;
-    text-align: center;
-    font-size: 24px;
-    color: rgb(4, 100, 111);
-}
-
 textarea:focus {
     outline: none;
     border: none;
-}
-
-.p-menubar-root-list{
-    
 }
