@@ -8,65 +8,60 @@ const toggle = () => {
     visible.value = !visible.value;
 };
 
+const LanguageName = ref('Javascript');
+const options = ref(['Javascript', 'Python']);
 
 
 </script>
 <template>
     <div>
 
-
-        <div class="flex overflow-hidden">
-            <div class="flex-none flex align-items-center justify-content-center font-bold m-2 px-5 py-3 border-round">
-                PrimeFlex</div>
-            <div class="flex-grow-1 flex align-items-center justify-content-center font-bold m-2 px-5 py-3 border-round">
-                <Toolbar>
-                    <template #start>
-                    </template>
-                    <template #center>
-                        <div class="card flex justify-content-center">
-                            <form @submit="onSubmit" class="flex flex-column gap-2">
-                                <span class="p-float-label">
-                                    <InputText id="value" v-model="value" type="text" :class="{ 'p-invalid': errorMessage }"
-                                        aria-describedby="text-error" />
-                                    <label for="value">Name - Surname</label>
-                                </span>
-                                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-                                <Button label="Submit" />
-                            </form>
-                            <Toast />
-                        </div>
-                    </template>
-                    <template #end>
-                    </template>
-                </Toolbar>
+        <!-- 
+            <div class="mt-5 mb-3 flex flex-wrap justify-content-center gap-3">
+                <div
+                    class="border-round border-1 surface-border w-12rem h-6rem surface-ground font-bold flex align-items-center justify-content-center">
+                    1
+                </div>
             </div>
-            <div class="flex-none flex align-items-center justify-content-center font-bold m-2 px-5 py-3 border-round">
-                PrimeFlex</div>
+        -->
+
+        <div class="border-round border-1 surface-border surface-ground mt-5 mb-3 p-4">
+
+            <div class="field grid mb-5 mt-3">
+                <label for="firstname3" class="col-fixed" style="width:180px">Teszt neve</label>
+                <div class="col">
+                    <InputText type="text" v-model="testName" />
+                </div>
+            </div>
+            <div class="field grid mb-5">
+                <label for="lastname3" class="col-fixed" style="width:180px">Teszt ideje (perc)</label>
+                <div class="col">
+                    <InputText type="text" v-model="testTime" />
+                </div>
+            </div>
+            <div class="field grid">
+                <label for="lastname3" class="col-fixed" style="width:180px">Programozási nyelv</label>
+                <div class="col">
+                    <SelectButton v-model="LanguageName" :options="options" aria-labelledby="basic" />
+                </div>
+            </div>
+
         </div>
 
-        <div class="flex overflow-hidden">
-            <div
-                class="flex-none flex align-items-center justify-content-center bg-primary font-bold m-2 px-5 py-3 border-round">
-                PrimeFlex</div>
-            <div
-                class="flex-grow-1 flex align-items-center justify-content-center bg-primary font-bold m-2 px-5 py-3 border-round">
-                PrimeFlex</div>
-            <div
-                class="flex-none flex align-items-center justify-content-center bg-primary font-bold m-2 px-5 py-3 border-round">
-                PrimeFlex</div>
-        </div>
+
+
+
+
+
+
+
 
         <Button label="Show" icon="pi pi-external-link" @click="toggle" />
 
         <Dialog v-model:visible="visible" maximizable modal header="Header" :style="{ width: '50rem' }"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
             <p class="m-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea commodo consequat.
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
+                asd
             </p>
         </Dialog>
     </div>

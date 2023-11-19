@@ -15,9 +15,9 @@ import PrimeVue from 'primevue/config';
 import 'primeicons/primeicons.css';
 import 'primevue/resources/primevue.min.css'
 
-//import 'primevue/resources/themes/lara-light-teal/theme.css'
+import 'primevue/resources/themes/lara-light-teal/theme.css'
 //import 'primevue/resources/themes/mdc-light-indigo/theme.css'
-import 'primevue/resources/themes/soho-light/theme.css'
+//import 'primevue/resources/themes/soho-light/theme.css'
 
 import Button from "primevue/button"
 import Menubar from 'primevue/menubar';
@@ -33,6 +33,8 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
 import Divider from 'primevue/divider';
 import Card from 'primevue/card';
 import Toolbar from 'primevue/toolbar';
+import Panel from 'primevue/panel';
+import SelectButton from 'primevue/selectbutton';
 
 
 
@@ -53,6 +55,8 @@ app.component('InputGroupAddon', InputGroupAddon);
 app.component('Divider', Divider);
 app.component('Card', Card);
 app.component('Toolbar', Toolbar);
+app.component('Panel', Panel);
+app.component('SelectButton', SelectButton);
 app.use(store) //Vuex
 app.use(router) //router
 app.mount('#app')
