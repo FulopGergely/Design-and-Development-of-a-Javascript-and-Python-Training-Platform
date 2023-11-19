@@ -1,8 +1,6 @@
 <script setup>
 import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
-import { ref, onMounted, computed, watch } from 'vue';
-import Menu from 'primevue/menu';
-import Dropdown from 'primevue/dropdown';
+import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 
 const logButtonLabel = computed(() => hasCurrentUser.value ? 'Kijelentkezés' : 'Bejelentkezés');
@@ -43,17 +41,7 @@ function login() {
         signOutWithGoogle()
     }
 }
-const menuRef = ref(null);
 
-const items2 = [
-    { label: 'Item 1' },
-    { label: 'Item 2' },
-    { label: 'Item 3' }
-];
-
-const toggle = (event) => {
-    menuRef.value.toggle(event);
-};
 
 </script>
 
@@ -85,8 +73,6 @@ const toggle = (event) => {
             </template>
         </Menubar>
         <router-view />
-        <Button type="button" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
-        <Menu ref="menu" id="overlay_menu" :model="items2" :popup="true" />
     </div>
 </template>
 <style>
