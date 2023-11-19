@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 //components
 
 const visible = ref(false);
+const accordion = ref('asd');
 
 const toggle = () => {
     visible.value = !visible.value;
@@ -14,6 +15,7 @@ const options = ref(['Javascript', 'Python']);
 
 </script>
 <template>
+    {{ accordion }}
     <div>
 
         <!-- 
@@ -24,6 +26,7 @@ const options = ref(['Javascript', 'Python']);
                 </div>
             </div>
         -->
+
 
         <div class="border-round border-1 surface-border surface-ground mt-5 mb-3 p-4">
 
@@ -49,10 +52,23 @@ const options = ref(['Javascript', 'Python']);
         </div>
 
 
+        <Accordion :multiple="true" :activeIndex="[0]">
+            <AccordionTab header="Feladat 1">
+                <Editor v-model="accordion" editorStyle="height: 400px;" />
+                <InputText type="text" v-model="testName" />
+            </AccordionTab>
+            <AccordionTab header="Feladat 2">
+                <p class="m-0">
+
+                </p>
+            </AccordionTab>
+            <AccordionTab header="Feladat 3">
+
+            </AccordionTab>
+        </Accordion>
 
 
-
-
+        
 
 
 

@@ -33,13 +33,14 @@ npm run build
 ```sh
 npm run lint
 ```
-
+primeVue:
 https://primevue.org/
-https://github.com/SortableJS/Vue.Draggable/tree/master
 
-Edit and run Python,Javascript code in Vuejs:
+Edit code:
+https://synw.github.io/vuecodit/
+https://highlightjs.org/demo / npm install @highlightjs/vue-plugin
 
-https://github.com/surmon-china/vue-codemirror
+run Python code in Vuejs:
 https://github.com/synw/vuepython?ref=vuejsexamples.com
 
 deploy:
