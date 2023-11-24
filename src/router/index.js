@@ -9,6 +9,7 @@ const routes = [
     { path: '/Tesztjeim', component: () => import('@/view/pages/myTest.vue') },
     { path: '/Eredmenyek', component: () => import('@/view/pages/scoreTest.vue') },
     { path: '/Tesztletrehozasa', component: () => import('@/view/pages/testMaker.vue') },
+    { path: '/Profil', component: () => import('@/view/pages/profil.vue') },
 ];
 
 const router = createRouter({

@@ -3,8 +3,8 @@ import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
 import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 
-const logButtonLabel = computed(() => hasCurrentUser.value ? 'Kijelentkezés' : 'Bejelentkezés');
-const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid);
+
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
 const items = ref([
     {
@@ -28,6 +28,25 @@ const items = ref([
         href: 'Eredmenyek'
     },
 ]);
+const profilList = ref([
+    {
+        label: 'Profil',
+        icon: 'pi pi-user',
+        command: () => {
+            window.location.href = '/Profil';
+
+        }
+    },
+    {
+        label: 'Kijelentkezés',
+        icon: 'pi pi-sign-out',
+        command: () => {
+            login()
+        }
+    },
+
+
+]);
 
 
 onMounted(() => {
@@ -41,7 +60,9 @@ function login() {
         signOutWithGoogle()
     }
 }
-
+const routerProfil = () => {
+    this.$router.push('/Profil');
+};
 
 </script>
 
@@ -58,8 +79,11 @@ function login() {
             </template>
             <template #end>
                 <div class="flex align-items-center gap-2">
-                    <Button class="w-8rem sm:w-auto" @click="login" :label="logButtonLabel" icon="pi pi-user"
-                        style="margin-right: 1rem;"></Button>
+                    <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round"
+                        @click="this.$router.push('/Profil')" :label="store.getters.getCurrentUser.displayName">
+                    </SplitButton>
+                    <Button v-if="!hasCurrentUser" class="w-8rem sm:w-auto" @click="login" label="Bejelentkezés"
+                        icon="pi pi-user"></Button>
                     <Avatar v-if="hasCurrentUser" class="avatar" :image="store.getters.getCurrentUser.photoURL"
                         shape="circle">
                     </Avatar>

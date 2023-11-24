@@ -40,9 +40,9 @@ onMounted(() => {
 </script>
 <template>
     <div>
+        {{ store.getters }}
         asdd
-        <div class="p-3 bg-gray-100 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
-
+        <div class="p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
             <code-editor :hljs="hljs" :code="codePY" lang="python" @edit="codeChange($event)">
             </code-editor>
         </div>

@@ -2,6 +2,9 @@
 /* eslint-disable vue/multi-word-component-names */
 import { createApp } from 'vue'
 import App from './App.vue'
+import store from './store/store.js' //vuex
+import router from './router/index.js' //router
+import '@/assets/main.css'; //global my_css
 //highlight.js
 import { CodeEditor } from "vuecodit";
 import 'vuecodit/style.css';
@@ -10,24 +13,22 @@ import python from 'highlight.js/lib/languages/python';
 hljs.registerLanguage('python', python);
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
-import "highlight.js/styles/atom-one-dark.css";
+//syntax color styles:
+//import "highlight.js/styles/stackoverflow-light.css";
+//import "highlight.js/styles/atom-one-dark-reasonable.css"; // https://highlightjs.org/demo#lang=python&v=1&theme=atom-one-dark-reasonable&code=ZGVmIG15X2Z1bmN0aW9uKCk6CiAgcHJpbnQoIkhlbGxvIGZyb20gYSDIIiIpCiNjb21tZW50Cs05
+import "highlight.js/styles/vs.css";
 
-//vuex
-import store from './store/store.js'
-//router
-import router from './router/index.js'
-//global my_css
-import '@/assets/main.css';
 //PrimeVue
 import "primeflex/primeflex.css";
-//import '@/assets/styles.scss'; egyelőre nem használom
 import PrimeVue from 'primevue/config';
 import 'primeicons/primeicons.css';
 import 'primevue/resources/primevue.min.css'
 
-import 'primevue/resources/themes/lara-light-teal/theme.css'
+
+// https://primevue.org/theming/#builtinthemes
+//import 'primevue/resources/themes/lara-light-teal/theme.css'
 //import 'primevue/resources/themes/mdc-light-indigo/theme.css'
-//import 'primevue/resources/themes/soho-light/theme.css'
+import 'primevue/resources/themes/soho-light/theme.css'
 
 import Button from "primevue/button"
 import Menubar from 'primevue/menubar';
@@ -48,20 +49,26 @@ import SelectButton from 'primevue/selectbutton';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Editor from 'primevue/editor';
+import Tooltip from 'primevue/tooltip';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Checkbox from 'primevue/checkbox';
+import SplitButton from 'primevue/splitbutton';
+import Dropdown from 'primevue/dropdown';
 
 
 
 
 const app = createApp(App)
+
 app.component('CodeEditor', CodeEditor); //highlight.js
 app.use(store) //Vuex
 app.use(router) //router
 
-
-
 //PrimeVue
 app.use(PrimeVue, { ripple: true });
 app.directive('ripple', Ripple);
+app.directive('tooltip', Tooltip);
 app.component('Button', Button);
 app.component('Menubar', Menubar);
 app.component('Avatar', Avatar);
@@ -80,6 +87,12 @@ app.component('SelectButton', SelectButton);
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
 app.component('Editor', Editor);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
+app.component('Checkbox', Checkbox);
+app.component('SplitButton', SplitButton);
+app.component('Dropdown', Dropdown);
+
 
 app.mount('#app')
 
