@@ -23,7 +23,8 @@ import "primeflex/primeflex.css";
 import PrimeVue from 'primevue/config';
 import 'primeicons/primeicons.css';
 import 'primevue/resources/primevue.min.css'
-
+import ConfirmationService from 'primevue/confirmationservice'; //confirm
+import ToastService from 'primevue/toastservice'; //toast
 
 // https://primevue.org/theming/#builtinthemes
 //import 'primevue/resources/themes/lara-light-teal/theme.css'
@@ -55,6 +56,9 @@ import Column from 'primevue/column';
 import Checkbox from 'primevue/checkbox';
 import SplitButton from 'primevue/splitbutton';
 import Dropdown from 'primevue/dropdown';
+import Textarea from 'primevue/textarea';
+import ConfirmPopup from 'primevue/confirmpopup';
+import Steps from 'primevue/steps';
 
 
 
@@ -64,6 +68,9 @@ const app = createApp(App)
 app.component('CodeEditor', CodeEditor); //highlight.js
 app.use(store) //Vuex
 app.use(router) //router
+app.use(ConfirmationService) //PrimeVue confirm
+app.use(ToastService) //PrimeVue toast
+
 
 //PrimeVue
 app.use(PrimeVue, { ripple: true });
@@ -92,6 +99,10 @@ app.component('Column', Column);
 app.component('Checkbox', Checkbox);
 app.component('SplitButton', SplitButton);
 app.component('Dropdown', Dropdown);
+app.component('Textarea', Textarea);
+app.component('ConfirmPopup', ConfirmPopup);
+app.component('Steps', Steps);
+
 
 
 app.mount('#app')

@@ -26,10 +26,11 @@ function refresh() {
                     <span class="m-0 p-0">console log</span>
                 </div>
                 <div style="height: 20px">
-                    <i class="pi pi-refresh" @click="refresh"></i>
+                    <i v-tooltip.top="'console ürítése'" class="pi pi-refresh" @click="refresh"></i>
                 </div>
             </div>
-            <Button v-if="false" @click="refresh" icon="pi pi-trash" style="top: 0" text rounded aria-label="refresh" />
+            <Button v-tooltip.bottom="'console ürítése'" v-if="false" @click="refresh" icon="pi pi-trash" style="top: 0"
+                text rounded aria-label="refresh" />
             <div v-for="(log, index) in logsName" :key="index">
                 > {{ log }}
             </div>

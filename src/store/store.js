@@ -1,10 +1,12 @@
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
 import user from './user';
+import task from './task';
 // Vuex
 const store = createStore({
     modules: {
         user: user,
+        task: task,
     },
     state() {
         return {

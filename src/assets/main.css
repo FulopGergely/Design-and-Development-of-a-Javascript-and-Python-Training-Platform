@@ -1,3 +1,7 @@
+body {
+    overflow: scroll;
+}
+
 div.title {
     font-family: 'Roboto', sans-serif;
     text-align: center;
@@ -32,4 +36,9 @@ div.exampleCode {
 textarea:focus {
     outline: none;
     border: none;
+}
+
+.p-steps .p-steps-item:before {
+
+    margin-top: 0;
 }

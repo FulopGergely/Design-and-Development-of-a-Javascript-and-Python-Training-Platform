@@ -39,7 +39,7 @@ const products = ref([
         <Column field="deleteTestCase" header="láthatóság">
             <template #body="slotProps">
                 <Checkbox @click="handleButtonClick(slotProps.rowData)"
-                    v-tooltip.right="'Tesztkitöltő látni fogja ezt a teszt esetet'" v-model="checked" :binary="false" />
+                    v-tooltip.right="'Tesztkitöltő látni fogja ezt a tesztesetet'" v-model="checked" :binary="false" />
             </template>
         </Column>
         <Column field="deleteTestCase" header="teszteset törlése">

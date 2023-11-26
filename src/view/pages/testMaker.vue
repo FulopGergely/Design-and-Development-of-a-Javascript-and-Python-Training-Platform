@@ -1,8 +1,18 @@
 <script setup>
 import { ref, onMounted, computed, reactive } from 'vue';
+//PrimeVue
+import { useConfirm } from "primevue/useconfirm";
+import { useToast } from "primevue/usetoast";
 //components
 import CodeRunner from '../../components/maker/CodeRunner.vue';
 import TestCasesTable from '../../components/maker/TestCasesTable.vue';
+import SelectProgramLanguage from '../../components/maker/SelectProgramLanguage.vue';
+import StepMenu from '../../components/maker/StepMenu.vue';
+import FormCreateTest from '../../components/maker/FormCreateTest.vue';
+
+
+const confirm = useConfirm();
+const toast = useToast();
 
 const visible = ref(false);
 const accordion = ref('asd');
@@ -21,8 +31,25 @@ const options = ref([
 ]);
 // <img src="@/assets/javascript.svg" alt="javascript" />
 
-
-
+const confirmDeleteToast = (event) => {
+    confirm.require({
+        target: event.currentTarget,
+        message: 'Biztos törli ezt a feladatot?',
+        icon: 'pi pi-trash',
+        acceptClass: 'p-button-danger p-button-sm',
+        acceptLabel: 'Igen',
+        rejectLabel: 'Nem',
+        accept: () => {
+            toast.add({ severity: 'success', summary: 'Sikeres', detail: 'törlés', life: 3000 });
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Sikertelen', detail: 'törlés', life: 3000 });
+        }
+    });
+};
+const newTaskToast = () => {
+    toast.add({ severity: 'info', summary: 'Új feladat hozzáadva', life: 3000 });
+};
 
 
 
@@ -32,96 +59,50 @@ const options = ref([
 <template>
     <div>
 
-        <!-- 
-            <div class="mt-5 mb-3 flex flex-wrap justify-content-center gap-3">
-                <div
-                    class="border-round border-1 surface-border w-12rem h-6rem surface-ground font-bold flex align-items-center justify-content-center">
-                    1
-                </div>
-            </div>
-        -->
-
-        <div class="flex justify-content-center flex-wrap">
+        <StepMenu />
+        <div v-if="false" class="flex justify-content-center flex-wrap">
             <div class="border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 " style="width: 1700px">
-
-                <div class=" field grid mb-5 mt-3">
-                    <label for="firstname3" class="col-fixed" style="width:180px">Teszt neve</label>
-                    <div class="col">
-                        <InputText v-tooltip="'teszt egyedi azonosítója'" type="text" v-model="testName" />
-                    </div>
-                </div>
-                <div class="field grid mb-5">
-                    <label for="lastname3" class="col-fixed" style="width:180px">Teszt ideje (perc)</label>
-                    <div class="col">
-                        <InputText v-tooltip="'pl.: 10, az tíz perces teszt idő'" type="text" v-model="testTime" />
-                    </div>
-                </div>
-
+                <FormCreateTest />
             </div>
         </div>
         <div class="flex justify-content-center flex-wrap">
-            <Accordion :multiple="false" lazy="false" :activeIndex="[0]" style="width: 1700px">
-                <!-- bug: nem frissíti a textarea méretét. lazy="false" megoldotta  -->
-                <AccordionTab header="Feladat 1">
+            <div class="border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">
+                <div>
+
+
+                    <div class="flex justify-content-between flex-wrap">
+
+                        <h2>1. Oldal</h2>
+                        <div>
+                            <ConfirmPopup></ConfirmPopup>
+                            <Toast />
+                            <Button v-tooltip.top="'előnézet'" severity="info" class="m-1" icon="pi pi-eye" />
+                            <Button v-tooltip.top="'Feladat törlése'" severity="danger" @click="confirmDeleteToast($event)"
+                                class="m-1" icon="pi pi-trash" />
+                            <Button @click="newTaskToast" label="Új feladat" severity="success" class="m-1"
+                                icon="pi pi-plus" />
+                            <Toast />
+                        </div>
+                    </div>
+
+
+
+
+
 
                     <div class="border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
                         <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="accordion"
                             editorStyle="height: 400px;" class="m-5" />
                     </div>
-
-
-
                     <div class="border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">
-                        <div class="flex justify-content-between flex-wrap">
-                            <div class="flex align-items-center justify-content-center  border-round ">
-                                <div v-tooltip.right="'feladathoz tartozó programozási környezet'" style="width: 190px">
-                                    <SelectButton v-model="value" :options="options" optionLabel="value" dataKey="value"
-                                        aria-labelledby="custom">
-                                        <template #option="slotProps">
-                                            <img v-if="slotProps.option.icon" :src="slotProps.option.icon" alt="Custom Icon"
-                                                :style="{ height: '20px' }" />
-                                        </template>
-                                    </SelectButton>
-                                </div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center border-round">
-                                <div class="flex justify-content-end flex-wrap">
-                                    <div class="flex align-items-center justify-content-center"><i
-                                            v-tooltip.left="'A függvény paraméterei konkrét értékek legyenek. A bemenő paraméterek számát és függvény nevét lehet módosítani.'"
-                                            class="flex justify-content-end m-2 pi pi-question-circle"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <SelectProgramLanguage />
                         <CodeRunner />
                     </div>
-
                     <div class="border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
                         <TestCasesTable />
                     </div>
-
-
-
-
-
-                </AccordionTab>
-                <AccordionTab header="Feladat 2">
-                    <p class="m-0">
-
-                    </p>
-                </AccordionTab>
-                <AccordionTab header="Feladat 3">
-
-                </AccordionTab>
-            </Accordion>
+                </div>
+            </div>
         </div>
-
-
-
-
-
     </div>
 </template>
-
-<style></style>

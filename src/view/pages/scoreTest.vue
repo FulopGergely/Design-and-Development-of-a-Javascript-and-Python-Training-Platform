@@ -1,11 +1,11 @@
-<script>
-//components
-
+<script setup>
+import { ref } from "vue";
 
 
 
 </script>
 <template>
-  
-    scoreTest
+    <div>
+        score
+    </div>
 </template>
