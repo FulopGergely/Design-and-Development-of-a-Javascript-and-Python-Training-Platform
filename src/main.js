@@ -57,7 +57,7 @@ import Checkbox from 'primevue/checkbox';
 import SplitButton from 'primevue/splitbutton';
 import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
-import ConfirmPopup from 'primevue/confirmpopup';
+import ConfirmDialog from 'primevue/confirmdialog';
 import Steps from 'primevue/steps';
 
 
@@ -100,7 +100,7 @@ app.component('Checkbox', Checkbox);
 app.component('SplitButton', SplitButton);
 app.component('Dropdown', Dropdown);
 app.component('Textarea', Textarea);
-app.component('ConfirmPopup', ConfirmPopup);
+app.component('ConfirmDialog', ConfirmDialog);
 app.component('Steps', Steps);
 
 
