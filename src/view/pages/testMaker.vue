@@ -16,17 +16,19 @@ import ButtonGroup from '../../components/maker/ButtonGroup.vue';
     // Feladat mentése vagy további logika
     store.commit('setTask', text.value);
 }*/
+
 /*
-const getCode = computed(() => {
-        return store.getters.getCode
-});
-const currentCode = ref(getCode.value);*/
+const someReactiveRef = ref(store.getters.task)
 
-//const text = ref(store.getters.task[0].text); //html szöveg tartalma a feladathoz
-
-const setTask = (value) => {
-    store.commit('setTask', { text: value });
-};
+const text = computed({
+    get() {
+        return someReactiveRef.value
+    },
+    set(val) {
+        store.commit('setTask', val)
+    }
+})
+*/
 
 
 
@@ -54,7 +56,7 @@ function asd() {
                         <ButtonGroup />
                     </div>
                     <div class="border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                        <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="text"
+                        <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="task.text"
                             editorStyle="height: 400px;" class="m-5" />
                     </div>
                     <div class="border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">

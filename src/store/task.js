@@ -24,10 +24,11 @@ export default {
         addTask(state, obj) {
             state.tasks.push(obj);
         },
-        setTask(state, { index, updatedTask }) {
+        setTask(state, updatedTask) {
             console.log(updatedTask)
-            if (index >= 0 && index < state.tasks.length) {
-                state.tasks[index] = updatedTask;
+            console.log(state.currentSide)
+            if (state.currentSide - 1 >= 0 && state.currentSide - 1 < state.tasks.length) {
+                state.tasks[state.currentSide - 1] = updatedTask;
             } else {
                 console.error('Invalid index for setTask mutation');
             }
