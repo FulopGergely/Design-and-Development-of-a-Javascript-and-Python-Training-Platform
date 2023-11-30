@@ -7,7 +7,7 @@ export default {
                     side: 1, //oldal szám, 1 től indul
                     programmingLanguageName: '',
                     text: '', //feladat szövege html formátumban
-                    code: '',
+                    code: `function myFunction( p1 ) { \nreturn p1\n}`,
                     result: '',
                     testResult: '',
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 

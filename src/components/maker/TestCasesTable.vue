@@ -27,7 +27,8 @@ const products = ref([
 
 <template>
     <div class="flex justify-content-end flex-wrap">
-        <div class="flex align-items-center justify-content-center"><i v-tooltip.top="'magyarázó szöveg'"
+        <div class="flex align-items-center justify-content-center"><i
+                v-tooltip.top="'Milyen bementeti értékekre, milyen kimenetet várunk? Ajánlott legalább 2 tesztesetet felvenni, ami nem látható a tesztkitöltő számára'"
                 class="flex justify-content-end m-2 pi pi-question-circle"></i>
         </div>
     </div>
@@ -39,7 +40,7 @@ const products = ref([
         <Column field="deleteTestCase" header="láthatóság">
             <template #body="slotProps">
                 <Checkbox @click="handleButtonClick(slotProps.rowData)"
-                    v-tooltip.right="'Tesztkitöltő látni fogja ezt a tesztesetet'" v-model="checked" :binary="false" />
+                    v-tooltip.right="'Tesztkitöltő látni fogja ezt a tesztesetet'" :binary="false" />
             </template>
         </Column>
         <Column field="deleteTestCase" header="teszteset törlése">

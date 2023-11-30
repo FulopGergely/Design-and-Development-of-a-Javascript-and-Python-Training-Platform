@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, reactive } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 //PrimeVue
 //components
@@ -32,38 +32,30 @@ const text = computed({
 
 
 
-
-
-
-
-function asd() {
-    console.log('load')
-}
-
-
-
 </script>
 <template>
     {{ store.getters.getTask }}
     <StepMenu />
     <div v-for="task in store.getters.getTask" :key="task.side">
         <div v-if="task.side == store.getters.getCurrentSide" class="flex justify-content-center flex-wrap ">
-            <div class="fadeinright animation-duration-500 border-round border-1 surface-border mt-5 mb-3 p-4"
-                style="width: 1700px">
+            <div class=" border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">
                 <div>
                     <div class="flex justify-content-between flex-wrap">
                         <h2>{{ task.side }}. Oldal</h2>
                         <ButtonGroup />
                     </div>
-                    <div class="border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                    <div
+                        class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
                         <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="task.text"
                             editorStyle="height: 400px;" class="m-5" />
                     </div>
-                    <div class="border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">
+                    <div
+                        class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">
                         <SelectProgramLanguage />
-                        <CodeRunner />
+                        <CodeRunner :codeJs="task.code" />
                     </div>
-                    <div class="border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
+                    <div
+                        class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
                         <TestCasesTable />
                     </div>
                 </div>

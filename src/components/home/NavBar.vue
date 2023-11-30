@@ -84,8 +84,8 @@ const routerProfil = () => {
                     </SplitButton>
                     <Button v-if="!hasCurrentUser" class="w-8rem sm:w-auto" @click="login" label="Bejelentkezés"
                         icon="pi pi-user"></Button>
-                    <Avatar v-if="hasCurrentUser" class="avatar" :image="store.getters.getCurrentUser.photoURL"
-                        shape="circle">
+                    <Avatar v-if="hasCurrentUser && !store.getters.getCurrentUser.photoURL" class="avatar"
+                        :image="store.getters.getCurrentUser.photoURL" shape="circle">
                     </Avatar>
                 </div>
 

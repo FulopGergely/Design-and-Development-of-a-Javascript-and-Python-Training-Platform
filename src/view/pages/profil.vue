@@ -42,7 +42,8 @@ onMounted(() => {
                 <div>
 
                     <div class="flex justify-content-center flex-wrap">
-                        <img class="avatar m-3" :src="store.getters.getCurrentUser.photoURL" shape="circle"
+                        <img v-if="!store.getters.getCurrentUser.photoURL" class="avatar m-3"
+                            :src="store.getters.getCurrentUser.photoURL" shape="circle"
                             style="height: 100px; width: 100px;">
                     </div>
                     <div class="flex justify-content-center flex-wrap">

@@ -1,17 +1,27 @@
 <script setup>
 import store from '@/store/store.js';
-import { ref, onMounted } from 'vue';
+import { ref, onUpdated } from 'vue';
 import { useToast } from "primevue/usetoast";
 const toast = useToast();
 
-const myRef = ref([]); // példa ref
+
+const props = defineProps(['jsResult']);
+const emits = defineEmits([
+    'paramsChange'
+])
+const result = ref(props.jsResult);
+
+onUpdated(() => {
+    result.value = props.jsResult;
+});
 
 const products = ref([
     {
         myFunction: 'myFunction()',
-        result: 'Bamboo Watch',
+        result: result,
     },
 ]);
+
 
 
 const SaveTestCase = () => {
@@ -25,9 +35,8 @@ const SaveTestCase = () => {
         <DataTable class="mb-5 ml-5 mr-5" :value="products" tableStyle="min-width: 50rem">
             <Column field="myFunction" header="paraméter értékek">
                 <template #body="">
-                    <Textarea style="height: 45px; width: 300px"
-                        v-tooltip.right="'vesszővel elválasztva adja meg a paraméterek értékét. \n\n 2 paraméter esetén pl.: 25, \'szöveg\' '"
-                        v-model="value" />
+                    <Textarea style="height: 45px; width: 300px" @input="emits('paramsChange', $event.target.value)"
+                        v-tooltip.right="'1. Vesszővel elválasztva adja meg a paraméterek értékeit.\n\n pl.: 25, \'szöveg\', [tömb], {obj} \n\n 2. Futtassa a kódot. \n\n 3. Mentse el a teszesetet. '" />
                 </template>
 
             </Column>
@@ -35,7 +44,8 @@ const SaveTestCase = () => {
             <Column>
                 <template #body="slotProps">
                     <Toast />
-                    <Button icon="pi pi-save" v-tooltip.top="'új teszteset felvétele'" @click="SaveTestCase()"></Button>
+                    <Button icon="pi pi-save" v-tooltip.top="'teszteset felvétele a listába'"
+                        @click="SaveTestCase()"></Button>
                 </template>
             </Column>
         </DataTable>
