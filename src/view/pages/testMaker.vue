@@ -32,10 +32,11 @@ const text = computed({
 
 
 
+
 </script>
 <template>
-    {{ store.getters.getTask }}
     <StepMenu />
+    {{ store.getters.getTask }}
     <div v-for="task in store.getters.getTask" :key="task.side">
         <div v-if="task.side == store.getters.getCurrentSide" class="flex justify-content-center flex-wrap ">
             <div class=" border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">
@@ -52,7 +53,7 @@ const text = computed({
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">
                         <SelectProgramLanguage />
-                        <CodeRunner :codeJs="task.code" />
+                        <CodeRunner :codeJs="task.code" v-model:changeCode="task.code" />
                     </div>
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">

@@ -28,7 +28,6 @@ import ToastService from 'primevue/toastservice'; //toast
 
 // https://primevue.org/theming/#builtinthemes
 //import 'primevue/resources/themes/lara-light-teal/theme.css'
-//import 'primevue/resources/themes/mdc-light-indigo/theme.css'
 import 'primevue/resources/themes/soho-light/theme.css'
 
 import Button from "primevue/button"

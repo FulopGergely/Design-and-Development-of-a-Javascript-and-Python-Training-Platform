@@ -10,7 +10,7 @@ import { ref, computed } from "vue";
 <template>
     <!-- -->
 
-    {{ store.getters.getCurrentSide }}
+
 
     <div class="card">
         <Steps :model="store.getters.getTask" class="mt-8 mb-6" :activeStep="0" :readonly="false">

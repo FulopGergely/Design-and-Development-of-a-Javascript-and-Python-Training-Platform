@@ -24,6 +24,7 @@ defineProps(
         },
 
     });
+
 const emits = defineEmits([
     'runJavascript', 'codeChange', 'paramsChange'
 ])
@@ -44,7 +45,7 @@ function asd(e) {
                 <div
                     class="mt-5 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
                     <code-editor
-                        v-tooltip.top="'Írja meg a megoldás kódját a függvénytörzsben, törzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
+                        v-tooltip.top="'Írja meg a megoldás kódját a függvénytörzsben, törzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
                         :hljs="hljs" :code="codeJavascript" lang="javascript" @edit="emits('codeChange', $event)">
                     </code-editor>
                 </div>

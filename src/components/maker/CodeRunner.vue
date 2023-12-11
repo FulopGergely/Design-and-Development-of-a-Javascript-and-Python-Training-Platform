@@ -11,13 +11,13 @@ const props = defineProps({
         default: () => ''
     }
 })
+const emit = defineEmits(['update:changeCode'])
 
 onMounted(() => {
-    console.log('mounted')
-    console.log(codeJS.value)
-
 });
 
+
+//const programLanguage = ref(store.getters)
 const logs = ref([]);
 const codeJS = ref(props.codeJs)
 const result = ref('')
@@ -25,13 +25,13 @@ const params = ref(42)
 
 
 function codeChange(e) {
-    console.log("Code change", e)
     //store.commit('setCode', e)
-
+    emit('update:changeCode', e)
     codeJS.value = e
 }
+
 function paramsChange(e) {
-    console.log("Params change", e)
+    //console.log("Params change", e)
     params.value = e
 }
 
@@ -47,7 +47,7 @@ function runCodeJs() {
         console.log(error)
     }
     console.log = oldConsoleLog;
-    console.log(result.value)
+    //console.log(result.value)
 }
 
 

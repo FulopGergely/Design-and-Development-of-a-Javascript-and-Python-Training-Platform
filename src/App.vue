@@ -7,7 +7,6 @@ const NavBar = defineAsyncComponent({
 });*/
 
 import NavBar from '@/components/home/NavBar.vue'
-import parent from '@/components2/parent.vue'
 
 </script>
 
