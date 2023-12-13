@@ -66,7 +66,7 @@ const addTask = () => {
         side: store.getters.getTask.length + 1, //oldal szám, 1 től indul
         programmingLanguageName: '',
         task: '', //feladat szövege html formátumban
-        code: `function myFunction( p1 ) { \nreturn p1\n}`,
+        code: ``,
         result: '',
         testResult: '',
         score: 0,
