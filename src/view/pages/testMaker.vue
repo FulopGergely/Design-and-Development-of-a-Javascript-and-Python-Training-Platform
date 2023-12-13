@@ -8,6 +8,7 @@ import TestCasesTable from '../../components/maker/TestCasesTable.vue';
 import SelectProgramLanguage from '../../components/maker/SelectProgramLanguage.vue';
 import StepMenu from '../../components/maker/StepMenu.vue';
 import ButtonGroup from '../../components/maker/ButtonGroup.vue';
+import SelectCheckBoxTask from '../../components/maker/SelectCheckBoxTask.vue';
 
 
 
@@ -30,7 +31,10 @@ const text = computed({
 })
 */
 
-
+function asd(a) {
+    console.log('asd:')
+    console.log(a)
+}
 
 
 </script>
@@ -47,13 +51,20 @@ const text = computed({
                     </div>
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                        {{ task.text }}
                         <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="task.text"
                             editorStyle="height: 400px;" class="m-5" />
                     </div>
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">
-                        <SelectProgramLanguage />
-                        <CodeRunner :codeJs="task.code" v-model:changeCode="task.code" />
+                        <SelectProgramLanguage v-model="task.programmingLanguageName" />
+                        <div v-if="task.programmingLanguageName">
+                            <CodeRunner
+                                v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
+                                :code="task.code" v-model:changeCode="task.code"
+                                :selectLanguage="task.programmingLanguageName.value" />
+                            <SelectCheckBoxTask v-if="task.programmingLanguageName.value == 'checkbox'" />
+                        </div>
                     </div>
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">

@@ -5,7 +5,7 @@ export default {
             tasks: [//ezt fogjuk tárolni firebase-en (kivéve icon)
                 {
                     side: 1, //oldal szám, 1 től indul
-                    programmingLanguageName: 'javascript',
+                    programmingLanguageName: null,
                     text: '', //feladat szövege html formátumban
                     code: `function myFunction( p1 ) { \nreturn p1\n}`,
                     result: '',

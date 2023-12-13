@@ -8,8 +8,6 @@ import Terminal from '@/components/maker/Terminal.vue'
 import ResultTable from '@/components/maker/ResultTable.vue'
 
 
-
-
 defineProps(
     {
         codeJavascript: {
@@ -22,7 +20,10 @@ defineProps(
         },
         runResult: {
         },
-
+        selectLanguage: {
+            type: String,
+            default: () => ''
+        }
     });
 
 const emits = defineEmits([
@@ -45,8 +46,8 @@ function asd(e) {
                 <div
                     class="mt-5 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
                     <code-editor
-                        v-tooltip.top="'Írja meg a megoldás kódját a függvénytörzsben, törzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
-                        :hljs="hljs" :code="codeJavascript" lang="javascript" @edit="emits('codeChange', $event)">
+                        v-tooltip.top="'Ide írja meg a függvényt, a függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
+                        :hljs="hljs" :code="codeJavascript" :lang="selectLanguage" @edit="emits('codeChange', $event)">
                     </code-editor>
                 </div>
             </div>
@@ -60,14 +61,6 @@ function asd(e) {
                 <Terminal :logs-name="logRows" />
             </div>
         </div>
-
-
-
-
-
-
-
-
     </div>
 </template>
 <style></style>

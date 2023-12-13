@@ -1,27 +1,31 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
+const props = defineProps(['modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
+const value = ref(props.modelValue);
 
+onMounted(() => {
+});
 
-const LanguageName = ref('Javascript');
-
-const value = ref(null);
 const options = ref([
-    { icon: 'src/assets/x.svg', value: 'Left' },
-    { icon: 'src/assets/javascript.svg', value: 'Right' },
-    { icon: 'src/assets/python.svg', value: 'Center' },
+    { icon: 'src/assets/javascript.svg', value: 'javascript' },
+    { icon: 'src/assets/python.svg', value: 'python' },
+    { icon: 'src/assets/check_icon.svg', value: 'checkbox' },
 ]);
-
+function select(select) {
+    emit('update:modelValue', select)
+}
 
 
 </script>
 <template>
     <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center justify-content-center  border-round ">
-            <div v-tooltip.right="'feladathoz tartozó programozási környezet'" style="width: 190px">
-                <SelectButton v-model="value" :options="options" optionLabel="value" dataKey="value"
-                    aria-labelledby="custom">
+            <div v-tooltip.top="'feladat választása'" style="width: 190px">
+                <SelectButton v-model="value" :options="options" dataKey="value" aria-labelledby="custom"
+                    @update:modelValue="select">
                     <template #option="slotProps">
                         <img v-if="slotProps.option.icon" :src="slotProps.option.icon" alt="Custom Icon"
                             :style="{ height: '20px' }" />
