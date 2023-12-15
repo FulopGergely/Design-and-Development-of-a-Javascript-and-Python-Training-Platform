@@ -1,6 +1,6 @@
 <script setup>
 import store from '@/store/store.js';
-import { ref, onMounted, watchEffect, watch, inject } from 'vue';
+import { ref, onMounted, computed, watch, inject } from 'vue';
 import 'highlight.js/lib/common';
 import hljs from 'highlight.js/lib/core';
 //components
@@ -9,7 +9,7 @@ import ResultTable from '@/components/maker/ResultTable.vue'
 const py = inject('py');
 
 const props = defineProps({
-    code: {
+    taskCode: {
         type: String,
         default: () => ''
     },
@@ -18,7 +18,16 @@ const props = defineProps({
         default: () => ''
     }
 })
-const emit = defineEmits(['update:changeCode'])
+
+const emit = defineEmits(['update:taskCode'])
+
+const initPyCode = `def my_function(x):\nreturn 5 * x\nprint(my_function(5))`
+const initJsCode = `function myFunction( p1 ) { \nreturn p1\n}`
+const logs = ref([]);
+const result = ref('')
+const params = ref(42)
+const code = ref(props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
+
 
 onMounted(() => {
 });
@@ -29,21 +38,11 @@ watch(() => props.selectLanguage, (newValue, oldValue) => {
     selectLanguage.value = newValue;
 });
 
-//const programLanguage = ref(store.getters)
-const logs = ref([]);
-const result = ref('')
-const params = ref(42)
-
-const code = ref(props.code);
-
 
 function codeChange(e) {
-    //store.commit('setCode', e)
-    emit('update:changeCode', e)
-    code.value = e
+    emit('update:taskCode', e)
 }
 function paramsChange(e) {
-    //console.log("Params change", e)
     params.value = e
 }
 
