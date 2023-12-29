@@ -24,6 +24,10 @@ hljs.registerLanguage('javascript', javascript);
 //import "highlight.js/styles/atom-one-dark-reasonable.css"; // https://highlightjs.org/demo#lang=python&v=1&theme=atom-one-dark-reasonable&code=ZGVmIG15X2Z1bmN0aW9uKCk6CiAgcHJpbnQoIkhlbGxvIGZyb20gYSDIIiIpCiNjb21tZW50Cs05
 import "highlight.js/styles/vs.css";
 
+//Quill
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
 //PrimeVue
 import "primeflex/primeflex.css";
 import PrimeVue from 'primevue/config';
@@ -113,9 +117,8 @@ import Steps from 'primevue/steps';
 
 
 
-
 const app = createApp(App)
-
+app.component('QuillEditor', QuillEditor)//Quill
 app.provide('py', py); //python
 app.component('CodeEditor', CodeEditor); //highlight.js
 app.use(store) //Vuex

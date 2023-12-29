@@ -61,8 +61,8 @@ const text = computed({
 })
 */
 
-function textEvent() {
-    console.log(this.quill.root.innerHTML)
+function textChange(a) {
+    console.log(a)
 
     //emit('update:taskCode', e)
 }
@@ -72,12 +72,12 @@ function customCodeBlock() {
     //const quill = this.$refs.editor.quill;
     console.log(quill.value.getSelection())
 }
-const myObject = ref({
+const options = ref({
     modules: {
         syntax: {
             highlight: text => hljs.highlightAuto(text).value
         },
-        toolbar: [['code-block']]  // Include button in toolbar
+        toolbar: [['code-block', 'image']]  // Include button in toolbar
     },
 });
 
@@ -85,6 +85,7 @@ const myObject = ref({
 <template>
     <StepMenu />
     {{ store.getters.getTask }}
+    haha
     <div v-for="task in store.getters.getTask" :key="task.side">
         <div v-if="task.side == store.getters.getCurrentSide" class="flex justify-content-center flex-wrap ">
             <div class=" border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">
@@ -93,22 +94,12 @@ const myObject = ref({
                         <h2>{{ task.side }}. Oldal</h2>
                         <ButtonGroup />
                     </div>
-                    <div id="editor"></div>
-                    <Editor v-model="task.text" editorStyle="height: 320px">
-                        <template v-slot:toolbar>
-                            <span class="ql-formats">
-                                <button v-tooltip.bottom="'Bold'" class="ql-bold"></button>
-                                <button v-tooltip.bottom="'Italic'" class="ql-italic"></button>
-                                <button v-tooltip.bottom="'Underline'" class="ql-underline"></button>
-                            </span>
-                        </template>
-                    </Editor>
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                        <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="task.text"
-                            editorStyle="height: 400px;" class="m-5">
-                        </Editor>
+                        <QuillEditor theme="snow" :options="options" v-model:content="task.text" contentType="html" />
                     </div>
+                    <div v-html="task.text"></div>
+
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-8 p-4 ">
                         <SelectProgramLanguage v-model="task.programmingLanguageName" />

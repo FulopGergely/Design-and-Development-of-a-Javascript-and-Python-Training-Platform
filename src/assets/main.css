@@ -41,3 +41,9 @@ textarea:focus {
 .p-steps .p-steps-item:before {
     margin-top: 0px;
 }
+
+.custom-editor .ql-syntax {
+    background-color: #b6d927 !important;
+    color: #f8f8f2 !important;
+    overflow: visible !important;
+}
