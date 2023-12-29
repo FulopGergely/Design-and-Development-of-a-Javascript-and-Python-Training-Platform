@@ -10,10 +10,38 @@ import StepMenu from '../../components/maker/StepMenu.vue';
 import ButtonGroup from '../../components/maker/ButtonGroup.vue';
 import SelectCheckBoxTask from '../../components/maker/SelectCheckBoxTask.vue';
 
+//hljs
+import hljs from 'highlight.js';
+
+/*
+const highlightedCode = hljs.highlight('javascript', `console.log('starting script');
+const a = 1;
+const b = 2;
+console.log(a+b);`).value;*/
+
+import Quill from 'quill';
+
+const emit = defineEmits(['update:taskCode'])
+
+const quill = ref(null);
+
+onMounted(() => {
+    quill.value = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, false] }],
+                ['code-block'],
+                ['bold', 'italic', 'underline', 'strike'],
+            ],
+            syntax: {
+                highlight: text => hljs.highlightAuto(text).value
+            }
+        },
+    });
 
 
-
-
+});
 
 /*function setTask() {
     // Feladat mentése vagy további logika
@@ -33,7 +61,25 @@ const text = computed({
 })
 */
 
+function textEvent() {
+    console.log(this.quill.root.innerHTML)
 
+    //emit('update:taskCode', e)
+}
+function customCodeBlock() {
+    // Itt kezelheted a saját code-block működését
+    console.log('hhhhh')
+    //const quill = this.$refs.editor.quill;
+    console.log(quill.value.getSelection())
+}
+const myObject = ref({
+    modules: {
+        syntax: {
+            highlight: text => hljs.highlightAuto(text).value
+        },
+        toolbar: [['code-block']]  // Include button in toolbar
+    },
+});
 
 </script>
 <template>
@@ -47,6 +93,16 @@ const text = computed({
                         <h2>{{ task.side }}. Oldal</h2>
                         <ButtonGroup />
                     </div>
+                    <div id="editor"></div>
+                    <Editor v-model="task.text" editorStyle="height: 320px">
+                        <template v-slot:toolbar>
+                            <span class="ql-formats">
+                                <button v-tooltip.bottom="'Bold'" class="ql-bold"></button>
+                                <button v-tooltip.bottom="'Italic'" class="ql-italic"></button>
+                                <button v-tooltip.bottom="'Underline'" class="ql-underline"></button>
+                            </span>
+                        </template>
+                    </Editor>
                     <div
                         class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
                         <Editor v-tooltip.top="'ide írja le a feladathoz tartozó szöveget'" v-model="task.text"
@@ -72,3 +128,5 @@ const text = computed({
         </div>
     </div>
 </template>
+
+<style scoped></style>
