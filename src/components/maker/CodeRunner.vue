@@ -6,6 +6,7 @@ import hljs from 'highlight.js/lib/core';
 //components
 import Terminal from '@/components/maker/Terminal.vue'
 import ResultTable from '@/components/maker/ResultTable.vue'
+import ParameterAdd from './ParameterAdd.vue';
 const py = inject('py');
 
 const props = defineProps({
@@ -85,8 +86,9 @@ function runcode() {
     <div>
         <div class="grid ">
             <div class="col ml-5 mr-5 ">
+                <ParameterAdd class="mt-5 " />
                 <div
-                    class="mt-5 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
+                    class="mt-2 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
                     <code-editor
                         v-tooltip.top="'Ide írja meg a függvényt, a függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
                         :hljs="hljs" :code="code" :lang="selectLanguage" @edit="codeChange($event)">

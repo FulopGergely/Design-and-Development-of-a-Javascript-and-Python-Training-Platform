@@ -28,6 +28,7 @@ import "highlight.js/styles/vs.css";
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+
 //PrimeVue
 import "primeflex/primeflex.css";
 import PrimeVue from 'primevue/config';
