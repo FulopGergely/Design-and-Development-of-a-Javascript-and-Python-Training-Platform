@@ -38,7 +38,6 @@ const SaveTestCase = () => {
                     <Textarea style="height: 45px; width: 300px" @input="emits('paramsChange', $event.target.value)"
                         v-tooltip.right="'1. Vesszővel elválasztva adja meg a paraméterek értékeit.\n\n pl.: 25, \'szöveg\', [tömb], {obj} \n\n 2. Futtassa a kódot. \n\n 3. Mentse el a teszesetet. '" />
                 </template>
-
             </Column>
             <Column field="result" header="megoldás (return)"></Column>
             <Column>

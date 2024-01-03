@@ -84,13 +84,14 @@ function runcode() {
 </script>
 <template>
     <div>
+        <ParameterAdd />
+        
         <div class="grid ">
             <div class="col ml-5 mr-5 ">
-                <ParameterAdd class="mt-5 " />
                 <div
                     class="mt-2 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
                     <code-editor
-                        v-tooltip.top="'Ide írja meg a függvényt, a függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
+                        v-tooltip.top="'Függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
                         :hljs="hljs" :code="code" :lang="selectLanguage" @edit="codeChange($event)">
                     </code-editor>
                 </div>
@@ -98,10 +99,12 @@ function runcode() {
         </div>
         <div class="grid">
             <div class="col-7">
-                <Button @click="runcode" class="mb-5 ml-5">Futtatás</Button>
-                <ResultTable :js-result="result" @params-change="paramsChange" />
+                <Button @click="runcode" class="mb-2 mt-2 ml-5">Futtatás</Button>
+                <!--  <ResultTable :js-result="result" @params-change="paramsChange" />   -->
             </div>
-            <div class="col mr-5">
+        </div>
+        <div class="grid">
+            <div class="col mr-5 ml-5 mt-0">
                 <Terminal :logs-name="logs" />
             </div>
         </div>

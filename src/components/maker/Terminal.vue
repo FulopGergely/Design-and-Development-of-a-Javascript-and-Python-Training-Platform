@@ -35,8 +35,6 @@ function refresh() {
                 > {{ log }}
             </div>
         </div>
-
-
     </div>
 </template>
 <style scoped>

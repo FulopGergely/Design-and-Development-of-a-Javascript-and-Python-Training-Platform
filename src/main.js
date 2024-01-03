@@ -115,6 +115,7 @@ import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Steps from 'primevue/steps';
+import Inplace from 'primevue/inplace';
 
 
 
@@ -158,6 +159,7 @@ app.component('Dropdown', Dropdown);
 app.component('Textarea', Textarea);
 app.component('ConfirmDialog', ConfirmDialog);
 app.component('Steps', Steps);
+app.component('Inplace', Inplace);
 
 
 
