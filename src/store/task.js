@@ -13,6 +13,7 @@ export default {
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be, score-al együtt kéne tárolni, icont nem szükséges szerveren tárolni.
                     score: [], //hány pontot ér ez a feladat
+                    params: [{ id: 1, value: null }, { id: 2, value: null }, { id: 3, value: null }], //feladathoz tartozó praméterek, ez is localstorage csak?
                 }
             ],
         };
@@ -23,6 +24,9 @@ export default {
         },
         addTask(state, obj) {
             state.tasks.push(obj);
+        },
+        addParam(state, obj) {
+            state.tasks[state.currentSide - 1].params.push(obj)
         },
         setTask(state, updatedTask) {
             console.log(updatedTask)
@@ -41,6 +45,14 @@ export default {
                 i++
             }
         },
+        deleteParam(state, id) {
+            state.tasks[state.currentSide - 1].params.splice(id - 1, 1);
+            let i = 1
+            for (const param of state.tasks[state.currentSide - 1].params) {
+                param.id = i
+                i++
+            }
+        },
     },
     getters: {
         getCurrentSide(state) {
@@ -48,6 +60,9 @@ export default {
         },
         getTask: state => {
             return state.tasks;
+        },
+        getParamsByCurrentSide: state => {
+            return state.tasks[state.currentSide - 1].params;
         },
         getTaskById: (state) => (taskId) => {
             return state.tasks.find(task => task.id === taskId);
