@@ -13,7 +13,7 @@ export default {
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be, score-al együtt kéne tárolni, icont nem szükséges szerveren tárolni.
                     score: [], //hány pontot ér ez a feladat
-                    params: [{ id: 1, value: null }, { id: 2, value: null }, { id: 3, value: null }], //feladathoz tartozó praméterek, ez is localstorage csak?
+                    params: [], //feladathoz tartozó praméterek, ez is localstorage csak?
                 }
             ],
         };

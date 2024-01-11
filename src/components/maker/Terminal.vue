@@ -8,11 +8,10 @@ defineProps({
         default: () => []
     }
 });
+const emit = defineEmits(['clearTerminal'])
 
-
-//const logs = ref(['kutya', 'macska']);
 function refresh() {
-    console.log('refresh')
+    emit('clearTerminal')
 }
 
 

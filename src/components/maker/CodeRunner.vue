@@ -25,8 +25,8 @@ const emit = defineEmits(['update:taskCode'])
 const initPyCode = `def my_function(x):\nreturn 5 * x\nprint(my_function(5))`
 const initJsCode = `function myFunction( p1 ) { \nreturn p1\n}`
 const logs = ref([]);
-const result = ref('')
-const params = ref(42)
+const result = ref(null)
+const params = ref(['param', 'param'])
 const code = ref(props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
 
 
@@ -42,6 +42,7 @@ watch(() => props.selectLanguage, (newValue, oldValue) => {
 
 function codeChange(e) {
     emit('update:taskCode', e)
+    code.value = e
 }
 function paramsChange(e) {
     params.value = e
@@ -53,14 +54,18 @@ function runcode() {
         logs.value.push(message); //logs a javascriptCode.vue -> Terminal.vue ba jelenik meg
     }
     if (selectLanguage.value == 'javascript') {
+        //console.log(params.value)
+        //console.log(store.getters.getParamsByCurrentSide)
         try {
             const dynamicFunction = new Function('return ' + code.value)();
-            result.value = dynamicFunction(params.value)
-            console.log('asd')
+            result.value = dynamicFunction(store.getters.getParamsByCurrentSide[0].value)
+            console.log(typeof result.value)
         } catch (error) {
             console.log(error)
         }
+        //console.log(store.getters.getParamsByCurrentSide[0].value)
         console.log = oldConsoleLog;
+
     }
     if (selectLanguage.value == 'python') {
 
@@ -78,6 +83,9 @@ function runcode() {
     }
     //console.log(result.value)
 }
+function clearTerminal() {
+    logs.value = []
+}
 
 
 
@@ -85,7 +93,6 @@ function runcode() {
 <template>
     <div>
         <ParameterAdd />
-        
         <div class="grid ">
             <div class="col ml-5 mr-5 ">
                 <div
@@ -105,7 +112,7 @@ function runcode() {
         </div>
         <div class="grid">
             <div class="col mr-5 ml-5 mt-0">
-                <Terminal :logs-name="logs" />
+                <Terminal :logs-name="logs" @clearTerminal="clearTerminal" />
             </div>
         </div>
     </div>

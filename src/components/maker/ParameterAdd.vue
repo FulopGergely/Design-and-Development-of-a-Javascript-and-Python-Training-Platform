@@ -4,14 +4,23 @@ import { ref, nextTick, computed } from "vue";
 
 
 
+const paramsNameList = ref([
+    { name: 'string' },
+    { name: 'integer' },
+    { name: 'array' },
+    { name: 'list' },
+    { name: 'object' },
+    { name: 'JSON' },
+]);
 
 function addParam() {
     //console.log(store.getters.getParamsByCurrentSide.length)
-    const obj = {
+    const param = {
         id: store.getters.getParamsByCurrentSide.length + 1,
+        type: { name: 'string' },
         value: null,
     }
-    store.commit('addParam', obj)
+    store.commit('addParam', param)
 }
 async function deleteParam(param) {
     if (!param.value) {
@@ -31,7 +40,7 @@ async function deleteParam(param) {
                 display: (options) => ({
                     class: [
                         'border-primary',
-                        'text-primary'
+                        'text-primary',
                     ],
                 }),
             }">
@@ -39,7 +48,23 @@ async function deleteParam(param) {
                     {{ param.id + '. paraméter' }}
                 </template>
                 <template #content>
-                    <Textarea class="custom-textarea" v-model="param.value" autofocus />
+                    <div>
+                        <Textarea class="custom-textarea" v-model="param.value" autofocus
+                            :placeholder="param.id + '. paraméter'" />
+                    </div>
+                    <div>
+                        <Dropdown v-model="param.type" :options="paramsNameList" class="w-full md:w-14rem mr-2 mb-1"
+                            optionLabel="name" />
+                    </div>
+                </template>
+                <template #closeicon>
+                    <div v-if="!param.value">
+                        <i class="pi pi-trash"></i>
+                    </div>
+                    <div v-if="param.value">
+                        <i class="pi pi-check"></i>
+                    </div>
+
                 </template>
             </Inplace>
         </div>
@@ -55,7 +80,5 @@ async function deleteParam(param) {
     width: 100%;
     height: 77px;
     max-width: 100%;
-
-
 }
 </style>

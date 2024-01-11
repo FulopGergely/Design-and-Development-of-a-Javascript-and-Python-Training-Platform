@@ -12,7 +12,6 @@ import TestCasesTable from '../../components/maker/TestCasesTable.vue';
 import SelectProgramLanguage from '../../components/maker/SelectProgramLanguage.vue';
 import StepMenu from '../../components/maker/StepMenu.vue';
 import ButtonGroup from '../../components/maker/ButtonGroup.vue';
-import SelectCheckBoxTask from '../../components/maker/SelectCheckBoxTask.vue';
 
 
 /*
@@ -79,7 +78,6 @@ const options = ref({
                             <CodeRunner
                                 v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
                                 v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value" />
-
                         </div>
                     </div>
                     <div
