@@ -2,14 +2,12 @@
 import store from '@/store/store.js';
 import { ref, nextTick, computed } from "vue";
 
-
+const emit = defineEmits(['changeParamType'])
 
 const paramsNameList = ref([
     { name: 'string' },
-    { name: 'integer' },
-    { name: 'array' },
-    { name: 'list' },
-    { name: 'object' },
+    { name: 'number' },
+    { name: 'boolean' },
     { name: 'JSON' },
 ]);
 
@@ -49,12 +47,12 @@ async function deleteParam(param) {
                 </template>
                 <template #content>
                     <div>
-                        <Textarea class="custom-textarea" v-model="param.value" autofocus
+                        <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType')" autofocus
                             :placeholder="param.id + '. paraméter'" />
                     </div>
                     <div>
-                        <Dropdown v-model="param.type" :options="paramsNameList" class="w-full md:w-14rem mr-2 mb-1"
-                            optionLabel="name" />
+                        <Dropdown v-model="param.type" @change="emit('changeParamType')" :options="paramsNameList"
+                            class="w-full md:w-14rem mr-2 mb-1" optionLabel="name" />
                     </div>
                 </template>
                 <template #closeicon>
