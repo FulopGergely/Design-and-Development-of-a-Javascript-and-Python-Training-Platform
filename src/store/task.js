@@ -9,11 +9,23 @@ export default {
                     text: '', //feladat szövege html formátumban
                     code: ``,
                     result: '',
-                    testResult: '',
+                    tests: [], //itt tárolunk mindent ami a tesztesethez kelleni fog
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be, score-al együtt kéne tárolni, icont nem szükséges szerveren tárolni.
                     score: [], //hány pontot ér ez a feladat
-                    params: [], //feladathoz tartozó praméterek, ez is localstorage csak?
+                    params: [],
+                    /*
+                    feladathoz tartozó praméterek, itt a paraméterek típusát tároljuk firebase-en is kéne.
+                    Az itteni paraméter értékeket nem kell firebase-en is tárolni. (azt a tests[]-en tároljuk firebase-en is)
+                    
+                    params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
+                    A tests[] kelleni fog, mert PrimeVue table megjelenítése 1 object egy rekord, ami eltér a param[]-tól.
+                    Tehát a tests[] lesz az a tömb amin ellenőrizni fogunk tudni, a param pedig csak a típusokat tárolja. 
+                    
+
+                    
+                    */
+
                 }
             ],
         };
@@ -27,6 +39,12 @@ export default {
         },
         addParam(state, obj) {
             state.tasks[state.currentSide - 1].params.push(obj)
+        },
+        addTest(state, obj) {
+            //state.tasks[state.currentSide - 1].tests = []
+            console.log(obj)
+            state.tasks[state.currentSide - 1].tests.push(obj)
+            //console.log(state.tasks[state.currentSide - 1].tests)
         },
         setTask(state, updatedTask) {
             console.log(updatedTask)
@@ -53,6 +71,14 @@ export default {
                 i++
             }
         },
+        deleteTestCase(state, id) {
+            state.tasks[state.currentSide - 1].tests.splice(id - 1, 1);
+            let i = 1
+            for (const test of state.tasks[state.currentSide - 1].tests) {
+                test.id = i
+                i++
+            }
+        }
     },
     getters: {
         getCurrentSide(state) {
@@ -66,6 +92,9 @@ export default {
         },
         getTaskById: (state) => (taskId) => {
             return state.tasks.find(task => task.id === taskId);
+        },
+        getTestsCases: state => {
+            return state.tasks[state.currentSide - 1].tests;
         },
     },
 };

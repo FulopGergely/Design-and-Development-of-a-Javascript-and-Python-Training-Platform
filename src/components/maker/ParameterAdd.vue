@@ -49,6 +49,18 @@ async function deleteParam(param) {
                     <div>
                         <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType')" autofocus
                             :placeholder="param.id + '. paraméter'" />
+                        <div class="m-1" v-if="param.type.name == 'JSON'">pl:
+                            {
+                            "string": "Hello, World!",
+                            "number": 42,
+                            "boolean": true,
+                            "object": {
+                            "key1": "value1",
+                            "key2": "value2"
+                            },
+                            "array": [1, 2, 3]
+                            }
+                        </div>
                     </div>
                     <div>
                         <Dropdown v-model="param.type" @change="emit('changeParamType')" :options="paramsNameList"

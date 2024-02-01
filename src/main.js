@@ -40,8 +40,8 @@ import ToastService from 'primevue/toastservice'; //toast
 // https://primevue.org/theming/#builtinthemes
 //ezek jók:
 //import 'primevue/resources/themes/lara-light-teal/theme.css'
-import 'primevue/resources/themes/soho-light/theme.css'
-//import 'primevue/resources/themes/soho-dark/theme.css';
+//import 'primevue/resources/themes/soho-light/theme.css'
+import 'primevue/resources/themes/soho-dark/theme.css';
 //import 'primevue/resources/themes/viva-dark/theme.css';
 
 // import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
@@ -109,6 +109,8 @@ import Editor from 'primevue/editor';
 import Tooltip from 'primevue/tooltip';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';                   // optional
 import Checkbox from 'primevue/checkbox';
 import SplitButton from 'primevue/splitbutton';
 import Dropdown from 'primevue/dropdown';
@@ -116,6 +118,8 @@ import Textarea from 'primevue/textarea';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Steps from 'primevue/steps';
 import Inplace from 'primevue/inplace';
+import ToggleButton from 'primevue/togglebutton';
+import BlockUI from 'primevue/blockui';
 
 
 
@@ -151,8 +155,10 @@ app.component('SelectButton', SelectButton);
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
 app.component('Editor', Editor);
-app.component('DataTable', DataTable);
-app.component('Column', Column);
+app.component('DataTable', DataTable); // table
+app.component('Column', Column); // table
+app.component('ColumnGroup', ColumnGroup); // optional
+app.component('Row', Row); // optional
 app.component('Checkbox', Checkbox);
 app.component('SplitButton', SplitButton);
 app.component('Dropdown', Dropdown);
@@ -160,6 +166,8 @@ app.component('Textarea', Textarea);
 app.component('ConfirmDialog', ConfirmDialog);
 app.component('Steps', Steps);
 app.component('Inplace', Inplace);
+app.component('ToggleButton', ToggleButton);
+app.component('BlockUI', BlockUI);
 
 
 

@@ -80,9 +80,9 @@ const options = ref({
                                 v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value" />
                         </div>
                     </div>
-                    <div
-                        class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
-                        <TestCasesTable />
+                    <div v-if="task.programmingLanguageName"
+                        class="fadein animation-duration-500 border-round border-1 surface-border mt-8 mb-8 p-4 ">
+                        <TestCasesTable :code="task.code" :selectLanguage="task.programmingLanguageName.value" />
                     </div>
                 </div>
             </div>
