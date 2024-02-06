@@ -28,8 +28,10 @@ const SaveTestCase = () => {
     toast.add({ severity: 'info', summary: 'Teszteset hozzáadva a listához', life: 3000 });
 };
 </script>
-
+<!--
+    
 <template>
+    
     <div class="ml-5 border-round border-1 surface-border surface-ground">
 
         <DataTable class="mb-5 ml-5 mr-5" :value="products" tableStyle="min-width: 50rem">
@@ -49,4 +51,7 @@ const SaveTestCase = () => {
             </Column>
         </DataTable>
     </div>
+    
 </template>
+
+-->

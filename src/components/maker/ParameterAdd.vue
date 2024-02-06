@@ -21,7 +21,7 @@ function addParam() {
     store.commit('addParam', param)
 }
 async function deleteParam(param) {
-    if (!param.value) {
+    if (param.value === '' || param.value === null) {
         setTimeout(() => { //Utolsó elem törlésénél hibát dobott, PrimeVUe-ban erre nincs hivatalos támogatás vagy javítás, a hiba elkerülésére setTimeout-ot használtam
             store.commit('deleteParam', param.id);
         }, 1);
@@ -67,11 +67,12 @@ async function deleteParam(param) {
                             class="w-full md:w-14rem mr-2 mb-1" optionLabel="name" />
                     </div>
                 </template>
+
                 <template #closeicon>
-                    <div v-if="!param.value">
+                    <div v-if="param.value === '' || param.value === null">
                         <i class="pi pi-trash"></i>
                     </div>
-                    <div v-if="param.value">
+                    <div v-else>
                         <i class="pi pi-check"></i>
                     </div>
 

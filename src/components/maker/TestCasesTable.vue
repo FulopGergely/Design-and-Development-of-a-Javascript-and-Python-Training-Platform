@@ -24,6 +24,22 @@ const result = ref();
 const isDisabled = computed(() => {
     return store.getters.getParamsByCurrentSide.length === 0;
 });
+const functionName = computed(() => {
+    let code = props.code
+    let regex = /^(function|\s+function)\s+/
+    code = code.replace(code.match(regex)[0], '');
+    regex = /\w+/
+    return code.match(regex)[0]
+});
+const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát, hogy a PrimeVue table jól jelenítse meg
+    const transformedData = store.getters.getTestsCases.map(item => {
+        return {
+            parameters: functionName.value + '(' + item.parameters.map(param => typeof param === 'object' ? JSON.stringify(param) : param) + ')',
+            result: item.result
+        }
+    })
+    return transformedData
+});
 
 watch(checked, (newValue, oldValue) => {
     console.log(newValue);
@@ -48,7 +64,7 @@ function generateRandomString(length) {
 }
 
 async function runcode(selectLanguage) {
-    console.log(isDisabled.value)
+    //console.log(isDisabled.value)
     const randomParamameters = store.getters.getParamsByCurrentSide.map(obj => {
         if (obj.type.name == 'string') {
             return generateRandomString(10)
@@ -71,18 +87,24 @@ async function runcode(selectLanguage) {
         try {
             const dynamicFunction = new Function('return ' + props.code)();
             result.value = dynamicFunction(...randomParamameters);
-            console.log(result.value)
+            //console.log(result.value)
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
 
     }
 
-
-
+    /*
+        const myCase = {
+            parameters: functionName.value + '(' + randomParamameters.map(param => JSON.stringify(param)).join(', ') + ')',
+            value: result.value
+        };
+        */
     const myCase = {
-        parameters: JSON.stringify(randomParamameters),
-        value: result.value
+        parameters: randomParamameters.map(param => param),
+        result: result.value,
+        parametersType: store.getters.getParamsByCurrentSide.map(item => item.type.name),
+        resultType: typeof result.value
     };
     store.commit('addTest', myCase)
 }
@@ -94,7 +116,7 @@ function deleteRow(testCase) {
 
 const columns = [
     { field: 'parameters', header: 'bemenő paraméterek' },
-    { field: 'value', header: 'kimeneti érték' },
+    { field: 'result', header: 'kimeneti érték' },
 ];
 
 
@@ -120,10 +142,8 @@ const columns = [
 
 
 
-
         <div class="card">
-            <DataTable size="small" stripedRows :value="store.getters.getTestsCases" tableStyle="min-width: 50rem"
-                class="mb-2">
+            <DataTable size="small" stripedRows :value="displayCasesOnTable" tableStyle="min-width: 50rem" class="mb-2">
                 <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
                 <Column>
                     <template #body="slotProps">
@@ -135,7 +155,6 @@ const columns = [
 
             <Button label="Automatikus teszteset generálása" v-tooltip.bottom="'véletlenszerű éréket generál'"
                 @click="runcode(props.selectLanguage)" class="mb-8" :disabled="isDisabled" icon="pi pi-plus" />
-
         </div>
     </div>
 </template>

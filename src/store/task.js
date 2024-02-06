@@ -1,30 +1,19 @@
 export default {
     state() {
         return {
-            currentSide: 0, //jelenlegi oldal ahol éppen állunk, localstorage
-            tasks: [//ezt fogjuk tárolni firebase-en (kivéve icon)
+            currentSide: 0, //jelenlegi oldal ahol éppen állunk, localstorage. Segédváltozó, ez mutatja azt hogy melyik oldal aktív.
+            tasks: [//ezt fogjuk tárolni firebase-en (kivéve icon), tasks[0] - 1 lap értékeit tárolja
                 {
                     side: 1, //oldal szám, 1 től indul
                     programmingLanguageName: null,
                     text: '', //feladat szövege html formátumban
                     code: ``,
-                    result: '',
-                    tests: [], //itt tárolunk mindent ami a tesztesethez kelleni fog
+                    //result: {}, //kivettem, mert tests[]-ben tárolom firebase-en a végeredeményt típussal együtt. itt tároljuk a végeredeményt a typussal együtt, firebase-en: {result: asd, type: string}
+                    tests: [], //itt tárolunk mindent ami a tesztesethez kelleni fog, firebase. { "parameters": [ "asd", 12 ], "result": "asd", "parametersType": [ "string", "number" ], "resultType": "string" } ], {}, stb (ezt minden komponensnél kicist átalakítva jelenítsük meg, de "nyersen" így tároljuk)
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be, score-al együtt kéne tárolni, icont nem szükséges szerveren tárolni.
-                    score: [], //hány pontot ér ez a feladat
-                    params: [],
-                    /*
-                    feladathoz tartozó praméterek, itt a paraméterek típusát tároljuk firebase-en is kéne.
-                    Az itteni paraméter értékeket nem kell firebase-en is tárolni. (azt a tests[]-en tároljuk firebase-en is)
-                    
-                    params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
-                    A tests[] kelleni fog, mert PrimeVue table megjelenítése 1 object egy rekord, ami eltér a param[]-tól.
-                    Tehát a tests[] lesz az a tömb amin ellenőrizni fogunk tudni, a param pedig csak a típusokat tárolja. 
-                    
-
-                    
-                    */
+                    score: 0, //hány pontot ér ez a "lap" feladat (0-ra inic)
+                    params: [], //ezt csak vuex-ben tároljuk, tests[] ben tárolunk mindent firebase-en, típust érétkeket is. params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
 
                 }
             ],
@@ -41,8 +30,10 @@ export default {
             state.tasks[state.currentSide - 1].params.push(obj)
         },
         addTest(state, obj) {
-            //state.tasks[state.currentSide - 1].tests = []
+            console.log(state.currentSide)
+            console.log(state.tasks[state.currentSide - 1].tests)
             console.log(obj)
+            //state.tasks[state.currentSide - 1].tests = []
             state.tasks[state.currentSide - 1].tests.push(obj)
             //console.log(state.tasks[state.currentSide - 1].tests)
         },

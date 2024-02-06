@@ -65,10 +65,10 @@ const addTask = () => {
         // nem kell id mező, firebase-ben doc.id fogja azonosítani a tesztet, amit hozzákötünk a személyhez. 
         side: store.getters.getTask.length + 1, //oldal szám, 1 től indul
         programmingLanguageName: '',
-        task: '', //feladat szövege html formátumban
+        text: '', //feladat szövege html formátumban
         code: ``,
-        result: '',
-        testResult: '',
+        tests: [],
+        icon: '',
         score: 0,
         params: [],
     });
