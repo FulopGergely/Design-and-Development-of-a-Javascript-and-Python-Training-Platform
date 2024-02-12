@@ -14,7 +14,7 @@ export default {
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be, score-al együtt kéne tárolni, icont nem szükséges szerveren tárolni.
                     score: 0, //hány pontot ér ez a "lap" feladat (0-ra inic)
                     params: [], //ezt csak vuex-ben tároljuk, tests[] ben tárolunk mindent firebase-en, típust érétkeket is. params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
-
+                    isTest: true, //tesztesetek ki/be kapcsolása, ha ki van kapcsolva nem jár pont a feladatért.
                 }
             ],
         };
@@ -30,9 +30,6 @@ export default {
             state.tasks[state.currentSide - 1].params.push(obj)
         },
         addTest(state, obj) {
-            console.log(state.currentSide)
-            console.log(state.tasks[state.currentSide - 1].tests)
-            console.log(obj)
             //state.tasks[state.currentSide - 1].tests = []
             state.tasks[state.currentSide - 1].tests.push(obj)
             //console.log(state.tasks[state.currentSide - 1].tests)
@@ -69,6 +66,9 @@ export default {
                 test.id = i
                 i++
             }
+        },
+        isTest(state, bool) {
+            state.tasks[state.currentSide - 1].isTest = bool
         }
     },
     getters: {
@@ -86,6 +86,9 @@ export default {
         },
         getTestsCases: state => {
             return state.tasks[state.currentSide - 1].tests;
+        },
+        getIsTest: state => {
+            return state.tasks[state.currentSide - 1].isTest;
         },
     },
 };

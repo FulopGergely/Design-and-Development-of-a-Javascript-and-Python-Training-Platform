@@ -21,15 +21,15 @@ const props = defineProps({
 
 const emit = defineEmits(['update:taskCode'])
 
-const initPyCode = `def my_function(x):\n return 5 * x`
+const initPyCode = `def my_function(x):\n return x`
 const initJsCode = `function myFunction( p1 ) { \nconsole.log(typeof p1)\nconsole.log(p1)\nreturn p1\n}`
 const logs = ref([]);
 const result = ref(null)
 const params = ref(store.getters.getParamsByCurrentSide)
 const code = ref(props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
-const functionName = computed(() => {
+const functionName = computed(() => { //py functionName
     let codeCopy = code.value
-    let regex = /^(function|\s+function)\s+/
+    let regex = /^(def|\s+def)\s+/
     codeCopy = codeCopy.replace(codeCopy.match(regex)[0], '');
     regex = /\w+/ //functionName
     return codeCopy.match(regex)[0]
@@ -51,68 +51,44 @@ function codeChange(e) {
     code.value = e
 }
 
-const myObject = ref(
-    {
-        "string": "Hello, World!",
-        "number": 42,
-        "boolean": true,
-        "nullValue": null,
-        "array": [1, 2, 3],
-        "object": {
-            "key1": "value1",
-            "key2": "value2"
-        }
-    }
-);
-const myObject2 = ref(
-    {
-        string: "Hello, World!",
-        number: 42,
-        boolean: true,
-        nullValue: null,
-        array: [1, 2, 3],
-        object: {
-            key1: "value1",
-            key2: "value2"
-        }
-    }
-);
 
-
-function changeParamType() { //amikor rákattintunk kiválasztásnál akkor fut le
-    store.getters.getParamsByCurrentSide.map(param => {
-        if (param.type.name == 'number') {
-            param.value = parseInt(param.value)
-        }
-        if (param.type.name == 'string' && param.value != null) {
-            param.value = param.value.toString()
-        }
-        if (param.type.name == 'boolean') {
-            if (param.value != 'true' && param.value != 'false') {
-                param.value = ''
+function changeParamType(choosedParam) { //paraméter kiválasztásnál(kattintásnál) fut le, és akkor amikor beírunk a textarea mezőbe.
+    store.getters.getParamsByCurrentSide.forEach(param => {
+        if (param.id === choosedParam.id) {
+            switch (param.type.name) {
+                case 'number':
+                    param.value = parseInt(param.value);
+                    break;
+                case 'string':
+                    param.value = param.value != null ? param.value.toString() : '';
+                    break;
+                case 'boolean':
+                    if (param.value === 'true' || param.value === 'True') {
+                        param.value = true;
+                    } else if (param.value === 'false' || param.value === 'False') {
+                        param.value = false;
+                    } else {
+                        param.value = '';
+                    }
+                    break;
+                /*case 'JSON':
+                    param.value = JSON.parse(param.value);
+                    break;*/
             }
-            if (param.value == 'true') {
-                param.value = true
-            }
-            if (param.value == 'false') {
-                param.value = false
-            }
         }
-        /*if (param.type.name == 'JSON') {
-            param.value == JSON.parse(param.value)
-        }*/
-        //console.log(typeof param.value)
-    })
+    });
 }
 
 
 
 async function runcode(params) {
     //console.log(py)
+
     const oldConsoleLog = console.log;
     console.log = function (message) { //felülírjük a console.log működését
         logs.value.push(message); //logs a javascriptCode.vue -> Terminal.vue ba jelenik meg
     }
+
     if (selectLanguage.value == 'javascript') {
         //console.log(params.value)
         //console.log(store.getters.getParamsByCurrentSide)
@@ -136,6 +112,11 @@ async function runcode(params) {
             //console.log(store.getters.getParamsByCurrentSide.map(param => param.value))
             //store.getters.getParamsByCurrentSide.map(param => param.value = JSON.stringify(param.value))
         } catch (error) {
+            params.map(param => {
+                if (param.type.name == 'JSON') {
+                    param.value = JSON.stringify(param.value, undefined, 4);
+                }
+            })
             console.log(error)
         }
         //console.log(store.getters.getParamsByCurrentSide[0].value)
@@ -145,20 +126,19 @@ async function runcode(params) {
     if (selectLanguage.value == 'python') {
         try {
             const res = await py.run(code.value + addStringToEndOfThePythonCode());
-            //console.log(code.value + addStringToEndOfThePythonCode())
             for (const output of py.log.value.stdOut) {
                 console.log(output);
             }
-            //console.log(res.results);
-            if (res.results != null) {
-                console.log(res.results);
-            } else if (res.error) {
-                console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message
+            if (res.error != null) {
+                //console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message
+                console.log(res.error)
+            } else {
+                result.value = res.results
+                console.log(result.value);
             }
         } catch (error) {
             console.error('Error:', error);
         }
-
 
 
         console.log = oldConsoleLog;
@@ -174,28 +154,34 @@ function addStringToEndOfThePythonCode() {
     //console.log(code.value)
     const regex = code.value.match(/^\s*def\s+/) // def -el kezdődik a kód 
     if (code.value.match(regex) != null) {
-        console.log(regex)
+        //console.log(regex)
     }
-    //var s = code.value.replace(/def\s+/, '')
-    //var functionName = s.match(/\w+/)
-    //console.log(functionName)
-    //var functionName = functionString.substring(3, functionString.indexOf('(')).trim();
 
+    const a = params.value.map(param => {
+        if (param.type.name == 'string') {
+            return '"' + param.value + '"'
+        }
+        if (param.type.name == 'number') {
+            return parseInt(param.value)
+        }
+        if (param.type.name == 'boolean') {
+            if (param.value) {
+                return 'True'
+            } else {
+                return 'False'
+            }
+        }
+        if (param.type.name == 'JSON') {
+            return param.value
+        }
+    });
+    //console.log(a)
 
-    return '\nmy_function(2)'
+    const s = '\n' + functionName.value + '(' + a + ')'
+    return s
 }
-function saveTestCase() {
-    runcode(store.getters.getParamsByCurrentSide)
-    //console.log(params.value[0].value)
-    //const values = [...data.map(item => item.value)];
-    //console.log(params.value.map(item => item.value))
-    /*
-    const myCase = {
-        parameters: functionName.value + '(' + params.value.map(item => item.value) + ')',
-        value: result.value
-    };
-*/
-
+async function saveTestCase() {
+    await runcode(store.getters.getParamsByCurrentSide)
     const myCase = {
         parameters: params.value.map(item => {
             if (item.type.name == 'JSON') {
@@ -208,16 +194,6 @@ function saveTestCase() {
         parametersType: params.value.map(item => item.type.name),
         resultType: typeof result.value
     };
-    /*params.value.map(item => {
-        if (item.type.name == 'JSON') {
-            return JSON.stringify(item.value, undefined, 4);
-        } else {
-            return item.value
-        }
-    })*/
-    //case.push({ parameters: cases, result: result.value })
-
-    //multipleCases.value = Object.assign(multipleCases.value, { parameters: cases, result: 'asd3' });
     store.commit('addTest', myCase)
 }
 

@@ -71,6 +71,7 @@ const addTask = () => {
         icon: '',
         score: 0,
         params: [],
+        isTest: true,
     });
     toast.add({ severity: 'info', summary: 'Új oldal lett hozzáadva', group: 'tl', life: 3000 });
 };

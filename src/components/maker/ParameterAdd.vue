@@ -21,7 +21,7 @@ function addParam() {
     store.commit('addParam', param)
 }
 async function deleteParam(param) {
-    if (param.value === '' || param.value === null) {
+    if (param.value === '' || param.value === null || (isNaN(param.value) && param.type.name == 'number')) {
         setTimeout(() => { //Utolsó elem törlésénél hibát dobott, PrimeVUe-ban erre nincs hivatalos támogatás vagy javítás, a hiba elkerülésére setTimeout-ot használtam
             store.commit('deleteParam', param.id);
         }, 1);
@@ -47,13 +47,12 @@ async function deleteParam(param) {
                 </template>
                 <template #content>
                     <div>
-                        <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType')" autofocus
-                            :placeholder="param.id + '. paraméter'" />
-                        <div class="m-1" v-if="param.type.name == 'JSON'">pl:
+                        <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType', param)"
+                            autofocus :placeholder="param.id + '. paraméter'" />
+                        <div class="m-1" v-if="param.type.name == 'JSON'">pl dict:
                             {
                             "string": "Hello, World!",
                             "number": 42,
-                            "boolean": true,
                             "object": {
                             "key1": "value1",
                             "key2": "value2"
@@ -63,13 +62,14 @@ async function deleteParam(param) {
                         </div>
                     </div>
                     <div>
-                        <Dropdown v-model="param.type" @change="emit('changeParamType')" :options="paramsNameList"
+                        <Dropdown v-model="param.type" @change="emit('changeParamType', param)" :options="paramsNameList"
                             class="w-full md:w-14rem mr-2 mb-1" optionLabel="name" />
                     </div>
                 </template>
 
                 <template #closeicon>
-                    <div v-if="param.value === '' || param.value === null">
+                    <div
+                        v-if="param.value === '' || param.value === null || (isNaN(param.value) && param.type.name == 'number')">
                         <i class="pi pi-trash"></i>
                     </div>
                     <div v-else>
