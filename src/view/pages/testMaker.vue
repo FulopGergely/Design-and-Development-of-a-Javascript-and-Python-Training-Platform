@@ -7,6 +7,7 @@ import store from '@/store/store.js';
 import hljs from 'highlight.js';
 
 //components
+import NavBar from '@/components/home/NavBar.vue'
 import CodeRunner from '../../components/maker/CodeRunner.vue';
 import TestCasesTable from '../../components/maker/TestCasesTable.vue';
 import SelectProgramLanguage from '../../components/maker/SelectProgramLanguage.vue';
@@ -54,6 +55,7 @@ const options = ref({
 
 </script>
 <template>
+    <NavBar></NavBar>
     <StepMenu />
     {{ store.getters.getTask }}
     <div v-for="task in store.getters.getTask" :key="task.side">

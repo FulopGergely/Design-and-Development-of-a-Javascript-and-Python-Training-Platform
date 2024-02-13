@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
+import NavBar from '@/components/home/NavBar.vue'
 
 /*
 import { usePrimeVue } from 'primevue/config';
@@ -35,6 +36,7 @@ onMounted(() => {
 */
 </script>
 <template>
+    <NavBar></NavBar>
     <div>
 
         <div class="flex justify-content-center flex-wrap">

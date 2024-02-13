@@ -10,22 +10,22 @@ const items = ref([
     {
         label: 'Teszt',
         icon: 'pi pi-pencil',
-        href: 'Teszt'
+        href: '/Admin/Teszt'
     },
     {
         label: 'Tesztjeim',
         icon: 'pi pi-book',
-        href: 'Tesztjeim'
+        href: '/Admin/Tesztjeim'
     },
     {
         label: 'Teszt létrehozása',
         icon: 'pi pi-plus',
-        href: 'Tesztletrehozasa'
+        href: '/Admin/Tesztletrehozasa'
     },
     {
         label: 'Eredmények',
         icon: 'pi pi-chart-bar',
-        href: 'Eredmenyek'
+        href: '/Admin/Eredmenyek'
     },
 ]);
 const profilList = ref([
@@ -96,7 +96,6 @@ const routerProfil = () => {
                 </div>
             </template>
         </Menubar>
-        <router-view />
     </div>
 </template>
 <style>

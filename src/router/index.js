@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
+const testID = 'asd'
 
 //views: async import
 const routes = [
@@ -10,6 +10,7 @@ const routes = [
     { path: '/Admin/Eredmenyek', component: () => import('@/view/pages/scoreTest.vue') },
     { path: '/Admin/Tesztletrehozasa', component: () => import('@/view/pages/testMaker.vue') },
     { path: '/Admin/Profil', component: () => import('@/view/pages/profil.vue') },
+    { path: '/:testID', component: () => import('@/view/pages/testID.vue') },
 ];
 
 const router = createRouter({

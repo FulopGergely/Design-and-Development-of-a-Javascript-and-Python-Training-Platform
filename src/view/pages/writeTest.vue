@@ -2,13 +2,12 @@
 import store from '@/store/store.js';
 import { ref, onMounted } from 'vue';
 //components
-
+import NavBar from '@/components/home/NavBar.vue'
 
 
 
 onMounted(() => {
-    console.log('onMounted')
-    asd()
+
 });
 function asd() {
     //console.log(store.getters)
@@ -36,8 +35,9 @@ function asd() {
 
 </script>
 <template>
+    <NavBar></NavBar>
     <div>
-     
+
 
 
     </div>
