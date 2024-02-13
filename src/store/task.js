@@ -11,8 +11,8 @@ export default {
                     //result: {}, //kivettem, mert tests[]-ben tárolom firebase-en a végeredeményt típussal együtt. itt tároljuk a végeredeményt a typussal együtt, firebase-en: {result: asd, type: string}
                     tests: [], //itt tárolunk mindent ami a tesztesethez kelleni fog, firebase. { "parameters": [ "asd", 12 ], "result": "asd", "parametersType": [ "string", "number" ], "resultType": "string" } ], {}, stb (ezt minden komponensnél kicist átalakítva jelenítsük meg, de "nyersen" így tároljuk)
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 
-                    //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be, score-al együtt kéne tárolni, icont nem szükséges szerveren tárolni.
-                    score: 0, //hány pontot ér ez a "lap" feladat (0-ra inic)
+                    //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be
+                    score: 0, //hány pontot ér ez a "lap" feladat (0-ra inic).
                     params: [], //ezt csak vuex-ben tároljuk, tests[] ben tárolunk mindent firebase-en, típust érétkeket is. params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
                     isTest: true, //tesztesetek ki/be kapcsolása, ha ki van kapcsolva nem jár pont a feladatért.
                 }
@@ -69,6 +69,9 @@ export default {
         },
         isTest(state, bool) {
             state.tasks[state.currentSide - 1].isTest = bool
+        },
+        setScore(state, score) {
+            state.tasks[state.currentSide - 1].score = score
         }
     },
     getters: {
@@ -89,6 +92,9 @@ export default {
         },
         getIsTest: state => {
             return state.tasks[state.currentSide - 1].isTest;
+        },
+        getScore: state => {
+            return state.tasks[state.currentSide - 1].score;
         },
     },
 };

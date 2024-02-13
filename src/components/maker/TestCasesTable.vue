@@ -18,7 +18,7 @@ defineEmits({
 
 })
 
-
+const score = ref(store.getters.getScore)
 const checkedLabel = ref('Tesztesetek bekapcsolva')
 const checked = ref(store.getters.getIsTest);
 const result = ref();
@@ -160,6 +160,9 @@ async function runcode(selectLanguage) {
 function deleteRow(testCase) {
     store.commit('deleteTestCase', testCase.index + 1)
 }
+function changeScore(score) {
+    store.commit('setScore', score)
+}
 
 
 const columns = [
@@ -198,6 +201,15 @@ const columns = [
 
             <Button label="Automatikus teszteset generálása" v-tooltip.bottom="'véletlenszerű éréket generál'"
                 @click="runcode(props.selectLanguage)" class="mb-8" :disabled="isDisabled" icon="pi pi-plus" />
+
         </div>
+        <div class="flex justify-content-end flex-wrap">
+            <div class="flex flex-column gap-2">
+                <InputText type="number" v-model.number="score" @input="changeScore(score)"
+                    v-tooltip.left="'hány pontot érjen a feladat'" />
+                <small>pont</small>
+            </div>
+        </div>
+
     </div>
 </template>

@@ -1,44 +1,43 @@
 <script setup>
 import store from '@/store/store.js';
-import { ref } from 'vue';
+import { getAllTest, addTest } from '@/firebase/test.js';
+import { ref, onMounted } from 'vue';
 
 
+onMounted(() => {
+    console.log(getAllTest())
+});
 
-function addTest() {
-
+//addTest(uid, tid, password, task, testDurationMinutes)
+function createTest() {
+    addTest(1, 1, 'jelszo', store.getters.getTask, 10)
 }
 
 </script>
 <template>
-    <div class="flex justify-content-center flex-wrap">
-
-        <div class=" field grid mb-5 mt-3">
-            <label for="firstname3" class="col-fixed" style="width:180px">Teszt neve</label>
-            <div class="col">
-                <InputText v-tooltip="'teszt egyedi azonosítója'" type="text" v-model="testName" />
-            </div>
-        </div>
-        <div class="field grid mb-5">
-            <label for="lastname3" class="col-fixed" style="width:180px">Teszt ideje (perc)</label>
-            <div class="col">
-                <InputText v-tooltip="'pl.: 10, az tíz perces teszt idő'" type="text" v-model="testTime" />
-            </div>
-        </div>
-        <div class="field grid mb-5">
-            <label for="lastname3" class="col-fixed" style="width:180px">Tudjunk ugrálni a feladatok között?</label>
-            <div class="col">
-                <InputText type="text" v-model="testTime" />
-            </div>
-        </div>
-        <div class="field grid mb-5">
-            <label for="lastname3" class="col-fixed" style="width:180px">Visszanézhető legyen a teszt?</label>
-            <div class="col">
-                <InputText type="text" v-model="testTime" />
-            </div>
-        </div>
-
-        <Button @click="addTest()">Teszt létrehozása</Button>
+    <div class="field">
+        <label>Teszt neve</label>
+        <InputText v-tooltip.top="'teszt egyedi azonosítója'" type="text" v-model="testName"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    </div>
+    <div class="field">
+        <label>Jelszó</label>
+        <InputText type="password" v-model="password"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    </div>
+    <div class="field">
+        <label>Jelszó újra</label>
+        <InputText type="password" v-model="password"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    </div>
+    <div class="field">
+        <label>Teszt ideje</label>
+        <InputText v-tooltip.top="'hány percig tartson a teszt?'" type="text" v-model="testTime"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    </div>
 
 
+    <div class="flex justify-content-end mt-3">
+        <Button @click="createTest()">Teszt létrehozása</Button>
     </div>
 </template>
