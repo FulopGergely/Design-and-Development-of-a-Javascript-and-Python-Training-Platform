@@ -1,21 +1,22 @@
 <script setup>
-/*
-import { defineAsyncComponent } from 'vue'
+import store from '@/store/store.js';
+import { ref, computed } from "vue";
+//components
+import NavBar from '@/components/home/NavBar.vue'
 
-const NavBar = defineAsyncComponent({
-  loader: () => import('@/components/home/NavBar.vue'),
-});*/
-import { ref, onMounted } from "vue";
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
 
-onMounted(() => {
-  //init()
-});
 
 </script>
 
 <template>
-  <router-view />
+  <div v-if="hasCurrentUser">
+    <router-view />
+  </div>
+  <div v-else>
+    <NavBar />
+  </div>
 </template>
 
 

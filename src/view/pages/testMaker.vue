@@ -57,7 +57,6 @@ const options = ref({
 <template>
     <NavBar></NavBar>
     <StepMenu />
-    {{ store.getters.getTask }}
     <div v-for="task in store.getters.getTask" :key="task.side">
         <div v-if="task.side == store.getters.getCurrentSide" class="flex justify-content-center flex-wrap ">
             <div class=" border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">

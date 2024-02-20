@@ -202,11 +202,11 @@ async function saveTestCase() {
 <template>
     <div>
         <ParameterAdd @changeParamType="changeParamType" />
-        <div class="grid ">
+        <div class="grid">
             <div class="col ml-5 mr-5 ">
                 <div
                     class="mt-2 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
-                    <code-editor
+                    <code-editor class="custom-area"
                         v-tooltip.top="'Függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
                         :hljs="hljs" :code="code" :lang="selectLanguage" @edit="codeChange($event)">
                     </code-editor>
@@ -231,3 +231,9 @@ async function saveTestCase() {
         </div>
     </div>
 </template>
+<style scoped>
+.custom-area {
+    overflow: auto;
+
+}
+</style>

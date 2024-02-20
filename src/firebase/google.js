@@ -105,4 +105,4 @@ async function addDocument(collectionName, name, email, test_id, score) {
     });
 }
 
-export { signInWithGoogle, signOutWithGoogle, signIn, addDocument, addUser, getAllDocument }
+export { signInWithGoogle, signOutWithGoogle, signIn, addDocument, addUser, getAllDocument, auth }

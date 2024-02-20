@@ -1,7 +1,7 @@
 export default {
     state() {
         return {
-            currentSide: 0, //jelenlegi oldal ahol éppen állunk, localstorage. Segédváltozó, ez mutatja azt hogy melyik oldal aktív.
+            currentSide: 0, //jelenlegi oldal ahol éppen állunk tesztlétrehozásakor, localstorage. Segédváltozó, ez mutatja azt hogy melyik oldal aktív.
             tasks: [//ezt fogjuk tárolni firebase-en (kivéve icon), tasks[0] - 1 lap értékeit tárolja
                 {
                     side: 1, //oldal szám, 1 től indul

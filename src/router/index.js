@@ -4,8 +4,9 @@ const testID = 'asd'
 
 //views: async import
 const routes = [
-    { path: '/', component: () => import('@/view/pages/HomePage.vue') },
-    { path: '/Admin/Teszt', component: () => import('@/view/pages/writeTest.vue') },
+    { path: '/', component: () => import('@/view/pages/homePage.vue') },
+    { path: '/Admin', component: () => import('@/view/pages/myTest.vue') },
+    { path: '/Admin/Megosztas', component: () => import('@/view/pages/shareTest.vue') },
     { path: '/Admin/Tesztjeim', component: () => import('@/view/pages/myTest.vue') },
     { path: '/Admin/Eredmenyek', component: () => import('@/view/pages/scoreTest.vue') },
     { path: '/Admin/Tesztletrehozasa', component: () => import('@/view/pages/testMaker.vue') },

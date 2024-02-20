@@ -18,7 +18,6 @@ function refresh() {
 </script>
 <template>
     <div>
-
         <div class="terminal">
             <div class="flex justify-content-between " style="height: 20px">
                 <div style="height: 20px">
@@ -30,7 +29,7 @@ function refresh() {
             </div>
             <Button v-tooltip.bottom="'console ürítése'" v-if="false" @click="refresh" icon="pi pi-trash" style="top: 0"
                 text rounded aria-label="refresh" />
-            <div v-for="(log, index) in logsName" :key="index">
+            <div class="asd" v-for="(log, index) in logsName" :key="index">
                 > {{ log }}
             </div>
         </div>
@@ -38,9 +37,10 @@ function refresh() {
 </template>
 <style scoped>
 .terminal {
-    overflow: auto;
     height: 240px;
     background-color: #374151;
     color: white;
+    overflow: auto;
+
 }
 </style>

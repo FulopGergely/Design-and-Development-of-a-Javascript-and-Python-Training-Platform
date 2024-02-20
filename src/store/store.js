@@ -2,25 +2,25 @@ import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
 import user from './user';
 import task from './task';
+import test from './test';
 // Vuex
 const store = createStore({
     modules: {
         user: user,
         task: task,
+        test: test,
     },
     state() {
         return {
-            loading: false,
+
         }
     },
     mutations: {
-        setLoading(state, isLoading) {
-            state.loading = isLoading;
-        },
+
     },
 
     getters: {
-        getLoading: (state) => state.loading,
+
     },
     plugins: [ // Vuex Persist
         createPersistedState({

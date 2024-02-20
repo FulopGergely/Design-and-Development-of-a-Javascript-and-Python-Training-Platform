@@ -12,8 +12,6 @@ async function getAllTest() {
         arr.push(doc.data())
     })
     return arr
-
-
 }
 /*
 
@@ -41,15 +39,17 @@ Table tasks {
  * 
  * @param {string} uid //userid
  * @param {string} tid //teszt id
- * @param {string} password
+ * @param {boolean} available
+ * @param {boolean} private
  * @param {task} task //teszt kérdései (task array)  
  * @param {integer} testDurationMinutes
  */
-async function addTest(uid, tid, password, task, testDurationMinutes) {
+async function addTest(uid, tid, available, privateTest, task, testDurationMinutes) {
     await addDoc(collection(db, 'tests'), {
         uid: uid,
         tid: tid,
-        password: password,
+        available: available,
+        private: privateTest,
         task: task,
         testDurationMinutes: testDurationMinutes,
     })
