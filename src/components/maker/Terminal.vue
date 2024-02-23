@@ -41,6 +41,7 @@ function refresh() {
     background-color: #374151;
     color: white;
     overflow: auto;
-
+    max-width: 100%;
+    width: 100%;
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup>
 import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import store from '@/store/store.js';
 
 
@@ -60,9 +60,22 @@ function login() {
         signOutWithGoogle()
     }
 }
-const routerProfil = () => {
-    this.$router.push('/Profil');
+const labelTextUserName = ref(store.getters.getCurrentUser.displayName);
+const labelLogin = ref('Bejelentkezés')
+const updateLabel = () => {
+    const screenWidth = window.innerWidth;
+    labelTextUserName.value = screenWidth < 300 ? '' : store.getters.getCurrentUser.displayName;
+    labelLogin.value = screenWidth < 300 ? '' : 'Bejelentkezés';
 };
+
+onMounted(() => {
+    updateLabel();
+    window.addEventListener('resize', updateLabel);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', updateLabel);
+});
 
 </script>
 
@@ -70,6 +83,9 @@ const routerProfil = () => {
     <div>
         <Menubar :model="items" ref="myMenubar">
             <template #start>
+                <div v-if="hasCurrentUser">
+                    idő:
+                </div>
             </template>
             <template #item="{ item, props }">
                 <router-link v-if="hasCurrentUser" :to="item.href" v-ripple v-bind="props.action">
@@ -80,15 +96,10 @@ const routerProfil = () => {
             <template #end>
                 <div class="flex align-items-center gap-2">
                     <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round"
-                        @click="this.$router.push('/Profil')" :label="store.getters.getCurrentUser.displayName">
+                        @click="this.$router.push('/Admin/Profil')" :label="labelTextUserName">
                     </SplitButton>
-                    <Button v-if="!hasCurrentUser" class="w-8rem sm:w-auto" @click="login" label="Bejelentkezés"
-                        icon="pi pi-user"></Button>
-                    <Avatar v-if="hasCurrentUser && !store.getters.getCurrentUser.photoURL" class="avatar"
-                        :image="store.getters.getCurrentUser.photoURL" shape="circle">
-                    </Avatar>
+                    <Button v-if="!hasCurrentUser" class="" @click="login" :label="labelLogin" icon="pi pi-user"></Button>
                 </div>
-
                 <div v-if="false">
                     <a href="https://github.com/FulopGergely/szakdolgozat/tree/CreateQuiz">
                         <img src="@/assets/github.svg" style="height: 30px" alt="GitHub">
@@ -96,6 +107,7 @@ const routerProfil = () => {
                 </div>
             </template>
         </Menubar>
+
     </div>
 </template>
 <style>

@@ -3,7 +3,7 @@ import store from '@/store/store.js';
 import { ref, onMounted } from 'vue';
 import { useRoute } from "vue-router";
 //components
-import Login from '@/components/test/Login.vue'
+import NavBar from '@/components/home/NavBar.vue'
 import Question from '@/components/test/Question.vue'
 
 const userId = ref('');
@@ -13,7 +13,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <Login />
+    <NavBar />
     <Question />
     {{ this.$route.params.testID }}
 </template>

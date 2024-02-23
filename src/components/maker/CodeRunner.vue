@@ -232,8 +232,5 @@ async function saveTestCase() {
     </div>
 </template>
 <style scoped>
-.custom-area {
-    overflow: auto;
-
-}
+.custom-area {}
 </style>

@@ -1,6 +1,5 @@
 //Tesztkitöltésnél a bejelentkezés után itt tároljuk el a firebesa-ről lekért adatot
 // hogy ne kelljen mindig lekérni szerverről, vuexben tárolom ami kell.
-import createPersistedState from 'vuex-persistedstate';
 export default {
     state() {
         return {
@@ -33,11 +32,4 @@ export default {
         },
 
     },
-    plugins: [ // Vuex Persist
-        createPersistedState({
-            key: 'my-app',
-            paths: ['testSheet'],
-            storage: window.localStorage,
-        }),
-    ],
 };

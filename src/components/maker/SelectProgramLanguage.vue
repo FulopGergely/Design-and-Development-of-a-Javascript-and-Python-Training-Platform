@@ -22,7 +22,7 @@ function select(select) {
 <template>
     <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center justify-content-center  border-round ">
-            <div v-tooltip.top="'programozási nyelv választása'" style="width: 140px">
+            <div>
                 <SelectButton v-model="value" :options="options" dataKey="value" aria-labelledby="custom"
                     @update:modelValue="select">
                     <template #option="slotProps">

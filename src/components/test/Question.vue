@@ -112,10 +112,10 @@ async function initTest() {
     const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
     //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
     console.log(store.getters.getTestSheet)
-    if (!testSheet.value) { //falsy
+    if (!store.getters.getTestSheet) { //falsy
         if (testSheet.value.tid == router.params.testID) {
             console.log('be van töltve a: ' + testSheet.value.tid)
-        } {
+        } else {
             console.log('másik tesztfeladatlpot kitöltése')
         }
     } else {
@@ -127,9 +127,6 @@ async function initTest() {
             }
         });
     }
-    // tárolni vuexben azt kell amit beír majd a diák
-    // oldal firssítéskor lekérjük a megfelelő tesztlapot szerverről a testSheet.value -ba.
-    // store.getters.getCurrentSheet a jelenlegi oldal ahol állunk, ezt vuexba kell tárolni, hogy firssítéskor megmaradjon az értéke
     store.commit('setLoading', true)
     console.log(store.getters.getTestSheet)
 
@@ -141,7 +138,7 @@ async function initTest() {
         <Step />
         <div v-for="task in store.getters.getTestSheet.task" :key="task.side">
             <div v-if="task.side == store.getters.getCurrentTestSide" class="flex justify-content-center flex-wrap ">
-                <div class=" border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">
+                <div class=" border-round border-1 surface-border mt-5 mb-3 p-4">
                     <div>
                         <div class="flex justify-content-between flex-wrap">
                             <h2>{{ task.side }}. Oldal</h2>
@@ -171,7 +168,7 @@ async function initTest() {
             </div>
         </div>
         <div class="flex justify-content-center flex-wrap ">
-            <div class=" border-round border-1 surface-border mt-5 mb-3 p-4" style="width: 1700px">
+            <div class=" border-round border-1 surface-border mt-5 mb-3 p-4">
                 <CasesTable />
             </div>
 
