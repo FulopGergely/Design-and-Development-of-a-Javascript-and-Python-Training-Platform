@@ -3,10 +3,17 @@ import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
 import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import store from '@/store/store.js';
 
+const prop = defineProps({
+    user: { //testFiller / testCreator - segédváltozó, mivel több helyen is használjuke zt a componenset, ezért ezzel különböztetjük meg hogy admin vagy tesztkitöltő menüsávot jelenítsen meg
+        type: String,
+        default: () => ''
+    },
+
+})
 
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
-const items = ref([
+const items = ref(prop.user == 'testFiller' ? '' : [
     {
         label: 'Tesztjeim',
         icon: 'pi pi-book',
@@ -83,7 +90,7 @@ onBeforeUnmount(() => {
     <div>
         <Menubar :model="items" ref="myMenubar">
             <template #start>
-                <div v-if="hasCurrentUser">
+                <div v-if="hasCurrentUser && prop.user == 'testFiller'">
                     idő:
                 </div>
             </template>
@@ -96,7 +103,7 @@ onBeforeUnmount(() => {
             <template #end>
                 <div class="flex align-items-center gap-2">
                     <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round"
-                        @click="this.$router.push('/Admin/Profil')" :label="labelTextUserName">
+                        :label="labelTextUserName">
                     </SplitButton>
                     <Button v-if="!hasCurrentUser" class="" @click="login" :label="labelLogin" icon="pi pi-user"></Button>
                 </div>

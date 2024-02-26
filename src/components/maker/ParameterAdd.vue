@@ -4,6 +4,8 @@ import { ref, nextTick, computed } from "vue";
 
 const emit = defineEmits(['changeParamType'])
 
+
+
 const paramsNameList = ref([
     { name: 'string' },
     { name: 'number' },

@@ -14,6 +14,7 @@
     "@popperjs/core": "^2.11.8",
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^10.4.1",
+    "codemirror-editor-vue3": "^2.4.1",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.11.0",
     "firebaseui": "^6.1.0",

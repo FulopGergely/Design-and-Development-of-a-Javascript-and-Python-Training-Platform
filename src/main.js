@@ -5,6 +5,7 @@ import App from './App.vue'
 import store from './store/store.js' //vuex
 import router from './router/index.js' //router
 import '@/assets/main.css'; //global my_css
+import { InstallCodemirro } from "codemirror-editor-vue3";
 //python
 import { usePython } from 'usepython';
 const py = usePython();
@@ -169,7 +170,7 @@ app.component('Inplace', Inplace);
 app.component('ToggleButton', ToggleButton);
 app.component('BlockUI', BlockUI);
 
-
+app.use(InstallCodemirro);
 
 app.mount('#app')
 

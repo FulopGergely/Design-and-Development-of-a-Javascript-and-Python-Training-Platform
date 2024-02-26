@@ -10,7 +10,7 @@ const routes = [
     { path: '/Admin/Tesztjeim', component: () => import('@/view/pages/myTest.vue') },
     { path: '/Admin/Eredmenyek', component: () => import('@/view/pages/scoreTest.vue') },
     { path: '/Admin/Tesztletrehozasa', component: () => import('@/view/pages/testMaker.vue') },
-    { path: '/Admin/Profil', component: () => import('@/view/pages/profil.vue') },
+    { path: '/Profil', component: () => import('@/view/pages/profil.vue') },
     { path: '/:testID', component: () => import('@/view/pages/testID.vue') },
 ];
 

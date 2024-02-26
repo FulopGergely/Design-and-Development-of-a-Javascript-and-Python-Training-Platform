@@ -28,6 +28,7 @@ const isDisabled = computed(() => {
 const functionName = computed(() => { //js functionName
     if (props.selectLanguage == 'javascript') {
         let code = props.code
+        //console.log(props.code)
         let regex = /^(function|\s+function)\s+/
         code = code.replace(code.match(regex)[0], '');
         regex = /\w+/

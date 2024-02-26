@@ -11,7 +11,7 @@ import NavBar from '@/components/home/NavBar.vue'
 import CodeRunner from '../../components/maker/CodeRunner.vue';
 import TestCasesTable from '../../components/maker/TestCasesTable.vue';
 import SelectProgramLanguage from '../../components/maker/SelectProgramLanguage.vue';
-import StepMenu from '../../components/maker/StepMenu.vue';
+import StepSide from '../../components/maker/StepSide.vue';
 import ButtonGroup from '../../components/maker/ButtonGroup.vue';
 
 
@@ -20,7 +20,7 @@ const highlightedCode = hljs.highlight('javascript', `console.log('starting scri
 const a = 1;
 const b = 2;
 console.log(a+b);`).value;*/
-
+const user = 'testCreator'
 onMounted(() => {
 
 });
@@ -55,11 +55,11 @@ const options = ref({
 
 </script>
 <template>
-    <NavBar></NavBar>
-    <StepMenu />
+    <NavBar :user="user" />
+    <StepSide :tasks="store.getters.getTask" :currentSide="'setCurrentSide'" />
     <div v-for="task in store.getters.getTask" :key="task.side">
         <div v-if="task.side == store.getters.getCurrentSide" class="flex justify-content-center flex-wrap ">
-            <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 container">
+            <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
                 <div>
                     <div class="flex justify-content-between flex-wrap">
                         <h2>{{ task.side }}. Oldal</h2>
@@ -91,9 +91,4 @@ const options = ref({
     </div>
 </template>
 
-<style scoped>
-.container {
-    width: 100%;
-}
-
-</style>
+<style scoped></style>

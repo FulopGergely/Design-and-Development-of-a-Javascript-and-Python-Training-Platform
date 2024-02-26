@@ -1,8 +1,15 @@
 <script setup>
 import store from '@/store/store.js';
-import { ref, onMounted, computed, watch, inject } from 'vue';
+import { ref, onMounted, computed, watch, inject, watchEffect } from 'vue';
+//hljs
 import 'highlight.js/lib/common';
 import hljs from 'highlight.js/lib/core';
+//Codemirror
+import Codemirror from "codemirror-editor-vue3";
+import "codemirror/addon/display/placeholder.js";
+import "codemirror/mode/javascript/javascript.js";
+import "codemirror/mode/python/python.js";
+import "codemirror/theme/dracula.css";
 //components
 import Terminal from '@/components/maker/Terminal.vue'
 import ParameterAdd from './ParameterAdd.vue';
@@ -26,7 +33,11 @@ const initJsCode = `function myFunction( p1 ) { \nconsole.log(typeof p1)\nconsol
 const logs = ref([]);
 const result = ref(null)
 const params = ref(store.getters.getParamsByCurrentSide)
+console.log(props.taskCode)
 const code = ref(props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
+if (!props.taskCode) {
+    emit('update:taskCode', code.value);
+}
 const functionName = computed(() => { //py functionName
     let codeCopy = code.value
     let regex = /^(def|\s+def)\s+/
@@ -41,10 +52,16 @@ onMounted(() => {
 
 //watch
 const selectLanguage = ref(props.selectLanguage);
+
 watch(() => props.selectLanguage, (newValue, oldValue) => {
     selectLanguage.value = newValue;
+    cmOptions.value.mode = selectLanguage.value == 'javascript' ? "text/javascript" : "text/x-python"
 });
 
+const cmOptions = ref({
+    mode: selectLanguage.value == 'javascript' ? "text/javascript" : "text/x-python", // Language mode
+    theme: "dracula", // Theme
+});
 
 function codeChange(e) {
     emit('update:taskCode', e)
@@ -182,6 +199,7 @@ function addStringToEndOfThePythonCode() {
 }
 async function saveTestCase() {
     await runcode(store.getters.getParamsByCurrentSide)
+    console.log(store.getters.getParamsByCurrentSide)
     const myCase = {
         parameters: params.value.map(item => {
             if (item.type.name == 'JSON') {
@@ -201,17 +219,11 @@ async function saveTestCase() {
 </script>
 <template>
     <div>
-        <ParameterAdd @changeParamType="changeParamType" />
-        <div class="grid">
-            <div class="col ml-5 mr-5 ">
-                <div
-                    class="mt-2 p-3 bg-gray-200 border border-gray-200 rounded-md not-prose dark:bg-black dark:border-neutral-800">
-                    <code-editor class="custom-area"
-                        v-tooltip.top="'Függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'"
-                        :hljs="hljs" :code="code" :lang="selectLanguage" @edit="codeChange($event)">
-                    </code-editor>
-                </div>
-            </div>
+        <ParameterAdd @changeParamType="changeParamType" :cmOptions="cmOptions" />
+        <div class="ml-5 mr-5 mt-2"
+            v-tooltip.top="'Függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'">
+            <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="200"
+                @change="codeChange($event)" />
         </div>
         <div class="grid">
             <div class="col-7">
@@ -224,13 +236,18 @@ async function saveTestCase() {
 
 
         </div>
-        <div class="grid">
-            <div class="col mr-5 ml-5 mt-0">
-                <Terminal :logs-name="logs" @clearTerminal="clearTerminal" />
-            </div>
+        <div class="ml-5 mr-5 mt-2">
+            <Terminal :logs-name="logs" @clearTerminal="clearTerminal" />
         </div>
+
+
     </div>
 </template>
 <style scoped>
 .custom-area {}
+
+.CodeMirror {
+    font-family: Arial, monospace;
+    font-size: 20px;
+}
 </style>
