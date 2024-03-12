@@ -13,10 +13,9 @@ const py = inject('py');
 //components
 import NavBar from '@/components/home/NavBar.vue'
 import Terminal from '@/components/maker/Terminal.vue'
-import Step from '@/components/test/Step.vue'
 import CasesTable from '@/components/test/CasesTable.vue'
 import StepSide from '../../components/maker/StepSide.vue';
-import CodeRunner from '../../components/test/CodeRunnerTestFiller.vue';
+import CodeRunnerTestFiller from '../../components/test/CodeRunnerTestFiller.vue';
 
 //const emit = defineEmits(['update:taskCode'])
 
@@ -41,9 +40,9 @@ async function initTest() {
     const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
     //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
     console.log(store.getters.getTestSheet)
-    if (!store.getters.getTestSheet) { //falsy
+    if (!store.getters.getTestSheet) { //falsy (itt majd a felkiáltójelet el kell venni ha sessionba tárolod)
         if (testSheet.value.tid == router.params.testID) {
-            console.log('be van töltve a: ' + testSheet.value.tid)
+            console.log('be van töltve a: ' + testSheet.value.tid + ', nem csinálunk semmit')
         } else {
             console.log('másik tesztfeladatlpot kitöltése')
         }
@@ -51,6 +50,8 @@ async function initTest() {
         console.log('üres, még nem volt betöltve semmi')
         tests.forEach(test => { //megkeressük a testID-jü tesztlapot
             if (test.tid == router.params.testID) {
+                //mielőtt tároljuk a code-ot modosítjuk (ha esetleg kell megodlásnak a kód azt itt tudjuk kezelni, vagy lekérjuk fire-baseről)
+                modyfiCode(test.task)
                 store.commit('addTestSheet', test)
                 //testSheet.value = test
             }
@@ -60,10 +61,39 @@ async function initTest() {
     console.log(store.getters.getTestSheet)
 
 }
+function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvény törzset lássa. Betöltés után modosítjuk az egészet, így könnyebb lesz később a kezelése.
+    console.log(codes)
+    codes.forEach(code => {
+        try {
+            code.output = [] //itt fogjuk tárolni a kimeneti eredményeket feladatonként.
+
+            if (code.programmingLanguageName.value == 'javascript' && code.code) { //js kód, és van kód beírva
+                const functionName = code.code.replace(/^(function|\s+function)\s+/, '').match(/\w+/)[0];
+                const paramsName = code.code.match(/\(.*\)/)[0]
+                code.code = 'function ' + functionName + paramsName + '{\nreturn 0\n}'
+                code.functionName = functionName //tároljuk a functionName-t
+                //paraméterek kellenének még
+
+            }
+            if (code.programmingLanguageName.value == 'python' && code.code) {
+                const functionName = code.code.replace(/^(def|\s+def)\s+/, '').match(/\w+/)[0];
+                const paramsName = code.code.match(/\(.*\)/)[0]
+                code.code = 'def ' + functionName + paramsName + ':\n\treturn 0'
+                code.functionName = functionName //tároljuk a functionName-t
+                //console.log(code.code)
+                //console.log(functionName)
+                //store.commit('', codeCopy.match(/\w+/)[0])
+            }
+        } catch {
+            console.log('hiba a kód átírása közben')
+        }
+    })
+}
 </script>
 
 <template>
     <NavBar :user="user" />
+    {{ store.getters.getTestSheet.task }}
     <div v-if="store.getters.getLoading">
         <!--This is a comment. Comments are not displayed in the browser-->
         <!-- {{ this.$route.params.testID }}  -->
@@ -78,13 +108,16 @@ async function initTest() {
                         <div
                             class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
                             <div class="m-5" v-html="task.text"></div>
-                            <CodeRunner
-                                v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
-                                v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value" />
+                            <div v-if="task.programmingLanguageName">
+                                <CodeRunnerTestFiller
+                                    v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
+                                    v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value"
+                                    :tests="task.tests" />
+                            </div>
+
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="flex justify-content-center flex-wrap ">

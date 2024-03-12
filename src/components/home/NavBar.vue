@@ -107,11 +107,6 @@ onBeforeUnmount(() => {
                     </SplitButton>
                     <Button v-if="!hasCurrentUser" class="" @click="login" :label="labelLogin" icon="pi pi-user"></Button>
                 </div>
-                <div v-if="false">
-                    <a href="https://github.com/FulopGergely/szakdolgozat/tree/CreateQuiz">
-                        <img src="@/assets/github.svg" style="height: 30px" alt="GitHub">
-                    </a>
-                </div>
             </template>
         </Menubar>
 

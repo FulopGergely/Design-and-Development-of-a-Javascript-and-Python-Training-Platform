@@ -13,7 +13,7 @@ export default {
                     icon: '', //StepMenu componens gondoskodik arról h ahány obj annyi oldal jöjjön létre. 
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be
                     score: 0, //hány pontot ér ez a "lap" feladat (0-ra inic).
-                    params: [], //ezt csak vuex-ben tároljuk, tests[] ben tárolunk mindent firebase-en, típust érétkeket is. params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
+                    params: [], //primeVue megjelenítése miatt kellett(kiválasztani a paramétert), tests[] ben tárolunk mindent firebase-en, típust érétkeket is. params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
                     isTest: true, //tesztesetek ki/be kapcsolása, ha ki van kapcsolva nem jár pont a feladatért.
                 }
             ],
@@ -72,7 +72,7 @@ export default {
         },
         setScore(state, score) {
             state.tasks[state.currentSide - 1].score = score
-        }
+        },
     },
     getters: {
         getCurrentSide(state) {

@@ -33,11 +33,11 @@ const initJsCode = `function myFunction( p1 ) { \nconsole.log(typeof p1)\nconsol
 const logs = ref([]);
 const result = ref(null)
 const params = ref(store.getters.getParamsByCurrentSide)
-console.log(props.taskCode)
 const code = ref(props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
 if (!props.taskCode) {
     emit('update:taskCode', code.value);
 }
+
 const functionName = computed(() => { //py functionName
     let codeCopy = code.value
     let regex = /^(def|\s+def)\s+/
@@ -47,7 +47,6 @@ const functionName = computed(() => { //py functionName
 });
 
 onMounted(() => {
-
 });
 
 //watch
@@ -219,6 +218,7 @@ async function saveTestCase() {
 </script>
 <template>
     <div>
+
         <ParameterAdd @changeParamType="changeParamType" :cmOptions="cmOptions" />
         <div class="ml-5 mr-5 mt-2"
             v-tooltip.top="'Függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'">

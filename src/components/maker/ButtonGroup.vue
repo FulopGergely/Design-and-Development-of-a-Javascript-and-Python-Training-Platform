@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import store from '@/store/store.js';
 //PrimeVue
 import { useConfirm } from "primevue/useconfirm";
@@ -13,10 +13,6 @@ const confirm = useConfirm();
 const toast = useToast();
 
 const items = [
-    {
-        label: 'Előnézet',
-        icon: 'pi pi-eye',
-    },
     {
         label: 'Feladat törlése',
         icon: 'pi pi-trash',
@@ -76,6 +72,10 @@ const addTask = () => {
     toast.add({ severity: 'info', summary: 'Új oldal lett hozzáadva', group: 'tl', life: 3000 });
 };
 
+onMounted(() => {
+    console.log(store.getters.getLoading)
+});
+
 </script>
 <template>
     <div>
@@ -83,10 +83,15 @@ const addTask = () => {
         <Toast position="top-left" group="tl" />
         <SplitButton @click="addTask" label="Új oldal" :model="items" severity="success" class="m-1" icon="pi pi-plus">
         </SplitButton>
-        <Dialog v-model:visible="visible" modal header="Teszt Mentése" :style="{ width: '50rem' }"
-            :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-            <FormCreateTest />
-        </Dialog>
+        <div>
+            <Dialog v-model:visible="visible" modal header="Teszt Mentése" :style="{ width: '50rem' }"
+                :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                <FormCreateTest />
+            </Dialog>
+        </div>
+
+
+
 
 
     </div>

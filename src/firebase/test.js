@@ -6,12 +6,12 @@ const db = firebaseObjects.db;
 
 //visszad egy arrayt ami az összes docot visszaadja ami van a collectionba (tests)
 async function getAllTest() {
-    const querySnap = await getDocs(query(collection(db, 'tests')));
-    const arr = []
-    querySnap.forEach((doc) => {
-        arr.push(doc.data())
-    })
-    return arr
+  const querySnap = await getDocs(query(collection(db, 'tests')));
+  const arr = []
+  querySnap.forEach((doc) => {
+    arr.push(doc.data())
+  })
+  return arr
 }
 /*
 
@@ -45,14 +45,19 @@ Table tasks {
  * @param {integer} testDurationMinutes
  */
 async function addTest(uid, tid, available, privateTest, task, testDurationMinutes) {
+  try {
     await addDoc(collection(db, 'tests'), {
-        uid: uid,
-        tid: tid,
-        available: available,
-        private: privateTest,
-        task: task,
-        testDurationMinutes: testDurationMinutes,
-    })
+      uid: uid,
+      tid: tid,
+      available: available,
+      private: privateTest,
+      task: task,
+      testDurationMinutes: testDurationMinutes,
+    });
+  } catch (error) {
+    return error
+  }
+
 }
 
 
