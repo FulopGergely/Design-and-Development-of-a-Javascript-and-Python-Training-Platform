@@ -99,7 +99,7 @@ function changeParamType(choosedParam) { //paraméter kiválasztásnál(kattint�
 
 async function runcode(params) {
     //console.log(py)
-
+    console.log(store.getters.getTask)
     const oldConsoleLog = console.log;
     console.log = function (message) { //felülírjük a console.log működését
         logs.value.push(message); //logs a javascriptCode.vue -> Terminal.vue ba jelenik meg

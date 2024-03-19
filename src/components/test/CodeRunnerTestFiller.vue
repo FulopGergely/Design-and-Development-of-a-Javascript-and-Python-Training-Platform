@@ -58,65 +58,70 @@ function clearTerminal() {
     logs.value = []
 }
 async function runcode() {
-    let params = []
-    try {
-        params = props.tests[store.getters.getCurrentTestSide - 1].parameters
-    } catch (error) {
-        console.log(error)
-    }
     const oldConsoleLog = console.log;
-    console.log = function (message) { //felülírjük a console.log működését
-        logs.value.push(message); //logs a javascriptCode.vue -> Terminal.vue ba jelenik meg
-    }
-    if (selectLanguage.value == 'javascript') {
-        try {
-            let results = props.tests.map(test => {
-                const dynamicFunction = new Function('return ' + code.value)();
-                //console.log(dynamicFunction);
-                return dynamicFunction(...test.parameters);
-            });
-            store.commit('setResults', results)
-            console.log(results);
-        } catch (error) {
-            console.log(error);
+    console.log = function (message) {
+        logs.value.push(message);
+    };
+    try {
+        let params = props.tests[store.getters.getCurrentTestSide - 1]?.parameters || [];
+        
+        if (selectLanguage.value === 'javascript') {
+            executeJavaScriptCode();
+        } else if (selectLanguage.value === 'python') {
+            await executePythonCode();
         }
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
         console.log = oldConsoleLog;
     }
-    if (selectLanguage.value == 'python') {
-        try {
-            props.tests.map(test => {
-                console.log(test.parameters)
-            });
-            const res = await py.run(code.value + addStringToEndOfThePythonCode());
-            //console.log(res)
+}
+
+async function executeJavaScriptCode() {
+    try {
+        let results = props.tests.map(test => {
+            const dynamicFunction = new Function('return ' + code.value)();
+            return dynamicFunction(...test.parameters);
+        });
+        store.commit('setResults', results);
+        console.log(results);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function executePythonCode() {
+    let results = [];
+
+    for (const test of props.tests) {
+        const res = await py.run(code.value + addStringToEndOfThePythonCode(test));
+        results.push(res);
+    }
+
+        results.forEach(result => {
+            
             for (const output of py.log.value.stdOut) {
                 console.log(output);
             }
-            if (res.error != null) {
-                //console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message
-                console.log(res.error)
+            
+            if (result.error != null) {
+                console.log(result.error);
             } else {
-                result.value = res.results
+                result.value = result.results;
                 console.log(result.value);
             }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-
-
-        console.log = oldConsoleLog;
-
+        });
     }
-    console.log = oldConsoleLog;
-    //console.log(result)
-}
-function addStringToEndOfThePythonCode() {
+
+function addStringToEndOfThePythonCode(test) {
     let arr = []
     const functionName = code.value.replace(/^(def|\s+def)\s+/, '').match(/\w+/)[0];
     //console.log(props.tests[store.getters.getCurrentTestSide - 1])
-    if (props.tests[store.getters.getCurrentTestSide - 1]) {
-        const params = props.tests[store.getters.getCurrentTestSide - 1].parameters
-        const parametersType = props.tests[store.getters.getCurrentTestSide - 1].parametersType
+    if (test) {
+        const params = test.parameters
+        const parametersType = test.parametersType
+        //console.log(test.parameters)
+        //console.log(test.parametersType)
         for (let i = 0; i < params.length; i++) {
             if (parametersType[i] == 'string') {
                 arr.push(params[i])
@@ -135,6 +140,7 @@ function addStringToEndOfThePythonCode() {
                 arr.push(params[i])
             }
         }
+        //console.log(arr)
         return '\n' + functionName + '(' + arr + ')'
     } else {
         return '\n' + functionName + '()'
