@@ -2,9 +2,9 @@
 import { ref, computed } from 'vue';
 import store from '@/store/store.js';
 
-const products = ref();
+
 const columns = [
-    { field: 'parameters', header: 'bemenő paraméterek' },
+    { field: 'parameters', header: '' },
     { field: 'expectedResult', header: 'várt kimeneti érték' },
     { field: 'result', header: 'kimeneti érték' },
 ];

@@ -19,6 +19,9 @@ export default {
         setLoading(state, isLoading) {
             state.loading = isLoading;
         },
+        setDisplayTest(state, isDisplay) {
+            state.testSheet.task[state.currentTestSide - 1].displayTest = isDisplay
+        },
         addTestSheet(state, test) {
             state.testSheet = test
         },
@@ -31,6 +34,14 @@ export default {
             return state.currentTestSide;
         },
         getLoading: (state) => state.loading,
+        getDisplayTest: state => { //segédváltozó hogy a tesztesetek tábla látszódjon, utólag a test.ID ba tesszük be a testheetbe. Feladatonként változik futtatás után true-ra az érték.
+            //console.log(state.testSheet.task[state.currentTestSide - 1])
+            if (state.testSheet.task[state.currentTestSide - 1]) {
+                return state.testSheet.task[state.currentTestSide - 1].displayTest
+            }
+            //return state.testSheet.task[state.currentTestSide - 1].displayTest
+            //console.log(state.testSheet.task[state.currentTestSide - 1])
+        },
         getTestSheet: state => {
             return state.testSheet;
         },

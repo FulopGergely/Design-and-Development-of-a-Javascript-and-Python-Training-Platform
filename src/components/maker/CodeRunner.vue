@@ -198,7 +198,7 @@ function addStringToEndOfThePythonCode() {
 }
 async function saveTestCase() {
     await runcode(store.getters.getParamsByCurrentSide)
-    console.log(store.getters.getParamsByCurrentSide)
+    //console.log(store.getters.getParamsByCurrentSide)
     const myCase = {
         parameters: params.value.map(item => {
             if (item.type.name == 'JSON') {
@@ -211,6 +211,15 @@ async function saveTestCase() {
         parametersType: params.value.map(item => item.type.name),
         resultType: typeof result.value
     };
+    //pythonnál Map-et nem lehet firebase-en tárolni, ezért itt átalakítottam, és így tároljuk el a tesztesetet
+    if(typeof myCase.result == 'object' && selectLanguage.value == 'python') {
+        let myObject = {};
+        myCase.result.forEach((value, key) => {
+        myObject[key] = value;
+    });
+        myCase.result = myObject
+    }
+    console.log(myCase)
     store.commit('addTest', myCase)
 }
 

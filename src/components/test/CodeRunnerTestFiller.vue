@@ -84,6 +84,7 @@ async function executeJavaScriptCode() {
             return dynamicFunction(...test.parameters);
         });
         store.commit('setResults', results);
+        store.commit('setDisplayTest', true); //teszteset tábla megjelenik
         console.log(results);
     } catch (error) {
         console.log(error);
@@ -92,14 +93,18 @@ async function executeJavaScriptCode() {
 
 async function executePythonCode() {
     let results = [];
-
-    for (const test of props.tests) {
+    if(props.tests.length == 0){
+        const res = await py.run(code.value + addStringToEndOfThePythonCode());
+        results.push(res);
+    } else {
+        for (const test of props.tests) {
+        //console.log(code.value + addStringToEndOfThePythonCode(test))
         const res = await py.run(code.value + addStringToEndOfThePythonCode(test));
         results.push(res);
+        }
     }
-
         results.forEach(result => {
-            
+           
             for (const output of py.log.value.stdOut) {
                 console.log(output);
             }
@@ -109,6 +114,10 @@ async function executePythonCode() {
             } else {
                 result.value = result.results;
                 console.log(result.value);
+                if(props.tests.length != 0){
+                    store.commit('setDisplayTest', true); //teszteset tábla megjelenik
+                }
+                
             }
         });
     }
@@ -151,8 +160,8 @@ function addStringToEndOfThePythonCode(test) {
 </script>
 <template>
     <div>
-        {{ store.state.test.codeUser }}
-        <div class="ml-5 mr-5 mt-2" v-tooltip.top="'Írja le a megodlás kódját'">
+        
+        <div class="ml-5 mr-5 mt-2">
             <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="200"
                 @change="codeChange($event)" />
         </div>

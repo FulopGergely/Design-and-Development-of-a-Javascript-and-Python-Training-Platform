@@ -51,7 +51,7 @@ async function deleteParam(param) {
                     <div>
                         <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType', param)"
                             autofocus :placeholder="param.id + '. paraméter'" />
-                        <div class="m-1" v-if="param.type.name == 'JSON'">pl dict:
+                        <div class="m-1" v-if="param.type.name == 'JSON'">pl:
                             {
                             "string": "Hello, World!",
                             "number": 42,
