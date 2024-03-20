@@ -96,5 +96,8 @@ export default {
         getScore: state => {
             return state.tasks[state.currentSide - 1].score;
         },
+        getLanguage: state => {
+            return state.tasks[state.currentSide - 1].programmingLanguageName;
+        },
     },
 };

@@ -34,6 +34,7 @@ async function deleteParam(param) {
 <template>
     <!-- -->
     <div>
+        
         <div v-for="param in store.getters.getParamsByCurrentSide" :key="param.id" class="mt-5 ml-5 mr-5"
             style="margin-right: 60px;">
             <Inplace @close="deleteParam(param)" :closable="true" :pt="{
@@ -49,9 +50,10 @@ async function deleteParam(param) {
                 </template>
                 <template #content>
                     <div>
+                        
                         <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType', param)"
                             autofocus :placeholder="param.id + '. paraméter'" />
-                        <div class="m-1" v-if="param.type.name == 'JSON'">pl:
+                        <div class="m-1" v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'javascript'">pl:
                             {
                             "string": "Hello, World!",
                             "number": 42,
@@ -61,6 +63,13 @@ async function deleteParam(param) {
                             },
                             "array": [1, 2, 3]
                             }
+                        </div>
+                        <div class="m-1" v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'python'">pl:
+                            {
+                            "string": "Hello, World!",
+                            "number": 42,
+                            "array": [1, 2, 3]
+                            } <br> (csak 1 db object engedélyezett)
                         </div>
                     </div>
                     <div>

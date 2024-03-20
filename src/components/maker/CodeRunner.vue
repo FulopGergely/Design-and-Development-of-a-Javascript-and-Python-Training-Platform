@@ -203,9 +203,12 @@ async function saveTestCase() {
         parameters: params.value.map(item => {
             if (item.type.name == 'JSON') {
                 return JSON.parse(item.value)
+            } else if(item.type.name == 'string') {
+                return '"' + item.value + '"'
             } else {
                 return item.value
             }
+            
         }),
         result: result.value,
         parametersType: params.value.map(item => item.type.name),

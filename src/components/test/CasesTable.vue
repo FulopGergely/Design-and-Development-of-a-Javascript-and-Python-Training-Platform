@@ -12,6 +12,9 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
     let i = 0
     let correct = 0
     const transformedData = store.getters.getTestBySide.map(item => {
+        console.log('h:')
+        console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].output)
+        console.log(item.result)
         if(store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].output[i] === item.result){
             correct++
             if(store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].tests.length === correct){
@@ -23,12 +26,19 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
             result: store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].output[i++],
             expectedResult: item.result
         }
+        
     })
     return transformedData
 });
 </script>
 <template>
     <div class="card">
+        {{ store.getters.getTestBySide }}
+        <br>
+        <br>
+        <br>
+        <br>
+        {{ displayCasesOnTable }}
         <DataTable size="small" stripedRows :value="displayCasesOnTable" tableStyle="min-width: 50rem" class="mb-2">
             <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
             <Column>

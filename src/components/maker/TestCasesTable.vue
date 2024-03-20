@@ -163,7 +163,7 @@ async function runcode(selectLanguage) {
     });
         myCase.result = myObject
     }
-    //console.log(myCase.result)
+    console.log(myCase.result)
     store.commit('addTest', myCase)
 }
 

@@ -93,28 +93,29 @@ async function executeJavaScriptCode() {
 
 async function executePythonCode() {
     let results = [];
+    let asd = [];
+    let res;
     if(props.tests.length == 0){
-        const res = await py.run(code.value + addStringToEndOfThePythonCode());
+        res = await py.run(code.value + addStringToEndOfThePythonCode());
         results.push(res);
     } else {
         for (const test of props.tests) {
         //console.log(code.value + addStringToEndOfThePythonCode(test))
-        const res = await py.run(code.value + addStringToEndOfThePythonCode(test));
+        res = await py.run(code.value + addStringToEndOfThePythonCode(test));
+        asd.push(res.results)
         results.push(res);
+        console.log(results)
         }
     }
         results.forEach(result => {
            
-            for (const output of py.log.value.stdOut) {
-                console.log(output);
-            }
-            
             if (result.error != null) {
                 console.log(result.error);
             } else {
                 result.value = result.results;
                 console.log(result.value);
                 if(props.tests.length != 0){
+                    store.commit('setResults', asd);
                     store.commit('setDisplayTest', true); //teszteset tábla megjelenik
                 }
                 
@@ -133,7 +134,8 @@ function addStringToEndOfThePythonCode(test) {
         //console.log(test.parametersType)
         for (let i = 0; i < params.length; i++) {
             if (parametersType[i] == 'string') {
-                arr.push(params[i])
+                arr.push( params[i] )
+                
             }
             if (parametersType[i] == 'number') {
                 arr.push(parseInt(params[i]))
