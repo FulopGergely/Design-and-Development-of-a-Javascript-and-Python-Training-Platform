@@ -12,13 +12,10 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
     let i = 0
     let correct = 0
     const transformedData = store.getters.getTestBySide.map(item => {
-        console.log('h:')
-        console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].output)
-        console.log(item.result)
         if(store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].output[i] === item.result){
             correct++
             if(store.getters.getTestSheet.task[store.getters.getCurrentTestSide-1].tests.length === correct){
-                console.log('összes teszteseten átment')
+                console.log('összes teszteset sikeres')
             }
         }
         return {

@@ -47,12 +47,12 @@ Table tasks {
 async function addTest(uid, tid, available, privateTest, task, testDurationMinutes) {
   try {
     await addDoc(collection(db, 'tests'), {
-      uid: uid,
-      tid: tid,
-      available: available,
-      private: privateTest,
-      task: task,
-      testDurationMinutes: testDurationMinutes,
+      uid: uid || null,
+      tid: tid || null,
+      available: available || null,
+      private: privateTest || null,
+      task: task || null,
+      testDurationMinutes: testDurationMinutes || null,
     });
   } catch (error) {
     return error

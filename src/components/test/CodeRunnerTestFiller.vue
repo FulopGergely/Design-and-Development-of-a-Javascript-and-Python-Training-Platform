@@ -92,30 +92,33 @@ async function executeJavaScriptCode() {
 }
 
 async function executePythonCode() {
+    let resultsObj = [];
     let results = [];
-    let asd = [];
     let res;
+
     if(props.tests.length == 0){
         res = await py.run(code.value + addStringToEndOfThePythonCode());
-        results.push(res);
+        resultsObj.push(res);
     } else {
         for (const test of props.tests) {
-        //console.log(code.value + addStringToEndOfThePythonCode(test))
+            //console.log(code.value + addStringToEndOfThePythonCode(test))
         res = await py.run(code.value + addStringToEndOfThePythonCode(test));
-        asd.push(res.results)
-        results.push(res);
-        console.log(results)
+        results.push(res.results)
+        resultsObj.push(res);
+        
         }
     }
-        results.forEach(result => {
-           
+        resultsObj.forEach(result => {
+           for (const output of py.log.value.stdOut) {
+                console.log(output);
+            }
             if (result.error != null) {
-                console.log(result.error);
+                console.log('Hiba:' +  result.error);
             } else {
-                result.value = result.results;
-                console.log(result.value);
+                result.value = result.resultsObj;
+                //console.log('result.value');
                 if(props.tests.length != 0){
-                    store.commit('setResults', asd);
+                    store.commit('setResults', results);
                     store.commit('setDisplayTest', true); //teszteset tábla megjelenik
                 }
                 
@@ -135,7 +138,6 @@ function addStringToEndOfThePythonCode(test) {
         for (let i = 0; i < params.length; i++) {
             if (parametersType[i] == 'string') {
                 arr.push( params[i] )
-                
             }
             if (parametersType[i] == 'number') {
                 arr.push(parseInt(params[i]))
@@ -148,7 +150,7 @@ function addStringToEndOfThePythonCode(test) {
                 }
             }
             if (parametersType[i] == 'JSON') {
-                arr.push(params[i])
+                arr.push( JSON.stringify(params[i]))
             }
         }
         //console.log(arr)

@@ -12,6 +12,11 @@ const paramsNameList = ref([
     { name: 'boolean' },
     { name: 'JSON' },
 ]);
+const paramsNameList2 = ref([
+    { name: 'string' },
+    { name: 'number' },
+    { name: 'boolean' },
+]);
 
 function addParam() {
     //console.log(store.getters.getParamsByCurrentSide.length)
@@ -34,46 +39,50 @@ async function deleteParam(param) {
 <template>
     <!-- -->
     <div>
-        
+
         <div v-for="param in store.getters.getParamsByCurrentSide" :key="param.id" class="mt-5 ml-5 mr-5"
             style="margin-right: 60px;">
             <Inplace @close="deleteParam(param)" :closable="true" :pt="{
-                display: (options) => ({
-                    class: [
-                        'border-primary',
-                        'text-primary',
-                    ],
-                }),
-            }">
+            display: (options) => ({
+                class: [
+                    'border-primary',
+                    'text-primary',
+                ],
+            }),
+        }">
                 <template #display>
                     {{ param.id + '. paraméter' }}
                 </template>
                 <template #content>
                     <div>
-                        
+
                         <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType', param)"
                             autofocus :placeholder="param.id + '. paraméter'" />
-                        <div class="m-1" v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'javascript'">pl:
+                        <div class="m-1"
+                            v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'javascript'">pl:
                             {
-                            "string": "Hello, World!",
-                            "number": 42,
-                            "object": {
+                            "str": "Hello, World!",
+                            "num": 42,
+                            "obj": {
                             "key1": "value1",
                             "key2": "value2"
                             },
-                            "array": [1, 2, 3]
+                            "arr": [1, 2, 3]
                             }
                         </div>
-                        <div class="m-1" v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'python'">pl:
+                        <div class="m-1"
+                            v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'python'">pl:
                             {
-                            "string": "Hello, World!",
-                            "number": 42,
-                            "array": [1, 2, 3]
+                            "str": "Hello, World!",
+                            "num": 42,
+                            "arr": [1, 2, 3]
                             } <br> (csak 1 db object engedélyezett)
                         </div>
                     </div>
+
                     <div>
-                        <Dropdown v-model="param.type" @change="emit('changeParamType', param)" :options="paramsNameList"
+                        <Dropdown v-model="param.type" @change="emit('changeParamType', param)"
+                            :options="paramsNameList"
                             class="w-full md:w-14rem mr-2 mb-1" optionLabel="name" />
                     </div>
                 </template>

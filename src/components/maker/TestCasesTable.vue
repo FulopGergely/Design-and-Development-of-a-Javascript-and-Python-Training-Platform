@@ -155,13 +155,11 @@ async function runcode(selectLanguage) {
         parametersType: store.getters.getParamsByCurrentSide.map(item => item.type.name),
         resultType: typeof result.value
     };
+    //ez a generált teszteseteknél fut le
     //pythonnál Map-et nem lehet firebase-en tárolni, ezért itt átalakítottam, és így tároljuk el a tesztesetet
-    if(typeof myCase.result == 'object' && selectLanguage == 'python') {
-        let myObject = {};
-        myCase.result.forEach((value, key) => {
-        myObject[key] = value;
-    });
-        myCase.result = myObject
+    if (typeof myCase.result === 'object' && selectLanguage === 'python') {
+        const mapToObject = map => Object.fromEntries(map.entries());
+        myCase.result = mapToObject(myCase.result);
     }
     console.log(myCase.result)
     store.commit('addTest', myCase)
