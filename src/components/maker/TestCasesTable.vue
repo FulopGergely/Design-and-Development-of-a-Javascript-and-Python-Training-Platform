@@ -19,8 +19,8 @@ defineEmits({
 })
 
 const score = ref(store.getters.getScore)
-const checkedLabel = ref('Tesztesetek bekapcsolva')
 const checked = ref(store.getters.getIsTest);
+const checkedLabel = ref(store.getters.getIsTest == false ? 'Tesztesetek kikapcsolva' : 'Tesztesetek bekapcsolva')
 const result = ref();
 const isDisabled = computed(() => {
     return store.getters.getParamsByCurrentSide.length === 0;
@@ -97,6 +97,7 @@ async function runcode(selectLanguage) {
             }
         }
         if (selectLanguage == 'python') {
+            console.log(obj.type.name)
             if (obj.type.name == 'string') {
                 return '"' + generateRandomString(10) + '"'
             }
@@ -108,9 +109,9 @@ async function runcode(selectLanguage) {
             }
             if (obj.type.name == 'dictionary') {
                 const obj = {
-                    string: generateRandomString(10),
-                    number: Math.floor(Math.random() * 100),
-                    boolean: Math.floor(Math.random() * 2) === 0 ? 'True' : 'False',
+                    str: generateRandomString(10),
+                    int: Math.floor(Math.random() * 100),
+                    list: [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)],
                 }
                 return JSON.stringify(obj)
             }

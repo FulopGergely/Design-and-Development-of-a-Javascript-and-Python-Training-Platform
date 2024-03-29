@@ -109,16 +109,23 @@ async function executePythonCode() {
     let resultsObj = [];
     let results = [];
     let res;
-
     if (props.tests.length == 0) {
+        //console.log(code.value + addStringToEndOfThePythonCode())
         res = await py.run(code.value + addStringToEndOfThePythonCode());
         resultsObj.push(res);
     } else {
         for (const test of props.tests) {
-            //console.log(code.value + addStringToEndOfThePythonCode(test))
+            console.log(code.value + addStringToEndOfThePythonCode(test))
             res = await py.run(code.value + addStringToEndOfThePythonCode(test));
-            results.push(res.results)
-            resultsObj.push(res);
+
+            if (typeof res.results == 'object') { //firebase-től Map-et kapunk vissza ha teszt obj, itt alakítottam át, mert így nem nyúl bele a frontend-es futtatásba ami map-el működik jól
+                const mapToObject = map => Object.fromEntries(map.entries());
+                results.push(mapToObject(new Map(res.results)));
+                resultsObj.push(res);
+            } else {
+                results.push(res.results)
+                resultsObj.push(res);
+            }
 
         }
     }
@@ -143,32 +150,46 @@ async function executePythonCode() {
 function addStringToEndOfThePythonCode(test) {
     let arr = []
     const functionName = code.value.replace(/^(def|\s+def)\s+/, '').match(/\w+/)[0];
-    //console.log(props.tests[store.getters.getCurrentTestSide - 1])
+    let params
+    let parametersType
     if (test) {
-        const params = test.parameters
-        const parametersType = test.parametersType
-        //console.log(test.parameters)
-        //console.log(test.parametersType)
-        for (let i = 0; i < params.length; i++) {
-            if (parametersType[i] == 'string') {
+        params = test.parameters
+        parametersType = test.parametersType
+    } else { //nincs teszteset, és hogy tudjuk használni a printet frontend kódnál, a params[]-ból olvasom ki a paramétereket
+        params = store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1].params.map(x => {
+            return x.value
+        })
+        parametersType = store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1].params.map(x => {
+            return x.type.name
+        })
+    }
+
+    for (let i = 0; i < params.length; i++) {
+        if (parametersType[i] == 'string') {
+            if (params[i][0] == '"') { //generált teszteset
                 arr.push(params[i])
+            } else { //saját teszteset
+                arr.push('"' + params[i] + '"')
             }
-            if (parametersType[i] == 'number') {
-                arr.push(parseInt(params[i]))
-            }
-            if (parametersType[i] == 'boolean') {
-                if (params[i]) {
-                    arr.push('True')
-                } else {
-                    arr.push('False')
-                }
+
+        }
+        if (parametersType[i] == 'number') {
+            arr.push(parseInt(params[i]))
+        }
+        if (parametersType[i] == 'boolean') {
+            if (params[i]) {
+                arr.push('True')
+            } else {
+                arr.push('False')
             }
         }
-        //console.log(arr)
-        return '\n' + functionName + '(' + arr + ')'
-    } else {
-        return '\n' + functionName + '()'
+        if (parametersType[i] == 'dictionary') {
+            arr.push(params[i])
+        }
     }
+    //console.log(arr)
+    return '\n' + functionName + '(' + arr + ')'
+
 
 }
 

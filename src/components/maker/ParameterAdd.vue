@@ -68,16 +68,18 @@ async function deleteParam(param) {
                             "key1": "value1",
                             "key2": "value2"
                             },
-                            "arr": [1, 2, 3]
+                            "arr": [1, 2, 3],
+                            "bool" : true
                             }
                         </div>
                         <div class="m-1"
                             v-if="param.type.name == 'dictionary' && store.getters.getLanguage.value == 'python'">pl:
                             {
                             "str": "Hello, World!",
-                            "num": 42,
-                            "arr": [1, 2, 3]
-                            } <br> (3 típus támogatott)
+                            "int": 42,
+                            "list": [1, 2, 3],
+                            "bool": True
+                            } <br> (4 típus támogatott)
                         </div>
                     </div>
 

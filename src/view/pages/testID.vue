@@ -80,7 +80,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
             if (code.programmingLanguageName && code.programmingLanguageName.value == 'python' && code.code) {
                 const functionName = code.code.replace(/^(def|\s+def)\s+/, '').match(/\w+/)[0];
                 const paramsName = code.code.match(/\(.*\)/)[0]
-                code.code = 'def ' + functionName + paramsName + ':\n\treturn 0'
+                code.code = 'def ' + functionName + paramsName + ':\n  return 0'
                 code.functionName = functionName //tároljuk a functionName-t
                 //console.log(code.code)
                 //console.log(functionName)
