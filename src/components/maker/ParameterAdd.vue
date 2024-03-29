@@ -16,6 +16,7 @@ const paramsNameList2 = ref([
     { name: 'string' },
     { name: 'number' },
     { name: 'boolean' },
+    { name: 'dictionary' },
 ]);
 
 function addParam() {
@@ -71,18 +72,18 @@ async function deleteParam(param) {
                             }
                         </div>
                         <div class="m-1"
-                            v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'python'">pl:
+                            v-if="param.type.name == 'dictionary' && store.getters.getLanguage.value == 'python'">pl:
                             {
                             "str": "Hello, World!",
                             "num": 42,
                             "arr": [1, 2, 3]
-                            } <br> (csak 1 db object engedélyezett)
+                            } <br> (3 típus támogatott)
                         </div>
                     </div>
 
                     <div>
                         <Dropdown v-model="param.type" @change="emit('changeParamType', param)"
-                            :options="paramsNameList"
+                            :options="store.getters.getLanguage.value == 'javascript' ? paramsNameList : paramsNameList2"
                             class="w-full md:w-14rem mr-2 mb-1" optionLabel="name" />
                     </div>
                 </template>

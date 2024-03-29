@@ -47,3 +47,15 @@ textarea:focus {
     color: #f8f8f2 !important;
     overflow: visible !important;
 }
+
+.ql-editor pre.ql-syntax {
+    font-size: 20px !important;
+    background-color: #42434d !important;
+    border-radius: 5px;
+}
+
+.ql-syntax {
+    font-size: 20px !important;
+    border-radius: 5px;
+    background-color: #42434d !important;
+}

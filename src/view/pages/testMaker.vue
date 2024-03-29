@@ -56,7 +56,6 @@ const options = ref({
 <template>
     <NavBar :user="user" />
     <Toast />
-    {{ store.getters.getTask }}
     <div v-if="!store.getters.getLoading">
         <StepSide :tasks="store.getters.getTask" :currentSide="'setCurrentSide'" />
         <div v-for="task in store.getters.getTask" :key="task.side">

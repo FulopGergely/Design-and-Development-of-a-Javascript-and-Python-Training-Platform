@@ -66,11 +66,10 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
     codes.forEach(code => {
         try {
             code.output = [] //itt fogjuk tárolni a kimeneti eredményeket feladatonként.
-            code.displayTest = false //segédváltozó, a tesztesetek ne látszódjon csak futtatás után
+            code.displayTest = false //segédváltozó, a tesztesetek ne látszódjon csak futtatás után. isTest a tárolt érték ami azt tárolja hogy látszódjon a tesztesetek. 
 
-            
             if (code.programmingLanguageName && code.programmingLanguageName.value == 'javascript' && code.code) { //js kód, és van kód beírva
-                console.log(code.programmingLanguageName.value)
+                //console.log(code.programmingLanguageName.value)
                 const functionName = code.code.replace(/^(function|\s+function)\s+/, '').match(/\w+/)[0];
                 const paramsName = code.code.match(/\(.*\)/)[0]
                 code.code = 'function ' + functionName + paramsName + '{\nreturn 0\n}'
@@ -88,7 +87,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
                 //store.commit('', codeCopy.match(/\w+/)[0])
             }
         } catch {
-            console.log('hiba a kód átírása közben' )
+            console.log('hiba a kód átírása közben')
         }
     })
 }
@@ -96,11 +95,11 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
 
 <template>
     <NavBar :user="user" />
-   
+
     <div v-if="store.getters.getLoading">
         <!--This is a comment. Comments are not displayed in the browser-->
         <!-- {{ this.$route.params.testID }}  -->
-        {{ store.getters.getTestSheet }}
+
         <StepSide :tasks="store.getters.getTestSheet.task" currentSide="setCurrentTestSide" />
         <div v-for="task in store.getters.getTestSheet.task" :key="task.side">
             <div v-if="task.side == store.getters.getCurrentTestSide" class="flex justify-content-center flex-wrap ">
@@ -158,8 +157,3 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
 
 }
 </style>
-
-
-
-
-   

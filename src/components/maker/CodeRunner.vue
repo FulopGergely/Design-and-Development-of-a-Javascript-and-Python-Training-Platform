@@ -46,6 +46,10 @@ const functionName = computed(() => { //py functionName
     return codeCopy.match(regex)[0]
 });
 
+const isDisabled = computed(() => {
+    return store.getters.getParamsByCurrentSide.length === 0;
+});
+
 onMounted(() => {
 });
 
@@ -187,7 +191,7 @@ function addStringToEndOfThePythonCode() {
                 return 'False'
             }
         }
-        if (param.type.name == 'JSON') {
+        if (param.type.name == 'dictionary') {
             return param.value
         }
     });
@@ -203,27 +207,24 @@ async function saveTestCase() {
         parameters: params.value.map(item => {
             if (item.type.name == 'JSON') {
                 return JSON.parse(item.value)
-            } else if(item.type.name == 'string') {
-                return '"' + item.value + '"'
             } else {
                 return item.value
             }
-            
+
         }),
         result: result.value,
         parametersType: params.value.map(item => item.type.name),
         resultType: typeof result.value
     };
-    //ez az egyéni tesztesetkor fut le
+    //ez a generált teszteseteknél fut le
     //pythonnál Map-et nem lehet firebase-en tárolni, ezért itt átalakítottam, és így tároljuk el a tesztesetet
-    
-    if(typeof myCase.result == 'object' && selectLanguage.value == 'python') {
-        myCase.result = JSON.stringify(myCase.result)
+    if (typeof myCase.result === 'object' && selectLanguage.value === 'python') {
+        const mapToObject = map => Object.fromEntries(map.entries());
+        myCase.result = mapToObject(myCase.result);
     }
-    
-    
-    
-    console.log(myCase)
+
+
+    //console.log(myCase)
     store.commit('addTest', myCase)
 }
 
@@ -242,7 +243,7 @@ async function saveTestCase() {
             <div class="col-7">
                 <Button @click="runcode(store.getters.getParamsByCurrentSide)" class="mb-2 mt-2 ml-5">Futtatás</Button>
                 <!--  <ResultTable :js-result="result" @params-change="paramsChange" />   -->
-                <Button label="" @click="saveTestCase"
+                <Button label="" @click="saveTestCase" :disabled="isDisabled"
                     v-tooltip.right="'Teszteset hozzáadása (jelenlegi paraméterek értékét/értékeit és futtás eredményét hozzáadja a teszteset listához)'"
                     severity="success" class="mb-2 mt-2 ml-5" icon="pi pi-plus" />
             </div>

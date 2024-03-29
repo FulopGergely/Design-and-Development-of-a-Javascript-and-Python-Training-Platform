@@ -14,7 +14,7 @@ export default {
                     //Ha teszünk ide icont akkor az oldalszám helyett icont tesz be
                     score: 0, //hány pontot ér ez a "lap" feladat (0-ra inic).
                     params: [], //primeVue megjelenítése miatt kellett(kiválasztani a paramétert), tests[] ben tárolunk mindent firebase-en, típust érétkeket is. params[]-ban minden egyes paraméter 1 object kell hogy legyen, hogy jól jelenítse meg a paraméter hozzáadását a PrimeVue.
-                    isTest: true, //tesztesetek ki/be kapcsolása, ha ki van kapcsolva nem jár pont a feladatért.
+                    isTest: false, //tesztesetek ki/be kapcsolása, ha ki van kapcsolva nem jár pont a feladatért.
                 }
             ],
         };
@@ -35,8 +35,8 @@ export default {
             //console.log(state.tasks[state.currentSide - 1].tests)
         },
         setTask(state, updatedTask) {
-            console.log(updatedTask)
-            console.log(state.currentSide)
+            //console.log(updatedTask)
+            //console.log(state.currentSide)
             if (state.currentSide - 1 >= 0 && state.currentSide - 1 < state.tasks.length) {
                 state.tasks[state.currentSide - 1] = updatedTask;
             } else {

@@ -91,7 +91,7 @@ async function runcode(selectLanguage) {
             if (obj.type.name == 'JSON') {
                 return {
                     string: generateRandomString(10),
-                    number: Math.floor(Math.random() * 2) === 0,
+                    number: Math.floor(Math.random() * 100),
                     boolean: Math.floor(Math.random() * 2) === 0,
                 }
             }
@@ -106,7 +106,7 @@ async function runcode(selectLanguage) {
             if (obj.type.name == 'boolean') {
                 return Math.floor(Math.random() * 2) === 0 ? 'True' : 'False'
             }
-            if (obj.type.name == 'JSON') {
+            if (obj.type.name == 'dictionary') {
                 const obj = {
                     string: generateRandomString(10),
                     number: Math.floor(Math.random() * 100),
@@ -161,7 +161,7 @@ async function runcode(selectLanguage) {
         const mapToObject = map => Object.fromEntries(map.entries());
         myCase.result = mapToObject(myCase.result);
     }
-    console.log(myCase.result)
+    //console.log(myCase.result)
     store.commit('addTest', myCase)
 }
 
@@ -182,7 +182,7 @@ const columns = [
 </script>
 
 <template>
-    {{ store.getters.getTestsCases }}
+
     <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center justify-content-center  border-round ">
             <Checkbox v-model="checked" :binary="true" v-tooltip.top="'Tesztesetek futtatásának ki/be kapcsolása.'" />

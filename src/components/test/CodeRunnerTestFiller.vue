@@ -64,7 +64,7 @@ async function runcode() {
     };
     try {
         let params = props.tests[store.getters.getCurrentTestSide - 1]?.parameters || [];
-        
+
         if (selectLanguage.value === 'javascript') {
             executeJavaScriptCode();
         } else if (selectLanguage.value === 'python') {
@@ -79,13 +79,27 @@ async function runcode() {
 
 async function executeJavaScriptCode() {
     try {
-        let results = props.tests.map(test => {
+        let results
+        //console.log(props.tests)
+        if (props.tests.length == 0) {
+            let arr = []
+            store.getters.getTestSheet.task[0].params.map(param => {
+                param.type.name == 'JSON' ? arr.push(JSON.parse(param.value)) : arr.push(param.value)
+            })
             const dynamicFunction = new Function('return ' + code.value)();
-            return dynamicFunction(...test.parameters);
-        });
+            return dynamicFunction(...arr);
+        } else {
+            results = props.tests.map(test => {
+                const dynamicFunction = new Function('return ' + code.value)();
+                return dynamicFunction(...test.parameters);
+            });
+        }
+
+
+
         store.commit('setResults', results);
         store.commit('setDisplayTest', true); //teszteset tábla megjelenik
-        console.log(results);
+        //console.log(results);
     } catch (error) {
         console.log(error);
     }
@@ -96,35 +110,35 @@ async function executePythonCode() {
     let results = [];
     let res;
 
-    if(props.tests.length == 0){
+    if (props.tests.length == 0) {
         res = await py.run(code.value + addStringToEndOfThePythonCode());
         resultsObj.push(res);
     } else {
         for (const test of props.tests) {
             //console.log(code.value + addStringToEndOfThePythonCode(test))
-        res = await py.run(code.value + addStringToEndOfThePythonCode(test));
-        results.push(res.results)
-        resultsObj.push(res);
-        
+            res = await py.run(code.value + addStringToEndOfThePythonCode(test));
+            results.push(res.results)
+            resultsObj.push(res);
+
         }
     }
-        resultsObj.forEach(result => {
-           for (const output of py.log.value.stdOut) {
-                console.log(output);
+    resultsObj.forEach(result => {
+        for (const output of py.log.value.stdOut) {
+            console.log(output);
+        }
+        if (result.error != null) {
+            console.log('Hiba:' + result.error);
+        } else {
+            result.value = result.resultsObj;
+            //console.log('result.value');
+            if (props.tests.length != 0) {
+                store.commit('setResults', results);
+                store.commit('setDisplayTest', true); //teszteset tábla megjelenik
             }
-            if (result.error != null) {
-                console.log('Hiba:' +  result.error);
-            } else {
-                result.value = result.resultsObj;
-                //console.log('result.value');
-                if(props.tests.length != 0){
-                    store.commit('setResults', results);
-                    store.commit('setDisplayTest', true); //teszteset tábla megjelenik
-                }
-                
-            }
-        });
-    }
+
+        }
+    });
+}
 
 function addStringToEndOfThePythonCode(test) {
     let arr = []
@@ -137,7 +151,7 @@ function addStringToEndOfThePythonCode(test) {
         //console.log(test.parametersType)
         for (let i = 0; i < params.length; i++) {
             if (parametersType[i] == 'string') {
-                arr.push( params[i] )
+                arr.push(params[i])
             }
             if (parametersType[i] == 'number') {
                 arr.push(parseInt(params[i]))
@@ -148,9 +162,6 @@ function addStringToEndOfThePythonCode(test) {
                 } else {
                     arr.push('False')
                 }
-            }
-            if (parametersType[i] == 'JSON') {
-                arr.push( JSON.stringify(params[i]))
             }
         }
         //console.log(arr)
@@ -164,7 +175,7 @@ function addStringToEndOfThePythonCode(test) {
 </script>
 <template>
     <div>
-        
+
         <div class="ml-5 mr-5 mt-2">
             <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="200"
                 @change="codeChange($event)" />
