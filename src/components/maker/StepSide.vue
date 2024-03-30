@@ -29,7 +29,14 @@ const props = defineProps({
                 <span
                     :class="['inline-flex align-items-center justify-content-center align-items-center border-circle border-primary border-1 h-2rem w-2rem z-1 cursor-pointer', { 'bg-primary': active, 'surface-overlay text-primary': !active }]">
                     {{ active ? store.commit(props.currentSide, index + 1) : null }}
-                    {{ index + 1 }}
+                    <div v-if="item.icon">
+                        <i :class="[item.icon, 'text-xl']" />
+                    </div>
+                    <div v-else>
+                        {{ index + 1 }}
+                    </div>
+
+
                 </span>
             </template>
 

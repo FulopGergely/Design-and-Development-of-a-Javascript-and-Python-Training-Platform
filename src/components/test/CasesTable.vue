@@ -21,6 +21,8 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
             correct[i] = 1
             if (task.tests.length === AllCorrect) {
                 console.log('Összes teszteset sikeres');
+                store.commit('setScoreEarned', store.getters.getScoreBySide)
+                console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1])
             }
         }
         console.log('correct: ' + AllCorrect)

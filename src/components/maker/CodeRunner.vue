@@ -216,7 +216,7 @@ async function saveTestCase() {
         parametersType: params.value.map(item => item.type.name),
         resultType: typeof result.value
     };
-    //ez a generált teszteseteknél fut le
+    //egyéni
     //pythonnál Map-et nem lehet firebase-en tárolni, ezért itt átalakítottam, és így tároljuk el a tesztesetet
     if (typeof myCase.result === 'object' && selectLanguage.value === 'python') {
         const mapToObject = map => Object.fromEntries(map.entries());

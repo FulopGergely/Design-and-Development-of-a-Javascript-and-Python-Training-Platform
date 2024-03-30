@@ -7,6 +7,7 @@ export default {
             loading: false, //segédváltozó, oldal async betöltése miatt
             testSheet: [], //teszt kérdéssor, lekérjük, másolatot készítünk, és ezt használjuk. a code-ot betöltéskor módosítjuk (initTest-nél testID.vue)
             testDurationMinutes: 9999999, //lekért adat
+            scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
             //ezeket csak vuex-ben tároljuk, amit a tesztkiktöltő beír adatok ezek:
             // legyenek egy tömbben?
             //testSheet-hez adjunk hozzá egy expectedResult-ot, és egy resultot
@@ -28,6 +29,10 @@ export default {
         setResults(state, results) {
             state.testSheet.task[state.currentTestSide - 1].output = results
         },
+        setScoreEarned(state, score) {
+            state.scoreEarned[state.currentTestSide - 1] = score
+            state.testSheet.task[state.currentTestSide - 1].icon = "pi pi-check"
+        }
     },
     getters: {
         getCurrentTestSide(state) {
@@ -46,6 +51,10 @@ export default {
         getTestBySide: state => {
             //console.log(state.testSheet.task[state.currentTestSide - 1].tests)
             return state.testSheet.task[state.currentTestSide - 1].tests
+        },
+        getScoreBySide: state => {
+            //console.log(state.testSheet.task[state.currentTestSide - 1].tests)
+            return state.testSheet.task[state.currentTestSide - 1].score
         },
     },
 };
