@@ -50,7 +50,7 @@ import 'primevue/resources/themes/soho-dark/theme.css';
 // import 'primevue/resources/themes/md-light-indigo/theme.css';
 // import 'primevue/resources/themes/md-light-deeppurple/theme.css';
 // import 'primevue/resources/themes/md-dark-indigo/theme.css';
-//  import 'primevue/resources/themes/md-dark-deeppurple/theme.css';
+// import 'primevue/resources/themes/md-dark-deeppurple/theme.css';
 // import 'primevue/resources/themes/mdc-light-indigo/theme.css';
 //  import 'primevue/resources/themes/mdc-light-deeppurple/theme.css';
 // import 'primevue/resources/themes/mdc-dark-indigo/theme.css';
@@ -121,6 +121,9 @@ import Steps from 'primevue/steps';
 import Inplace from 'primevue/inplace';
 import ToggleButton from 'primevue/togglebutton';
 import BlockUI from 'primevue/blockui';
+import InputSwitch from 'primevue/inputswitch';
+import Rating from 'primevue/rating';
+import Calendar from 'primevue/calendar';
 
 
 
@@ -169,6 +172,9 @@ app.component('Steps', Steps);
 app.component('Inplace', Inplace);
 app.component('ToggleButton', ToggleButton);
 app.component('BlockUI', BlockUI);
+app.component('InputSwitch', InputSwitch);
+app.component('Rating', Rating);
+app.component('Calendar', Calendar);
 
 app.use(InstallCodemirro);
 

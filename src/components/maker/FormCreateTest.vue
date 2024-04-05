@@ -18,11 +18,11 @@ onMounted(() => {
 async function createTest() {
     store.commit('setLoading', true) //testMaker komponensbe állítjuk, <toast> üzenet is ott van
     if (!testName.value) {
-        toast.add({ severity: 'error', summary: 'Hiba', detail: 'Nincs kitöltve a mező' });
+        toast.add({ severity: 'error', summary: 'Hiba', detail: 'Kérem adjon nevet a tesztnek' });
     } else {
         const allTest = await getAllTest() //összes tesztet lekéri
         if (!allTest.some(test => test.tid === testName.value)) {
-            const error = await addTest(auth.currentUser.uid, testName.value, false, true, store.getters.getTask, testTime.value)
+            const error = await addTest(auth.currentUser.uid, testName.value, false, store.getters.getTask, testTime.value)
             if (error) {
                 toast.add({ severity: 'error', summary: 'Hiba', detail: 'Teszt mentése sikertelen\n\n' + error });
             } else {
@@ -39,17 +39,33 @@ const isInvalid = false
 <template>
     <div>
         <div class="field">
-            <label>Teszt neve</label>
-            <InputText v-tooltip.top="'teszt egyedi azonosítója'" type="text" v-model="testName"
-                :class="{ 'invalid': isInvalid }" invalid required
-                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+
+            <InputGroup class="mt-5">
+                <InputGroupAddon>https://kvizmester-ace48.firebaseapp.com/</InputGroupAddon>
+                <InputText placeholder="Teszt neve" v-tooltip.top="'teszt egyedi azonosítója'" type="text"
+                    v-model="testName" :class="{ 'invalid': isInvalid }" invalid required />
+
+            </InputGroup>
+
         </div>
         <div class="field">
-            <label>Teszt ideje</label>
-            <InputText v-tooltip.top="'hány percig tartson a teszt?\n(0 percnél korlátlan)'" type="number"
-                v-model="testTime" :class="{ 'invalid': !testTime }"
-                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+            <InputGroup class="mt-5">
+                <InputGroupAddon>Teszt ideje</InputGroupAddon>
+                <InputText v-tooltip.top="'Hány percig tartson a teszt?\n(0 percnél korlátlan)'" type="number"
+                    v-model="testTime" />
+            </InputGroup>
         </div>
+        <div class="field">
+            <InputGroup class="mt-5">
+                <InputGroupAddon>Leírás</InputGroupAddon>
+                <Textarea v-tooltip.top="'Rövid leírás a tesztről'" v-model="value" autoResize />
+            </InputGroup>
+        </div>
+        <br>
+        <div class="field">
+            Tesztet a mentés után a "Tesztjeim" menüpontban lehet elérhetővé tenni
+        </div>
+
         <div class="flex justify-content-end mt-3">
             <Button @click="createTest()">Teszt létrehozása</Button>
         </div>

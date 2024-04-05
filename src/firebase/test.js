@@ -1,5 +1,6 @@
+//test tábla
 import firebaseObjects from '@/firebase/index.js'
-import { collection, doc, deleteDoc, addDoc, getDocs, query } from 'firebase/firestore';
+import { collection, doc, deleteDoc, addDoc, getDocs, query, updateDoc } from 'firebase/firestore';
 import store from '@/store/store.js';
 const db = firebaseObjects.db;
 
@@ -13,6 +14,30 @@ async function getAllTest() {
   })
   return arr
 }
+
+async function getDocId(tid) {
+  const querySnap = await getDocs(query(collection(db, 'tests')));
+  let docId;
+  querySnap.forEach((doc) => {
+    if (doc.data().tid == tid) {
+      docId = doc.id
+    }
+  })
+  return docId
+}
+
+
+async function setAvailable(tid, bool) {
+  updateDoc(doc(db, 'tests', await getDocId(tid)), {
+    available: bool
+  })
+}
+
+async function deleteTest(tid) {
+  await deleteDoc(doc(db, 'tests', await getDocId(tid)))
+}
+
+
 /*
 
 Table tests {
@@ -44,13 +69,12 @@ Table tasks {
  * @param {task} task //teszt kérdései (task array)  
  * @param {integer} testDurationMinutes
  */
-async function addTest(uid, tid, available, privateTest, task, testDurationMinutes) {
+async function addTest(uid, tid, available, task, testDurationMinutes) {
   try {
     await addDoc(collection(db, 'tests'), {
       uid: uid || null,
       tid: tid || null,
-      available: available || null,
-      private: privateTest || null,
+      available: available,
       task: task || null,
       testDurationMinutes: testDurationMinutes || null,
     });
@@ -62,4 +86,4 @@ async function addTest(uid, tid, available, privateTest, task, testDurationMinut
 
 
 
-export { getAllTest, addTest }
+export { getAllTest, addTest, setAvailable, deleteTest }
