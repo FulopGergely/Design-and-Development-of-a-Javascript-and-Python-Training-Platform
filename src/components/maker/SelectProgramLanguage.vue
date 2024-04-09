@@ -10,8 +10,8 @@ onMounted(() => {
 });
 
 const options = ref([
-    { icon: '/public/javascript.svg', value: 'javascript' },
-    { icon: '/public/python.svg', value: 'python' },
+    { icon: '/javascript.svg', value: 'javascript' },
+    { icon: '/python.svg', value: 'python' },
 ]);
 function select(select) {
     emit('update:modelValue', select)

@@ -9,7 +9,7 @@
 
 
 
-    <img src="public/welcome7.webp" style="width: 100%;" alt="">
+    <img src="/pictureW.webp" style="width: 100%;" alt="">
 
     <div>
         <div class="flex justify-content-center flex-wrap mt-5">
@@ -27,6 +27,8 @@
                     <InputText />
                     <Button label="Kezdés" />
                 </InputGroup>
+
+                
             </div>
 
         </div>
