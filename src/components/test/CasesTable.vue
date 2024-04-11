@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import _ from 'lodash';
 import store from '@/store/store.js';
 
+const emit = defineEmits(['showToast'])
 
 const columns = [
     { field: 'expectedResult', header: 'várt érték' },
@@ -21,6 +22,7 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
             correct[i] = 1
             if (task.tests.length === AllCorrect) {
                 console.log('Összes teszteset sikeres');
+                emit('showToast')
                 store.commit('setScoreEarned', store.getters.getScoreBySide)
                 console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1])
             }
@@ -38,7 +40,6 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
 </script>
 <template>
     <div class="card">
-
         <DataTable size="small" stripedRows :value="displayCasesOnTable" tableStyle="min-width: 50rem" class="mb-2">
             <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
             <Column>

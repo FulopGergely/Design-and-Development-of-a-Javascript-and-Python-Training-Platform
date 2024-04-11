@@ -1,9 +1,16 @@
 <script setup>
-import { ref, onMounted, computed, watch, inject } from 'vue';
+import { ref, onMounted, computed, watch, inject, onBeforeMount } from 'vue';
 import store from '@/store/store.js';
 import { getAllTest } from '@/firebase/test.js';
 import { useRoute } from "vue-router";
 //PrimeVue
+import { useToast } from 'primevue/usetoast';
+const toast = useToast();
+const show = () => {
+    if(store.getters.getScoreEarned[store.getters.getCurrentTestSide -1] == undefined){ //hogy ne fusson le akkor is amikor visszalépek egy megoldott feladatra
+        toast.add({ severity: 'success', summary: 'Helyes válasz!', detail: '', life: 3000 });
+    }
+};
 
 //hljs
 import 'highlight.js/lib/common';
@@ -12,34 +19,41 @@ const py = inject('py');
 
 //components
 import NavBar from '@/components/home/NavBar.vue'
-import Terminal from '@/components/maker/Terminal.vue'
 import CasesTable from '@/components/test/CasesTable.vue'
 import StepSide from '../../components/maker/StepSide.vue';
 import CodeRunnerTestFiller from '../../components/test/CodeRunnerTestFiller.vue';
+import FootSteps from '../../components/test/FootSteps.vue';
 
 //const emit = defineEmits(['update:taskCode'])
 
 const testSheet = ref(store.getters.getTestSheet); //testID testlap összes mezője
-const initPyCode = `def my_function(x):\n return x`
-const initJsCode = `function myFunction( p1 ) { \nreturn p1\n}`
-const logs = ref([]);
-const result = ref(null)
-const params = ref(null)
-const code = ref('');
 const user = 'testFiller'
+const totalScore = ref()
+const finished = ref(false)
 
-const userId = ref('');
 onMounted(() => {
-    initTest() //szerverről lekérjük az adatot
-    //const route = useRoute();
-    //console.log('Test ID:', route.params.testID);
+    initTest().then(() => { //előbb szerverről lekérjük az adatot, aztán init a többi szükséges adatokat
+        let score = 0
+        store.getters.getTestSheet.task.forEach(task => {
+            score = score + task.score
+        })
+        totalScore.value = score
+    }); 
 });
+const scoreAchieved = computed(() => {
+    let sum = 0
+    store.getters.getScoreEarned.forEach(score => {
+        sum += score
+    })
+    return sum
+});
+
 
 async function initTest() {
     const router = useRoute() //címsorba beírt testID
     const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
     //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
-    console.log(store.getters.getTestSheet)
+   
     if (!store.getters.getTestSheet) { //falsy (itt majd a felkiáltójelet el kell venni ha sessionba tárolod)
         if (testSheet.value.tid == router.params.testID) {
             console.log('be van töltve a: ' + testSheet.value.tid + ', nem csinálunk semmit')
@@ -52,17 +66,16 @@ async function initTest() {
             if (test.tid == router.params.testID) {
                 //mielőtt tároljuk a code-ot modosítjuk (ha esetleg kell megodlásnak a kód azt itt tudjuk kezelni, vagy lekérjuk fire-baseről)
                 modyfiCode(test.task)
+                console.log('1')
                 store.commit('addTestSheet', test)
-                //testSheet.value = test
+                testSheet.value = test
             }
         });
     }
     store.commit('setLoading', true)
-    console.log(store.getters.getTestSheet)
-
 }
 function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvény törzset lássa. Betöltés után modosítjuk az egészet, így könnyebb lesz később a kezelése.
-    console.log(codes)
+    
     codes.forEach(code => {
         try {
             code.output = [] //itt fogjuk tárolni a kimeneti eredményeket feladatonként.
@@ -91,44 +104,84 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
         }
     })
 }
+function testFinish(finishTest) {
+    finished.value = finishTest
+}
+
+const rating = ref(null);
+const value = ref('');
+
 </script>
 
 <template>
+    <Toast/>
     <NavBar :user="user" />
-
     <div v-if="store.getters.getLoading">
-        <!--This is a comment. Comments are not displayed in the browser-->
+        
+        <div v-if="finished">
+        
+            <div class="flex justify-content-center fadein animation-duration-500">
+                <div class="flex flex-column align-items-center justify-content-center border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                    <div class="h-2rem"></div>
+                    <div class="text-2xl font-bold">Teszt eredménye</div>
+                    <div class="h-2rem"></div>
+                    <div class="text-4xl font-bold">{{ scoreAchieved }} pont</div>
+                    <div class="h-4rem"></div>
+                    <div>Milyen nehéznek érezte a tesztet? Ahol 1 csillag a könnyű, míg 5 csillag a nagyon nehéz:</div>
+                    <div class="h-1rem"></div>
+                    <Rating v-model="rating" :cancel="false"  />
+                    <div class="h-5rem"></div>
+                    <div>Kérjük, ossza meg velünk a véleményét vagy észrevételét a teszttel kapcsolatban, a kitöltés névtelen:</div>
+                     <Textarea class="m-3" v-model="value" variant="filled" rows="5" cols="50" />
+                      <Button  class="mb-2 mt-2 ml-5">Küldés</Button>
+                
+                </div>
+            </div>
+        
+            
+            
+        
+        </div>
+        <div v-else>
+             <!--This is a comment. Comments are not displayed in the browser-->
         <!-- {{ this.$route.params.testID }}  -->
 
         <StepSide :tasks="store.getters.getTestSheet.task" currentSide="setCurrentTestSide" />
-        <div v-for="task in store.getters.getTestSheet.task" :key="task.side">
-            <div v-if="task.side == store.getters.getCurrentTestSide" class="flex justify-content-center flex-wrap ">
-                <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
-                    <div>
-                        <div class="flex justify-content-between flex-wrap">
-                            <h2>{{ task.side }}. Oldal</h2>
-                        </div>
-                        <div
-                            class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                            <div class="m-5" v-html="task.text"></div>
-                            <div v-if="task.programmingLanguageName">
-                                <CodeRunnerTestFiller
-                                    v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
-                                    v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value"
-                                    :tests="task.tests" />
+            <div v-for="task in store.getters.getTestSheet.task" :key="task.side">
+                <div v-if="task.side == store.getters.getCurrentTestSide" class="flex justify-content-center flex-wrap ">
+                    <div class=" border-round surface-border mt-5 mb-3 p-4 w-full">
+                        <div>
+                            <div class="flex justify-content-between flex-wrap">
+                                <h2>{{ task.side }}. Oldal</h2>
+                            </div>
+                            <div
+                                class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                                <div class="flex justify-content-end flex-wrap mr-5">{{store.getters.getScoreBySide}} pont ( {{scoreAchieved}} / {{ totalScore }} )</div>
+                                <div class="m-5" v-html="task.text"></div> 
+                                <div v-if="task.programmingLanguageName">
+                                    <CodeRunnerTestFiller
+                                        v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
+                                        v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value"
+                                        :tests="task.tests" />
+                                </div>
+                                <div v-if="store.getters.getDisplayTest" class="flex justify-content-center flex-wrap ">
+                                <div class=" border-round surface-border mt-5 mb-3 p-4 w-full">
+                                    <CasesTable  @showToast="show" />
+                                </div>
+
                             </div>
 
+                            </div>
+                            <div
+                                class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
+                                <FootSteps @finish="testFinish"/>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-if="store.getters.getDisplayTest" class="flex justify-content-center flex-wrap ">
-            <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
-                <CasesTable />
-            </div>
-
-        </div>
+    
     </div>
     <div v-else>
         <div class="card">
@@ -149,6 +202,14 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
             </div>
         </div>
     </div>
+
+    
+
+    
+       
+       
+        
+    
 </template>
 
 <style scoped>

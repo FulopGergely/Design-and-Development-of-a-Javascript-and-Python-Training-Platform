@@ -30,15 +30,16 @@ const props = defineProps({
 const emit = defineEmits(['update:taskCode'])
 
 const py = inject('py');
-const result = ref()
 const logs = ref([]);
 const code = ref(props.taskCode)
 //const params = ()
 const selectLanguage = ref(props.selectLanguage);
 
 onMounted(() => {
-
     console.log(props.tests)
+});
+const isDisabled = computed(() => { //ha eltaláljuk a választ futtatás gomb szürke lesz
+    return store.getters.getScoreEarned[store.getters.getScoreBySide-1] == store.getters.getScoreBySide && store.getters.getScoreBySide != 0
 });
 
 watch(() => props.selectLanguage, (newValue, oldValue) => {
@@ -196,18 +197,15 @@ function addStringToEndOfThePythonCode(test) {
 </script>
 <template>
     <div>
-
         <div class="ml-5 mr-5 mt-2">
-            <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="200"
+            <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="400"
                 @change="codeChange($event)" />
         </div>
         <div class="grid">
             <div class="col-7">
-
                 <div>
-                    <Button @click="runcode()" class="mb-2 mt-2 ml-5">Futtatás</Button>
+                    <Button :disabled="isDisabled" @click="runcode()" class="mb-2 mt-2 ml-5">Futtatás</Button>
                     <!--  <ResultTable :js-result="result" @params-change="paramsChange" />   -->
-
                 </div>
 
             </div>

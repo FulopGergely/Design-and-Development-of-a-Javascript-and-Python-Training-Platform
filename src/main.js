@@ -124,6 +124,9 @@ import BlockUI from 'primevue/blockui';
 import InputSwitch from 'primevue/inputswitch';
 import Rating from 'primevue/rating';
 import Calendar from 'primevue/calendar';
+import Stepper from 'primevue/stepper';
+import StepperPanel from 'primevue/stepperpanel';
+import AnimateOnScroll from 'primevue/animateonscroll';
 
 
 
@@ -141,6 +144,7 @@ app.use(ToastService) //PrimeVue toast
 app.use(PrimeVue, { ripple: true });
 app.directive('ripple', Ripple);
 app.directive('tooltip', Tooltip);
+app.directive('animateonscroll', AnimateOnScroll);
 app.component('Button', Button);
 app.component('Menubar', Menubar);
 app.component('Avatar', Avatar);
@@ -175,6 +179,9 @@ app.component('BlockUI', BlockUI);
 app.component('InputSwitch', InputSwitch);
 app.component('Rating', Rating);
 app.component('Calendar', Calendar);
+app.component('Stepper', Stepper);
+app.component('StepperPanel', StepperPanel);
+
 
 app.use(InstallCodemirro);
 

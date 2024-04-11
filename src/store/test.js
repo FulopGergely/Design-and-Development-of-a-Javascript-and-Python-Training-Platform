@@ -32,6 +32,7 @@ export default {
         setScoreEarned(state, score) {
             state.scoreEarned[state.currentTestSide - 1] = score
             state.testSheet.task[state.currentTestSide - 1].icon = "pi pi-check"
+            // helyes válasz esetént átírjuk pipára a feladat sorszámát
         }
     },
     getters: {
@@ -40,11 +41,11 @@ export default {
         },
         getLoading: (state) => state.loading,
         getDisplayTest: state => { //segédváltozó hogy a tesztesetek tábla látszódjon, utólag a test.ID ba tesszük be a testheetbe. Feladatonként változik futtatás után true-ra az érték.
-            console.log(state.testSheet.task[state.currentTestSide - 1])
-            /*if (state.testSheet.task[state.currentTestSide - 1] && state.testSheet.task[state.currentTestSide - 1].isTest && state.testSheet.task[state.currentTestSide - 1].tests.length != 0) {
+            //console.log(state.testSheet.task[state.currentTestSide - 1])
+            if (state.testSheet.task[state.currentTestSide - 1] && state.testSheet.task[state.currentTestSide - 1].isTest && state.testSheet.task[state.currentTestSide - 1].tests.length != 0) {
                 //console.log(state.testSheet.task[state.currentTestSide - 1].tests.length)
                 return state.testSheet.task[state.currentTestSide - 1].displayTest
-            }*/
+            }
         },
         getTestSheet: state => {
             return state.testSheet;
@@ -54,8 +55,10 @@ export default {
             return state.testSheet.task[state.currentTestSide - 1].tests
         },
         getScoreBySide: state => {
-            //console.log(state.testSheet.task[state.currentTestSide - 1].tests)
             return state.testSheet.task[state.currentTestSide - 1].score
+        },
+        getScoreEarned: state => {
+            return state.scoreEarned
         },
     },
 };

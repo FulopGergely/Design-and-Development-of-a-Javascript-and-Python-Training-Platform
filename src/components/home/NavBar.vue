@@ -8,7 +8,10 @@ const prop = defineProps({
         type: String,
         default: () => ''
     },
-
+    task: {
+        type: Array,
+        default: () => []
+    }
 })
 
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
@@ -36,14 +39,14 @@ const items = ref(prop.user == 'testFiller' ? '' : [
     },
 ]);
 const profilList = ref([
-    {
+    /*{
         label: 'Profil',
         icon: 'pi pi-user',
         command: () => {
             window.location.href = '/Profil';
 
         }
-    },
+    },*/
     {
         label: 'Kijelentkezés',
         icon: 'pi pi-sign-out',
@@ -54,10 +57,11 @@ const profilList = ref([
 
 
 ]);
-
+const sum = ref(0)
 
 onMounted(() => {
-
+    
+    
 });
 
 function login() {
@@ -91,7 +95,7 @@ onBeforeUnmount(() => {
         <Menubar :model="items" ref="myMenubar">
             <template #start>
                 <div v-if="hasCurrentUser && prop.user == 'testFiller'">
-                    idő:
+                    idő: -
                 </div>
             </template>
             <template #item="{ item, props }">
@@ -102,7 +106,7 @@ onBeforeUnmount(() => {
             </template>
             <template #end>
                 <div class="flex align-items-center gap-2">
-                    <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round"
+                    <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round mr-4"
                         :label="labelTextUserName">
                     </SplitButton>
                     <Button v-if="!hasCurrentUser" class="" @click="login" :label="labelLogin" icon="pi pi-user"></Button>
