@@ -23,6 +23,7 @@ import CasesTable from '@/components/test/CasesTable.vue'
 import StepSide from '../../components/maker/StepSide.vue';
 import CodeRunnerTestFiller from '../../components/test/CodeRunnerTestFiller.vue';
 import FootSteps from '../../components/test/FootSteps.vue';
+import Score from '@/components/test/Score.vue'
 
 //const emit = defineEmits(['update:taskCode'])
 
@@ -45,7 +46,7 @@ const scoreAchieved = computed(() => {
     store.getters.getScoreEarned.forEach(score => {
         sum += score
     })
-    return sum
+    return sum == null ? 0 : sum
 });
 
 
@@ -105,11 +106,9 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
     })
 }
 function testFinish(finishTest) {
-    finished.value = finishTest
+    finished.value = finishTest // megjelenik a teszteredmény html-nél
+    
 }
-
-const rating = ref(null);
-const value = ref('');
 
 </script>
 
@@ -119,27 +118,7 @@ const value = ref('');
     <div v-if="store.getters.getLoading">
         
         <div v-if="finished">
-        
-            <div class="flex justify-content-center fadein animation-duration-500">
-                <div class="flex flex-column align-items-center justify-content-center border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                    <div class="h-2rem"></div>
-                    <div class="text-2xl font-bold">Teszt eredménye</div>
-                    <div class="h-2rem"></div>
-                    <div class="text-4xl font-bold">{{ scoreAchieved }} pont</div>
-                    <div class="h-4rem"></div>
-                    <div>Milyen nehéznek érezte a tesztet? Ahol 1 csillag a könnyű, míg 5 csillag a nagyon nehéz:</div>
-                    <div class="h-1rem"></div>
-                    <Rating v-model="rating" :cancel="false"  />
-                    <div class="h-5rem"></div>
-                    <div>Kérjük, ossza meg velünk a véleményét vagy észrevételét a teszttel kapcsolatban, a kitöltés névtelen:</div>
-                     <Textarea class="m-3" v-model="value" variant="filled" rows="5" cols="50" />
-                      <Button  class="mb-2 mt-2 ml-5">Küldés</Button>
-                
-                </div>
-            </div>
-        
-            
-            
+            <Score :scoreAchieved="scoreAchieved" />
         
         </div>
         <div v-else>
@@ -174,7 +153,7 @@ const value = ref('');
                             </div>
                             <div
                                 class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
-                                <FootSteps @finish="testFinish"/>
+                                <FootSteps @finish="testFinish" :scoreAchieved="scoreAchieved" />
                             </div>
                         </div>
                     </div>

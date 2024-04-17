@@ -1,6 +1,6 @@
 //test tábla
 import firebaseObjects from '@/firebase/index.js'
-import { collection, doc, deleteDoc, addDoc, getDocs, query, updateDoc } from 'firebase/firestore';
+import { collection, doc, deleteDoc, addDoc, getDocs, query, updateDoc, getDoc } from 'firebase/firestore';
 import store from '@/store/store.js';
 const db = firebaseObjects.db;
 
@@ -15,6 +15,7 @@ async function getAllTest() {
   return arr
 }
 
+//segéd, visszadja a docID-t
 async function getDocId(tid) {
   const querySnap = await getDocs(query(collection(db, 'tests')));
   let docId;
@@ -24,6 +25,34 @@ async function getDocId(tid) {
     }
   })
   return docId
+}
+
+async function setReview(tid, rating, review) {
+  const testDocId = await getDocId(tid);
+  const testRef = doc(db, 'tests', testDocId);
+
+  // Először kiolvassuk az aktuális értékeket
+  const testDoc = await getDoc(testRef);
+  const currentRating = testDoc.data().rating || [];
+  const currentReview = testDoc.data().review || [];
+
+  // Hozzáadjuk az új értéket az aktuális értékekhez
+  currentRating.push(rating.value)
+  currentReview.push(review.value)
+
+  // Majd az új értékeket beállítjuk a Firestore-ban
+  await updateDoc(testRef, {
+    rating: currentRating,
+    review: currentReview
+  });
+
+}
+async function deletedReview(tid) {
+  const testDocId = await getDocId(tid);
+  const testRef = doc(db, 'tests', testDocId);
+  await updateDoc(testRef, {
+    review: []
+  });
 }
 
 
@@ -77,6 +106,8 @@ async function addTest(uid, tid, available, task, testDurationMinutes) {
       available: available,
       task: task || null,
       testDurationMinutes: testDurationMinutes || null,
+      rating: [],
+      review: [],
     });
   } catch (error) {
     return error
@@ -86,4 +117,4 @@ async function addTest(uid, tid, available, task, testDurationMinutes) {
 
 
 
-export { getAllTest, addTest, setAvailable, deleteTest }
+export { getAllTest, addTest, setAvailable, deleteTest, setReview, deletedReview }

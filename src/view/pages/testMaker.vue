@@ -22,7 +22,8 @@ const b = 2;
 console.log(a+b);`).value;*/
 const user = 'testCreator'
 onMounted(() => {
-
+    store.commit('setLoading', false)
+    store.commit('setLoading', true)
 });
 
 const myQuillEditor = ref('')
@@ -56,7 +57,7 @@ const options = ref({
 <template>
     <NavBar :user="user" />
     <Toast />
-    <div v-if="!store.getters.getLoading">
+    <div v-if="store.getters.getLoading">
         <StepSide :tasks="store.getters.getTask" :currentSide="'setCurrentSide'" />
         <div v-for="task in store.getters.getTask" :key="task.side">
             <div v-if="task.side == store.getters.getCurrentSide" class="flex justify-content-center flex-wrap ">
@@ -92,7 +93,6 @@ const options = ref({
         </div>
     </div>
     <div v-else>
-        <BlockUI :blocked="!store.getters.getLoading" fullScreen />
         <div class="flex justify-content-center flex-wrap">
             <ProgressSpinner />
         </div>

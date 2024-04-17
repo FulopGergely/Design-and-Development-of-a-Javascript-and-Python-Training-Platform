@@ -15,7 +15,7 @@ const checked = ref({})
 const myTests = ref([])
 
 async function init() {
-    store.commit('setLoading', true)
+    store.commit('setLoading', false)
     allTests.value = await getAllTest()
     allTests.value.forEach(item => { //saját tesztek
         checked.value[item.tid] = item.available; // 
@@ -25,7 +25,7 @@ async function init() {
         //console.log(item.uid)
     });
     //console.log(myTests.value)
-    store.commit('setLoading', false)
+    store.commit('setLoading', true)
 
     //console.log(setTest('ee'))
 }
@@ -91,7 +91,7 @@ function changeChecked(data) {
 <template>
     <NavBar></NavBar>
 
-    <div v-if="!store.getters.getLoading">
+    <div v-if="store.getters.getLoading">
 
         <div class="flex justify-content-center flex-wrap ">
             <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
@@ -137,7 +137,6 @@ function changeChecked(data) {
 
     </div>
     <div v-else>
-        <BlockUI :blocked="!store.getters.getLoading" fullScreen />
         <div class="flex justify-content-center flex-wrap">
             <ProgressSpinner />
         </div>
