@@ -27,7 +27,7 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
                 console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1])
             }
         }
-        console.log('correct: ' + AllCorrect)
+        //console.log('correct: ' + AllCorrect)
         return {
             result: store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1].output[i],
             expectedResult: store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1].functionName + '(' + item.parameters.map(param => typeof param === 'object' ? JSON.stringify(param) : param) + ') -> ' + (typeof item.result == 'object' ? JSON.stringify(item.result) : item.result),

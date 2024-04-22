@@ -168,17 +168,20 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
         
         </div>
         <div v-else>
-            <div class="card">
-                <div class="border-round border-1 surface-border p-4 surface-card">
-                    <div class="flex mb-3">
-                        <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
+             <div class="card">
+                <Skeleton class=" mt-8 mb-8" ></Skeleton>
+                <div class="flex mb-3 mt-8">
                         <div>
-                            <Skeleton width="10rem" class="mb-2"></Skeleton>
-                            <Skeleton width="5rem" class="mb-2"></Skeleton>
-                            <Skeleton height=".5rem"></Skeleton>
+                            <Skeleton width="6rem" height="25px" class="mt-7 mb-6 ml-4"></Skeleton>
                         </div>
                     </div>
-                    <Skeleton width="100%" height="150px"></Skeleton>
+                <div class="border-round border-1 surface-border mt-2 ml-4 mr-4 p-4">
+                    <Skeleton width="90%" class="m-1"></Skeleton>
+                    <Skeleton width="90%" class="m-1"></Skeleton>
+                    <Skeleton width="90%" class="m-1"></Skeleton>
+                    <Skeleton width="90%" class="mb-5"></Skeleton>
+                    
+                    <Skeleton width="100%" height="600px"></Skeleton>
                     <div class="flex justify-content-between mt-3">
                         <Skeleton width="4rem" height="2rem"></Skeleton>
                         <Skeleton width="4rem" height="2rem"></Skeleton>

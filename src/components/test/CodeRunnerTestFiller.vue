@@ -116,7 +116,7 @@ async function executePythonCode() {
         resultsObj.push(res);
     } else {
         for (const test of props.tests) {
-            console.log(code.value + addStringToEndOfThePythonCode(test))
+            //console.log(code.value + addStringToEndOfThePythonCode(test))
             res = await py.run(code.value + addStringToEndOfThePythonCode(test));
 
             if (typeof res.results == 'object') { //firebase-től Map-et kapunk vissza ha teszt obj, itt alakítottam át, mert így nem nyúl bele a frontend-es futtatásba ami map-el működik jól

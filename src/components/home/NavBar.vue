@@ -97,7 +97,7 @@ const stopCountdown = () => {
 onMounted(() => {
     updateLabel();
     window.addEventListener('resize', updateLabel);
-    startCountdown();
+    //startCountdown();
     //old
     /*
     clearInterval(refreshIntervalId);

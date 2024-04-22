@@ -20,18 +20,20 @@ const testID = ref()
 async function login() {
     if(testID.value){
         let tests = await getAllTest()
+        let bool = false
         tests.map(test => {
             if (test.tid == testID.value && test.available) {
+                bool = true
                 signInWithGoogle().then(() => {
                     router.push('/' + testID.value);
                 }).catch(error => {
                     console.error('Bejelentkezés sikertelen:', error);
                 });
-            } else {
-                show()
             }
         })
-        
+        if (!bool) {
+                show()
+            }
     }
         //signInWithGoogle()
 } 

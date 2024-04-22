@@ -4,6 +4,17 @@ import store from '@/store/store.js';
 import { getAllTest, addTest, setAvailable, deleteTest } from '@/firebase/test.js';
 //components
 import NavBar from '@/components/home/NavBar.vue'
+//PrimeVue
+import { useToast } from 'primevue/usetoast';
+const toast = useToast();
+const show = (tid, available) => {
+    if (!available) {
+        toast.add({ severity: 'info', summary: 'elérhető a(z) "' + tid + '" nevű teszt', life: 3000 });
+    } else {
+        toast.add({ severity: 'info', summary: 'inaktív a(z) "' + tid + '" nevű teszt', life: 3000 });
+    }
+      
+};
 
 onMounted(() => {
     //console.log(store.getters.getTestSheet)
@@ -85,6 +96,7 @@ const displayOnTable = computed(() => {
 
 function changeChecked(data) {
     setAvailable(data.tid, !checked.value[data.tid])
+    show(data.tid, checked.value[data.tid])
 }
 function modifyRow(data) {
     const matchingTests = new Proxy(myTests.value.filter(x => x.tid === data.data.tid), {
@@ -98,6 +110,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 </script>
 <template>
     <NavBar></NavBar>
+    <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
 
