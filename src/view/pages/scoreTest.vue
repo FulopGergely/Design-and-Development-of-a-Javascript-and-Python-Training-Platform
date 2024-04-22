@@ -230,13 +230,15 @@ const deleteReview = () => {
         }
     });
 };
-
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
 </script>
 <template>
     <NavBar></NavBar>
     <Toast/>
-    <div v-if="store.getters.getLoading">
+    <div v-if="hasCurrentUser">
+    
+        <div v-if="store.getters.getLoading">
         <div class="flex justify-content-center flex-wrap ">
             <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
                     <div>
@@ -309,6 +311,8 @@ const deleteReview = () => {
         <div class="flex justify-content-center flex-wrap">
             <ProgressSpinner />
         </div>
+    </div>
+    
     </div>
 </template>
 

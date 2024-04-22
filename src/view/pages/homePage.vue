@@ -2,7 +2,7 @@
 import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
 import { getAllTest } from '@/firebase/test.js';
 import { ref, onMounted, computed, watch  } from 'vue';
-//import { useRouter } from 'vue-router';
+import router from '@/router/index.js';
 import store from '@/store/store.js';
 //PrimeVue
 import { useToast } from 'primevue/usetoast';
@@ -10,8 +10,8 @@ const toast = useToast();
 const show = () => {
       toast.add({ severity: 'error', summary: 'Nincs ilyen teszt', life: 3000 });
 };
-//console.log(useRouter)
 
+//const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
 
 
@@ -22,8 +22,11 @@ async function login() {
         let tests = await getAllTest()
         tests.map(test => {
             if (test.tid == testID.value && test.available) {
-                console.log(testID.value + 'indítása')
-                signInWithGoogle()
+                signInWithGoogle().then(() => {
+                    router.push('/' + testID.value);
+                }).catch(error => {
+                    console.error('Bejelentkezés sikertelen:', error);
+                });
             } else {
                 show()
             }
@@ -31,16 +34,14 @@ async function login() {
         
     }
         //signInWithGoogle()
-    
-}
+} 
 
 </script>
 <template>
 
 
 
-    
-    <img src="/pictureW.webp" style="width: 100%;" alt="">
+<img src="/pictureW.webp" style="width: 100%;" alt="">
 
     <div>
         <div class="flex justify-content-center flex-wrap mt-5">
@@ -58,12 +59,15 @@ async function login() {
                     <InputText v-model="testID"/>
                     <Button @click="login()" label="Kezdés" />
                 </InputGroup>
-
                 <Toast />
             </div>
 
         </div>
     </div>
+
+
+    
+    
 
 
 

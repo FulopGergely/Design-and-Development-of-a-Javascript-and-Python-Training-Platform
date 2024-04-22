@@ -2,6 +2,7 @@
 import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
 import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import store from '@/store/store.js';
+import router from '@/router/index.js';
 
 const prop = defineProps({
     user: { //testFiller / testCreator - segédváltozó, mivel több helyen is használjuke zt a componenset, ezért ezzel különböztetjük meg hogy admin vagy tesztkitöltő menüsávot jelenítsen meg
@@ -14,7 +15,7 @@ const prop = defineProps({
     }
 })
 
-const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
 
 const items = ref(prop.user == 'testFiller' ? '' : [
     {
@@ -65,6 +66,7 @@ function login() {
         signInWithGoogle()
     } else {
         signOutWithGoogle()
+        router.push('/');
     }
 }
 const labelTextUserName = ref(store.getters.getCurrentUser.displayName);

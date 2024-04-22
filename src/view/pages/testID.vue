@@ -188,11 +188,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
         </div>
 
     </div>
-    <div v-else>
-       
-               
-        
-    </div>
+   
 
     
     
