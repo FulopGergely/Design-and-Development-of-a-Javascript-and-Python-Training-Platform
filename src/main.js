@@ -41,7 +41,7 @@ import ToastService from 'primevue/toastservice'; //toast
 // https://primevue.org/theming/#builtinthemes
 //ezek jók:
 //import 'primevue/resources/themes/lara-light-teal/theme.css'
-//import 'primevue/resources/themes/soho-light/theme.css'
+// import 'primevue/resources/themes/soho-light/theme.css'
 import 'primevue/resources/themes/soho-dark/theme.css';
 //import 'primevue/resources/themes/viva-dark/theme.css';
 
@@ -127,6 +127,7 @@ import Calendar from 'primevue/calendar';
 import Stepper from 'primevue/stepper';
 import StepperPanel from 'primevue/stepperpanel';
 import AnimateOnScroll from 'primevue/animateonscroll';
+import Message from 'primevue/message';
 
 
 
@@ -181,6 +182,7 @@ app.component('Rating', Rating);
 app.component('Calendar', Calendar);
 app.component('Stepper', Stepper);
 app.component('StepperPanel', StepperPanel);
+app.component('Message', Message);
 
 
 app.use(InstallCodemirro);

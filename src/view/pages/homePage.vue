@@ -1,14 +1,45 @@
-<script>
+<script setup>
+import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
+import { getAllTest } from '@/firebase/test.js';
+import { ref, onMounted, computed, watch  } from 'vue';
+//import { useRouter } from 'vue-router';
+import store from '@/store/store.js';
+//PrimeVue
+import { useToast } from 'primevue/usetoast';
+const toast = useToast();
+const show = () => {
+      toast.add({ severity: 'error', summary: 'Nincs ilyen teszt', life: 3000 });
+};
+//console.log(useRouter)
 
-//components
 
+
+
+const testID = ref()
+
+async function login() {
+    if(testID.value){
+        let tests = await getAllTest()
+        tests.map(test => {
+            if (test.tid == testID.value && test.available) {
+                console.log(testID.value + 'indítása')
+                signInWithGoogle()
+            } else {
+                show()
+            }
+        })
+        
+    }
+        //signInWithGoogle()
+    
+}
 
 </script>
 <template>
 
 
 
-
+    
     <img src="/pictureW.webp" style="width: 100%;" alt="">
 
     <div>
@@ -24,11 +55,11 @@
 
                 <InputGroup class="mt-5">
                     <InputGroupAddon>https://kvizmester-ace48.firebaseapp.com/</InputGroupAddon>
-                    <InputText />
-                    <Button label="Kezdés" />
+                    <InputText v-model="testID"/>
+                    <Button @click="login()" label="Kezdés" />
                 </InputGroup>
 
-                
+                <Toast />
             </div>
 
         </div>
@@ -37,4 +68,3 @@
 
 
 </template>
-<style scoped></style>

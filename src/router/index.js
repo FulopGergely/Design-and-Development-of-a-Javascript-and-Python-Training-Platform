@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const testID = 'asd'
-
 //views: async import
 const routes = [
     { path: '/', component: () => import('@/view/pages/homePage.vue') },

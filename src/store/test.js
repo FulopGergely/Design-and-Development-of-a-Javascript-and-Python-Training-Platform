@@ -33,7 +33,10 @@ export default {
             state.scoreEarned[state.currentTestSide - 1] = score
             state.testSheet.task[state.currentTestSide - 1].icon = "pi pi-check"
             // helyes válasz esetént átírjuk pipára a feladat sorszámát
-        }
+        },
+        setTestDurationMinutes(state, time) {
+            state.testDurationMinutes = time //lekérjük egyszer szerverről honnna induljon az időzítés
+        },
     },
     getters: {
         getCurrentTestSide(state) {

@@ -60,3 +60,7 @@ textarea:focus {
     border-radius: 5px;
     background-color: #42434d !important;
 }
+
+.p-message-wrapper {
+    padding: 7px;
+}

@@ -16,7 +16,7 @@ onMounted(() => {
 
 //addTest(uid, tid, available, private, task, testDurationMinutes)
 async function createTest() {
-    store.commit('setLoading', true) //testMaker komponensbe állítjuk, <toast> üzenet is ott van
+    store.commit('setLoading', false) //testMaker komponensbe állítjuk, <toast> üzenet is ott van
     if (!testName.value) {
         toast.add({ severity: 'error', summary: 'Hiba', detail: 'Kérem adjon nevet a tesztnek' });
     } else {
@@ -32,7 +32,7 @@ async function createTest() {
             toast.add({ severity: 'error', summary: 'Hiba', detail: 'Teszt mentése sikertelen\n\n' + testName.value + ' teszt már létezik' });
         }
     }
-    store.commit('setLoading', false)
+    store.commit('setLoading', true)
 }
 const isInvalid = false
 </script>
@@ -55,18 +55,14 @@ const isInvalid = false
                     v-model="testTime" />
             </InputGroup>
         </div>
-        <div class="field">
-            <InputGroup class="mt-5">
-                <InputGroupAddon>Leírás</InputGroupAddon>
-                <Textarea v-tooltip.top="'Rövid leírás a tesztről'" v-model="value" autoResize />
-            </InputGroup>
-        </div>
-        <br>
-        <div class="field">
-            Tesztet a mentés után a "Tesztjeim" menüpontban lehet elérhetővé tenni
+        <div>
+            <Message style="height: 50%;">Tesztet a mentés után a "Tesztjeim" menüpontban lehet elérhetővé
+                tenni</Message>
         </div>
 
-        <div class="flex justify-content-end mt-3">
+
+
+        <div class="flex justify-content-end mt-7">
             <Button @click="createTest()">Teszt létrehozása</Button>
         </div>
     </div>

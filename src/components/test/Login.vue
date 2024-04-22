@@ -20,9 +20,6 @@ const profilList = ref([
 ]);
 
 
-onMounted(() => {
-
-});
 
 function login() {
     if (!hasCurrentUser.value) {
@@ -40,7 +37,7 @@ function login() {
         <Menubar ref="myMenubar">
             <template #start>
                 <div v-if="hasCurrentUser">
-                    idő:
+                    idő: asd
                 </div>
             </template>
             <template #end>

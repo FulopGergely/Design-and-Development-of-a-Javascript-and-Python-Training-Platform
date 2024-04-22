@@ -32,11 +32,12 @@ const items = ref(prop.user == 'testFiller' ? '' : [
         icon: 'pi pi-chart-bar',
         href: '/Admin/Eredmenyek'
     },
+    /*
     {
         label: 'Mások tesztjei',
         icon: 'pi pi-users',
         href: '/Admin/Megosztas'
-    },
+    },*/
 ]);
 const profilList = ref([
     /*{
@@ -59,11 +60,6 @@ const profilList = ref([
 ]);
 const sum = ref(0)
 
-onMounted(() => {
-    
-    
-});
-
 function login() {
     if (!hasCurrentUser.value) {
         signInWithGoogle()
@@ -79,9 +75,42 @@ const updateLabel = () => {
     labelLogin.value = screenWidth < 300 ? '' : 'Bejelentkezés';
 };
 
+const countdownValue = ref(60); // Például 60 másodperc
+let timer;
+const startCountdown = () => {
+  timer = setInterval(() => {
+    console.log(timer)
+    countdownValue.value--;
+    if (countdownValue.value === 0) {
+      clearInterval(timer);
+      // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
+    }
+  }, 1000);
+  
+};
+const stopCountdown = () => {
+  clearInterval(timer);
+};
+
 onMounted(() => {
     updateLabel();
     window.addEventListener('resize', updateLabel);
+    startCountdown();
+    //old
+    /*
+    clearInterval(refreshIntervalId);
+    if (this.$store.state.countDownTime > 0) {
+      this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime - 1)
+    }
+    console.log(this.$store.state.countDownTime)
+    refreshIntervalId = setInterval(() => {
+      this.$store.dispatch('startCountdown');
+      if (this.$store.state.countDownTime <= 0) {
+        clearInterval(refreshIntervalId);
+      }
+    }, 1000);
+    */ 
+
 });
 
 onBeforeUnmount(() => {
@@ -95,7 +124,7 @@ onBeforeUnmount(() => {
         <Menubar :model="items" ref="myMenubar">
             <template #start>
                 <div v-if="hasCurrentUser && prop.user == 'testFiller'">
-                    idő: -
+                    idő: {{  timer }}
                 </div>
             </template>
             <template #item="{ item, props }">

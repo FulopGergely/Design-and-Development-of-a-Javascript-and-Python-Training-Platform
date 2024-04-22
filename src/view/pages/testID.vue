@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch, inject, onBeforeMount } from 'vue';
+import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
 import store from '@/store/store.js';
 import { getAllTest } from '@/firebase/test.js';
 import { useRoute } from "vue-router";
@@ -40,6 +41,7 @@ onMounted(() => {
         })
         totalScore.value = score
     }); 
+    signInWithGoogle()
 });
 const scoreAchieved = computed(() => {
     let sum = 0
@@ -109,79 +111,90 @@ function testFinish(finishTest) {
     finished.value = finishTest // megjelenik a teszteredmény html-nél
     
 }
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
+
 
 </script>
 
 <template>
     <Toast/>
-    <NavBar :user="user" />
-    <div v-if="store.getters.getLoading">
-        
-        <div v-if="finished">
-            <Score :scoreAchieved="scoreAchieved" />
-        
-        </div>
-        <div v-else>
-             <!--This is a comment. Comments are not displayed in the browser-->
-        <!-- {{ this.$route.params.testID }}  -->
+    <div v-if="hasCurrentUser">
+        <NavBar :user="user" />
+        <div v-if="store.getters.getLoading">
+            
+            <div v-if="finished">
+                <Score :scoreAchieved="scoreAchieved" />
+            
+            </div>
+            <div v-else>
+                <!--This is a comment. Comments are not displayed in the browser-->
+            <!-- {{ this.$route.params.testID }}  --> 
 
-        <StepSide :tasks="store.getters.getTestSheet.task" currentSide="setCurrentTestSide" />
-            <div v-for="task in store.getters.getTestSheet.task" :key="task.side">
-                <div v-if="task.side == store.getters.getCurrentTestSide" class="flex justify-content-center flex-wrap ">
-                    <div class=" border-round surface-border mt-5 mb-3 p-4 w-full">
-                        <div>
-                            <div class="flex justify-content-between flex-wrap">
-                                <h2>{{ task.side }}. Oldal</h2>
-                            </div>
-                            <div
-                                class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                                <div class="flex justify-content-end flex-wrap mr-5">{{store.getters.getScoreBySide}} pont ( {{scoreAchieved}} / {{ totalScore }} )</div>
-                                <div class="m-5" v-html="task.text"></div> 
-                                <div v-if="task.programmingLanguageName">
-                                    <CodeRunnerTestFiller
-                                        v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
-                                        v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value"
-                                        :tests="task.tests" />
+            <StepSide :tasks="store.getters.getTestSheet.task" currentSide="setCurrentTestSide" />
+                <div v-for="task in store.getters.getTestSheet.task" :key="task.side">
+                    <div v-if="task.side == store.getters.getCurrentTestSide" class="flex justify-content-center flex-wrap ">
+                        <div class=" border-round surface-border mt-5 mb-3 p-4 w-full">
+                            <div>
+                                <div class="flex justify-content-between flex-wrap">
+                                    <h2>{{ task.side }}. Oldal</h2>
                                 </div>
-                                <div v-if="store.getters.getDisplayTest" class="flex justify-content-center flex-wrap ">
-                                <div class=" border-round surface-border mt-5 mb-3 p-4 w-full">
-                                    <CasesTable  @showToast="show" />
+                                <div
+                                    class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                                    <div class="flex justify-content-end flex-wrap mr-5">{{store.getters.getScoreBySide}} pont ( {{scoreAchieved}} / {{ totalScore }} )</div>
+                                    <div class="m-5" v-html="task.text"></div> 
+                                    <div v-if="task.programmingLanguageName">
+                                        <CodeRunnerTestFiller
+                                            v-if="task.programmingLanguageName.value == 'javascript' || task.programmingLanguageName.value == 'python'"
+                                            v-model:taskCode="task.code" :selectLanguage="task.programmingLanguageName.value"
+                                            :tests="task.tests" />
+                                    </div>
+                                    <div v-if="store.getters.getDisplayTest" class="flex justify-content-center flex-wrap ">
+                                    <div class=" border-round surface-border mt-5 mb-3 p-4 w-full">
+                                        <CasesTable  @showToast="show" />
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                            </div>
-                            <div
-                                class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
-                                <FootSteps @finish="testFinish" :scoreAchieved="scoreAchieved" />
+                                </div>
+                                <div
+                                    class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
+                                    <FootSteps @finish="testFinish" :scoreAchieved="scoreAchieved" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        
         </div>
-    
-    </div>
-    <div v-else>
-        <div class="card">
-            <div class="border-round border-1 surface-border p-4 surface-card">
-                <div class="flex mb-3">
-                    <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
-                    <div>
-                        <Skeleton width="10rem" class="mb-2"></Skeleton>
-                        <Skeleton width="5rem" class="mb-2"></Skeleton>
-                        <Skeleton height=".5rem"></Skeleton>
+        <div v-else>
+            <div class="card">
+                <div class="border-round border-1 surface-border p-4 surface-card">
+                    <div class="flex mb-3">
+                        <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
+                        <div>
+                            <Skeleton width="10rem" class="mb-2"></Skeleton>
+                            <Skeleton width="5rem" class="mb-2"></Skeleton>
+                            <Skeleton height=".5rem"></Skeleton>
+                        </div>
                     </div>
-                </div>
-                <Skeleton width="100%" height="150px"></Skeleton>
-                <div class="flex justify-content-between mt-3">
-                    <Skeleton width="4rem" height="2rem"></Skeleton>
-                    <Skeleton width="4rem" height="2rem"></Skeleton>
+                    <Skeleton width="100%" height="150px"></Skeleton>
+                    <div class="flex justify-content-between mt-3">
+                        <Skeleton width="4rem" height="2rem"></Skeleton>
+                        <Skeleton width="4rem" height="2rem"></Skeleton>
+                    </div>
                 </div>
             </div>
         </div>
+
+    </div>
+    <div v-else>
+       
+               
+        
     </div>
 
+    
     
 
     

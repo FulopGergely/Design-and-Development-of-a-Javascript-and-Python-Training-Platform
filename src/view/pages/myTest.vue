@@ -31,7 +31,7 @@ async function init() {
 }
 
 const items = (rowData) => [
-    {
+    /*{
         label: 'Tesztnév módosítása',
         icon: 'pi pi-pencil',
         command: () => {
@@ -48,7 +48,7 @@ const items = (rowData) => [
         icon: 'pi pi-file-export',
         command: () => {
         }
-    },
+    },*/
     {
         label: 'Teszt törlése',
         icon: 'pi pi-trash',
@@ -72,7 +72,7 @@ const displayOnTable = computed(() => {
         return myTests.value.map(item => {
             return {
                 testID: 'https://kvizmester-ace48.firebaseapp.com/' + item.tid,
-                time: item.testDurationMinutes,
+                time: item.testDurationMinutes + ' perc',
                 tid: item.tid,
                 available: item.available
             }
@@ -86,11 +86,18 @@ const displayOnTable = computed(() => {
 function changeChecked(data) {
     setAvailable(data.tid, !checked.value[data.tid])
 }
+function modifyRow(data) {
+    const matchingTests = new Proxy(myTests.value.filter(x => x.tid === data.data.tid), {
+        get: function (target, prop, receiver) {
+            return Reflect.get(target, prop, receiver);
+        }
+    });
+    store.commit('setTasks', matchingTests[0].task)
+}
 
 </script>
 <template>
     <NavBar></NavBar>
-
     <div v-if="store.getters.getLoading">
 
         <div class="flex justify-content-center flex-wrap ">
@@ -122,14 +129,16 @@ function changeChecked(data) {
 
                             <Column>
                                 <template #body="slotProps">
-                                    <SplitButton icon="pi pi-file-edit" label="Tesztlap szerkesztése"
-                                        @click="modifyRow(slotProps)" :model="items(slotProps)" />
+
+                                    <RouterLink to="/Admin/Tesztletrehozasa">
+                                        <SplitButton icon="pi pi-file-edit" label="Tesztlap szerkesztése"
+                                            @click="modifyRow(slotProps)" :model="items(slotProps)" />
+                                    </RouterLink>
                                 </template>
                             </Column>
                         </DataTable>
+
                     </div>
-
-
                 </div>
             </div>
 

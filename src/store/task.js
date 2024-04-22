@@ -35,13 +35,15 @@ export default {
             //console.log(state.tasks[state.currentSide - 1].tests)
         },
         setTask(state, updatedTask) {
-            //console.log(updatedTask)
             //console.log(state.currentSide)
             if (state.currentSide - 1 >= 0 && state.currentSide - 1 < state.tasks.length) {
                 state.tasks[state.currentSide - 1] = updatedTask;
             } else {
                 console.error('Invalid index for setTask mutation');
             }
+        },
+        setTasks(state, updatedTasks) {
+            state.tasks = updatedTasks
         },
         deleteTask(state, index) {
             state.tasks.splice(index, 1);
