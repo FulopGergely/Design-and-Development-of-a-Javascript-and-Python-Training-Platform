@@ -25,7 +25,7 @@ const store = createStore({
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['user'],
+            paths: ['user', 'test.testDurationMinutes'],
             storage: window.sessionStorage,
         }),
     ],

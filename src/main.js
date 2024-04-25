@@ -38,14 +38,18 @@ import 'primevue/resources/primevue.min.css'
 import ConfirmationService from 'primevue/confirmationservice'; //confirm
 import ToastService from 'primevue/toastservice'; //toast
 
+
+
+
 // https://primevue.org/theming/#builtinthemes
 //ezek jók:
-//import 'primevue/resources/themes/lara-light-teal/theme.css'
-// import 'primevue/resources/themes/soho-light/theme.css'
+
+// import 'primevue/resources/themes/lara-light-teal/theme.css'
+//import 'primevue/resources/themes/soho-light/theme.css'
 import 'primevue/resources/themes/soho-dark/theme.css';
 //import 'primevue/resources/themes/viva-dark/theme.css';
 
-// import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
+//import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 // import 'primevue/resources/themes/bootstrap4-light-purple/theme.css';
 // import 'primevue/resources/themes/md-light-indigo/theme.css';
 // import 'primevue/resources/themes/md-light-deeppurple/theme.css';
@@ -141,8 +145,13 @@ app.use(ConfirmationService) //PrimeVue confirm
 app.use(ToastService) //PrimeVue toast
 
 
+
+
 //PrimeVue
-app.use(PrimeVue, { ripple: true });
+app.use(PrimeVue, {
+    ripple: true,
+
+});
 app.directive('ripple', Ripple);
 app.directive('tooltip', Tooltip);
 app.directive('animateonscroll', AnimateOnScroll);

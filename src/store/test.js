@@ -6,8 +6,9 @@ export default {
             currentTestSide: 0, //segédváltozó, jelenlegi oldalt ahol épp állunk.
             loading: false, //segédváltozó, oldal async betöltése miatt
             testSheet: [], //teszt kérdéssor, lekérjük, másolatot készítünk, és ezt használjuk. a code-ot betöltéskor módosítjuk (initTest-nél testID.vue)
-            testDurationMinutes: 9999999, //lekért adat
+            testDurationMinutes: 600, //lekért adat
             scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
+            timer: 0,
             //ezeket csak vuex-ben tároljuk, amit a tesztkiktöltő beír adatok ezek:
             // legyenek egy tömbben?
             //testSheet-hez adjunk hozzá egy expectedResult-ot, és egy resultot
@@ -37,6 +38,20 @@ export default {
         setTestDurationMinutes(state, time) {
             state.testDurationMinutes = time //lekérjük egyszer szerverről honnna induljon az időzítés
         },
+        startCountdown(state) {
+            //clearInterval(timer)
+
+            console.log('startCountdown:')
+            console.log(state.testDurationMinutes)
+            clearInterval(state.timer)
+            state.timer = setInterval(() => {
+                state.testDurationMinutes--;
+                if (state.testDurationMinutes === 0) {
+                    clearInterval(state.timer);
+                    // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
+                }
+            }, 1000);
+        }
     },
     getters: {
         getCurrentTestSide(state) {
@@ -62,6 +77,14 @@ export default {
         },
         getScoreEarned: state => {
             return state.scoreEarned
+        },
+        getTimer: state => {
+            return state.timer
+        },
+        getTestDurationMinutes: state => {
+            const minutes = Math.floor(state.testDurationMinutes / 60);
+            const remainingSeconds = state.testDurationMinutes % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         },
     },
 };

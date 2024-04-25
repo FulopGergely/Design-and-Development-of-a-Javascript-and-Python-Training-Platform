@@ -4,6 +4,17 @@ import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import store from '@/store/store.js';
 import router from '@/router/index.js';
 
+//import { myFunction } from '@/main.js'; // Az elérési útvonal a fájlhoz
+
+/*
+import { usePrimeVue } from 'primevue/config';
+const PrimeVue = usePrimeVue();
+function asd() {
+    PrimeVue.changeTheme('soho-dark', 'soho-light', 'theme-link', () => {
+    console.log('A téma sikeresen megváltozott.');
+    });
+}*/
+
 const prop = defineProps({
     user: { //testFiller / testCreator - segédváltozó, mivel több helyen is használjuke zt a componenset, ezért ezzel különböztetjük meg hogy admin vagy tesztkitöltő menüsávot jelenítsen meg
         type: String,
@@ -12,91 +23,23 @@ const prop = defineProps({
     task: {
         type: Array,
         default: () => []
+    },
+    time: {
+        type: Number,
+        default: () => 0
     }
 })
 
-const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
-
-const items = ref(prop.user == 'testFiller' ? '' : [
-    {
-        label: 'Tesztjeim',
-        icon: 'pi pi-book',
-        href: '/Admin/Tesztjeim'
-    },
-    {
-        label: 'Teszt létrehozása',
-        icon: 'pi pi-plus',
-        href: '/Admin/Tesztletrehozasa'
-    },
-    {
-        label: 'Eredmények',
-        icon: 'pi pi-chart-bar',
-        href: '/Admin/Eredmenyek'
-    },
-    /*
-    {
-        label: 'Mások tesztjei',
-        icon: 'pi pi-users',
-        href: '/Admin/Megosztas'
-    },*/
-]);
-const profilList = ref([
-    /*{
-        label: 'Profil',
-        icon: 'pi pi-user',
-        command: () => {
-            window.location.href = '/Profil';
-
-        }
-    },*/
-    {
-        label: 'Kijelentkezés',
-        icon: 'pi pi-sign-out',
-        command: () => {
-            login()
-        }
-    },
-
-
-]);
-const sum = ref(0)
-
-function login() {
-    if (!hasCurrentUser.value) {
-        signInWithGoogle()
-    } else {
-        signOutWithGoogle()
-        router.push('/');
-    }
-}
-const labelTextUserName = ref(store.getters.getCurrentUser.displayName);
-const labelLogin = ref('Bejelentkezés')
-const updateLabel = () => {
-    const screenWidth = window.innerWidth;
-    labelTextUserName.value = screenWidth < 300 ? '' : store.getters.getCurrentUser.displayName;
-    labelLogin.value = screenWidth < 300 ? '' : 'Bejelentkezés';
-};
-
-const countdownValue = ref(60); // Például 60 másodperc
-let timer;
-const startCountdown = () => {
-  timer = setInterval(() => {
-    console.log(timer)
-    countdownValue.value--;
-    if (countdownValue.value === 0) {
-      clearInterval(timer);
-      // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
-    }
-  }, 1000);
-  
-};
-const stopCountdown = () => {
-  clearInterval(timer);
-};
-
 onMounted(() => {
-    updateLabel();
-    window.addEventListener('resize', updateLabel);
+    store.commit('setTestDurationMinutes', prop.time)
+    console.log(prop.time)
+    store.commit('startCountdown') //időzítőt elindítjuk
+
+    // Témaváltás példa
+
+
+
+    
     //startCountdown();
     //old
     /*
@@ -115,9 +58,79 @@ onMounted(() => {
 
 });
 
-onBeforeUnmount(() => {
-    window.removeEventListener('resize', updateLabel);
-});
+const hasCurrentUser = computed(() => {
+    return !!store.getters.getCurrentUser.uid
+}); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
+
+const items = ref(prop.user == 'testFiller' ? '' : [
+    {
+        label: 'Tesztírás',
+        icon: 'pi pi-pencil',
+        href: '/Tesztiras'
+    },
+    {
+        label: 'Tesztjeim',
+        icon: 'pi pi-book',
+        href: '/Tesztjeim'
+    },
+    {
+        label: 'Teszt létrehozása',
+        icon: 'pi pi-plus',
+        href: '/Tesztletrehozasa'
+    },
+    {
+        label: 'Eredmények',
+        icon: 'pi pi-chart-bar',
+        href: '/Eredmenyek'
+    },
+    /*
+    {
+        label: 'Mások tesztjei',
+        icon: 'pi pi-users',
+        href: '/Admin/Megosztas'
+    },*/
+]);
+const profilList = ref([
+    /*{
+        label: 'Profil',
+        icon: 'pi pi-user',
+        command: () => {
+            window.location.href = '/Profil';
+        }
+    },*/
+    {
+        label: 'Kijelentkezés',
+        icon: 'pi pi-sign-out',
+        command: () => {
+            login()
+        }
+    },
+
+
+]);
+
+function login() {
+    if (!hasCurrentUser.value) {
+        signInWithGoogle()
+    } else {
+        signOutWithGoogle()
+        router.push('/');
+    }
+}
+//const labelTextUserName = ref(store.getters.getCurrentUser.displayName);
+
+const displayName = computed(() => {
+    return store.getters.getCurrentUser.displayName
+}); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
+
+
+
+function toggleColorScheme() {
+    document.body.classList.toggle("my-app-dark");
+}
+
+
+
 
 </script>
 
@@ -126,7 +139,7 @@ onBeforeUnmount(() => {
         <Menubar :model="items" ref="myMenubar">
             <template #start>
                 <div v-if="hasCurrentUser && prop.user == 'testFiller'">
-                    idő: {{  timer }}
+                    idő: {{  store.getters.getTestDurationMinutes }}
                 </div>
             </template>
             <template #item="{ item, props }">
@@ -137,14 +150,16 @@ onBeforeUnmount(() => {
             </template>
             <template #end>
                 <div class="flex align-items-center gap-2">
+                  
+                    <Button  class="" @click="toggleColorScheme()" label="dark" ></Button>
+                    
                     <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round mr-4"
-                        :label="labelTextUserName">
+                        :label="displayName">
                     </SplitButton>
-                    <Button v-if="!hasCurrentUser" class="" @click="login" :label="labelLogin" icon="pi pi-user"></Button>
+                    <Button v-if="!hasCurrentUser" class="" @click="login" label="Bejelentkezés" icon="pi pi-user"></Button>
                 </div>
             </template>
         </Menubar>
-
     </div>
 </template>
 <style>

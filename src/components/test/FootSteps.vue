@@ -23,7 +23,7 @@ const nextButtonLabel = computed(() => {
     if (store.getters.getTestSheet.task.length === store.getters.getCurrentTestSide) {
         return 'Teszt befejezése'
     }
-    if (store.getters.getScoreEarned == store.getters.getScoreBySide){
+    if (store.getters.getScoreEarned[store.getters.getCurrentTestSide-1] == store.getters.getScoreBySide || store.getters.getScoreBySide == 0){
         return 'Következő'
     }
     return 'Passz'
@@ -79,6 +79,6 @@ function submit() {
     <div class="flex justify-content-between flex-wrap">
         <Button :disabled="isDisabled" @click="back()" class="ml-5">Vissza</Button>
         <ConfirmDialog></ConfirmDialog>
-        <Button  @click="next()" severity="success" class="mr-5">{{nextButtonLabel}}</Button>
+        <Button  @click="next()" :severity="nextButtonLabel === 'Passz' ? 'danger' : 'success'" class="mr-5">{{nextButtonLabel}}</Button>
     </div>
 </template>

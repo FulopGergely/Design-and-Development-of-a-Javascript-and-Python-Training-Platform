@@ -144,7 +144,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                                 <Column>
                                     <template #body="slotProps">
 
-                                        <RouterLink to="/Admin/Tesztletrehozasa">
+                                        <RouterLink to="/Tesztletrehozasa">
                                             <SplitButton icon="pi pi-file-edit" label="Tesztlap szerkesztése"
                                                 @click="modifyRow(slotProps)" :model="items(slotProps)" />
                                         </RouterLink>

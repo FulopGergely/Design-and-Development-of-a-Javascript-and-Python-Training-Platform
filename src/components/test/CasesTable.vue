@@ -6,8 +6,8 @@ import store from '@/store/store.js';
 const emit = defineEmits(['showToast'])
 
 const columns = [
+    { field: 'result', header: 'futtatott eredmény' },
     { field: 'expectedResult', header: 'várt érték' },
-    { field: 'result', header: 'kimeneti érték' },
 ];
 const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát, hogy a PrimeVue table jól jelenítse meg
     let i = 0
@@ -21,10 +21,10 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
             AllCorrect++;
             correct[i] = 1
             if (task.tests.length === AllCorrect) {
-                console.log('Összes teszteset sikeres');
+                //console.log('Összes teszteset sikeres');
                 emit('showToast')
                 store.commit('setScoreEarned', store.getters.getScoreBySide)
-                console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1])
+                //console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1])
             }
         }
         //console.log('correct: ' + AllCorrect)

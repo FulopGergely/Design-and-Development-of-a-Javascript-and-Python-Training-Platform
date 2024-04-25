@@ -69,7 +69,6 @@ async function initTest() {
             if (test.tid == router.params.testID) {
                 //mielőtt tároljuk a code-ot modosítjuk (ha esetleg kell megodlásnak a kód azt itt tudjuk kezelni, vagy lekérjuk fire-baseről)
                 modyfiCode(test.task)
-                console.log('1')
                 store.commit('addTestSheet', test)
                 testSheet.value = test
             }
@@ -119,9 +118,9 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 <template>
     <Toast/>
     <div v-if="hasCurrentUser">
-        <NavBar :user="user" />
         <div v-if="store.getters.getLoading">
-            
+            <NavBar :user="user" :time="store.getters.getTestSheet.testDurationMinutes*60" />
+        
             <div v-if="finished">
                 <Score :scoreAchieved="scoreAchieved" />
             
@@ -190,6 +189,9 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
             </div>
         </div>
 
+    </div>
+    <div v-else>
+        <NavBar/>
     </div>
    
 
