@@ -124,11 +124,16 @@ const displayName = computed(() => {
 }); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
 
 
+//import { usePreset } from 'primevue/themes'; 
+
+
+
+
 
 function toggleColorScheme() {
-    document.body.classList.toggle("my-app-dark");
+    console.log('darkmode')
+    //document.body.classList.toggle('my-app-dark');
 }
-
 
 
 
@@ -170,6 +175,10 @@ function toggleColorScheme() {
 .avatar {
     height: 40px;
     width: 40px;
+}
+.my-app-dark {
+    background-color: rgba(62, 62, 62, 0.181);
+    color: white;
 }
 </style>
 

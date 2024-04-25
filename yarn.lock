@@ -2773,10 +2773,10 @@
   "resolved" "https://registry.npmjs.org/primeicons/-/primeicons-6.0.1.tgz"
   "version" "6.0.1"
 
-"primevue@^3.51.0":
-  "integrity" "sha512-BdMveidLSr0fNJ5+mxuke8mMCHyiXwvfDP4iwPr6R98rl3E0Wcm1u4/RKVrL7o0Iq606SXyhPQL3LGyAfXngcA=="
-  "resolved" "https://registry.npmjs.org/primevue/-/primevue-3.51.0.tgz"
-  "version" "3.51.0"
+"primevue@^4.0.0-beta.1":
+  "integrity" "sha512-NGVPAODdoj58p0kKUhnb35cmFOtPzU3Zr4mxzEMNV0j+TYrhKlAqSUaIlT/KyMWvJ/7yQEtXoepprvX9OaW4Mg=="
+  "resolved" "https://registry.npmjs.org/primevue/-/primevue-4.0.0-beta.1.tgz"
+  "version" "4.0.0-beta.1"
 
 "proto3-json-serializer@^1.0.0":
   "integrity" "sha512-AwAuY4g9nxx0u52DnSMkqqgyLHaW/XaPLtaAo3y/ZCfeaQB/g4YDH4kb8Wc/mWzWvu0YjOznVnfn373MVZZrgw=="

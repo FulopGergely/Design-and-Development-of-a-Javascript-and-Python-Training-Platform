@@ -33,10 +33,16 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 //PrimeVue
 import "primeflex/primeflex.css";
 import PrimeVue from 'primevue/config';
-import 'primeicons/primeicons.css';
-import 'primevue/resources/primevue.min.css'
+
 import ConfirmationService from 'primevue/confirmationservice'; //confirm
 import ToastService from 'primevue/toastservice'; //toast
+import PrimeVueStyled from 'primevue/styled';
+import PrimeOne from 'primevue/themes/primeone';
+import Aura from 'primevue/themes/primeone/aura';
+import 'primeicons/primeicons.css';
+
+import { definePreset } from 'primevue/themes';
+
 
 
 
@@ -46,7 +52,7 @@ import ToastService from 'primevue/toastservice'; //toast
 
 // import 'primevue/resources/themes/lara-light-teal/theme.css'
 //import 'primevue/resources/themes/soho-light/theme.css'
-import 'primevue/resources/themes/soho-dark/theme.css';
+//import 'primevue/resources/themes/soho-dark/theme.css';
 //import 'primevue/resources/themes/viva-dark/theme.css';
 
 //import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
@@ -143,14 +149,18 @@ app.use(store) //Vuex
 app.use(router) //router
 app.use(ConfirmationService) //PrimeVue confirm
 app.use(ToastService) //PrimeVue toast
+app.use(PrimeVueStyled);
 
 
-
+//import asd from '/public/themes/lara-dark-teal/theme.css';
 
 //PrimeVue
 app.use(PrimeVue, {
     ripple: true,
-
+    theme: {
+        base: PrimeOne,
+        preset: Aura,
+    }
 });
 app.directive('ripple', Ripple);
 app.directive('tooltip', Tooltip);
