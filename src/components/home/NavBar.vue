@@ -123,20 +123,31 @@ const displayName = computed(() => {
     return store.getters.getCurrentUser.displayName
 }); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
 
-
-
-function toggleColorScheme() {
-    document.body.classList.toggle("my-app-dark");
+const icon = ref()
+function toggleColorScheme () {
+    if('lara-light-blue' === store.getters.getTheme) {
+        import('primevue/resources/themes/lara-dark-blue/theme.css');
+        icon.value = 'pi pi-moon'
+        store.commit('setTheme', 'lara-dark-blue')
+    } else {
+        icon.value = 'pi pi-sun'
+        import('primevue/resources/themes/lara-light-blue/theme.css');
+        store.commit('setTheme', 'lara-light-blue')
+    }
+    window.location.reload();
 }
 
+function getIcon() {
 
+    return 
+}
 
 
 </script>
 
 <template>
     <div>
-        <Menubar :model="items" ref="myMenubar">
+        <Menubar class="fadein animation-duration-500 " :model="items" ref="myMenubar">
             <template #start>
                 <div v-if="hasCurrentUser && prop.user == 'testFiller'">
                     idő: {{  store.getters.getTestDurationMinutes }}
@@ -150,16 +161,18 @@ function toggleColorScheme() {
             </template>
             <template #end>
                 <div class="flex align-items-center gap-2">
-                  
-                    <Button  class="" @click="toggleColorScheme()" label="dark" ></Button>
                     
+                    <Button v-if="store.getters.getTheme=='lara-light-blue'" icon="pi pi-moon" rounded text    severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
+                    <Button v-if="store.getters.getTheme=='lara-dark-blue'" icon="pi pi-sun" rounded  text   severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
                     <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round mr-4"
                         :label="displayName">
                     </SplitButton>
-                    <Button v-if="!hasCurrentUser" class="" @click="login" label="Bejelentkezés" icon="pi pi-user"></Button>
+                    <Button v-if="!hasCurrentUser" class="bg-primary border-round mr-4" @click="login" label="Google Bejelentkezés" icon="pi pi-google"></Button>
                 </div>
             </template>
         </Menubar>
+      
+
     </div>
 </template>
 <style>
@@ -171,5 +184,9 @@ function toggleColorScheme() {
     height: 40px;
     width: 40px;
 }
+
+
+
+  
 </style>
 

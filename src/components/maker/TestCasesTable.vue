@@ -36,7 +36,12 @@ const functionName = computed(() => { //js functionName
     } else {
         let codeCopy = props.code
         let regex = /^(def|\s+def)\s+/
-        codeCopy = codeCopy.replace(codeCopy.match(regex)[0], '');
+        const matchResult = codeCopy.match(regex);
+        if (matchResult) {// Ha találtunk egyezést, akkor végezzük el a replace műveletet
+        codeCopy = codeCopy.replace(matchResult[0], '');
+        } else {
+        console.error('Nem találtunk egyezést a regex mintával.');
+        }
         regex = /\w+/ //functionName
         return codeCopy.match(regex)[0]
     }

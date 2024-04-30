@@ -12,20 +12,24 @@ const store = createStore({
     },
     state() {
         return {
-
+            theme: 'lara-light-blue', //lara-light-blue vagy arya-blue
         }
     },
     mutations: {
-
+        setTheme(state, update) {
+            state.theme = update
+        },
     },
 
     getters: {
-
+        getTheme: state => {
+            return state.theme;
+        },
     },
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['user', 'test.testDurationMinutes'],
+            paths: ['user', 'test.testDurationMinutes', 'theme', 'task'],
             storage: window.sessionStorage,
         }),
     ],

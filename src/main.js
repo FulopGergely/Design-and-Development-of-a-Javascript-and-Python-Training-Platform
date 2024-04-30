@@ -40,16 +40,33 @@ import ToastService from 'primevue/toastservice'; //toast
 
 
 
-
 // https://primevue.org/theming/#builtinthemes
 //ezek jók:
-
 // import 'primevue/resources/themes/lara-light-teal/theme.css'
 //import 'primevue/resources/themes/soho-light/theme.css'
-import 'primevue/resources/themes/soho-dark/theme.css';
-//import 'primevue/resources/themes/viva-dark/theme.css';
+//import 'primevue/resources/themes/lara-light-purple/theme.css';
+// import 'primevue/resources/themes/soho-dark/theme.css';
+// blue
 
+//import 'primevue/resources/themes/lara-light-blue/theme.css';
+//import 'primevue/resources/themes/arya-blue/theme.css';
+
+
+if ('lara-light-blue' === store.getters.getTheme) { // lara-light-blue vagy arya-blue
+    import('primevue/resources/themes/lara-light-blue/theme.css');
+} else if (store.getters.getTheme === 'lara-dark-blue') {
+    import('primevue/resources/themes/lara-dark-blue/theme.css');
+} else {
+    console.error(`Unknown theme: ${store.getters.getTheme}`);
+}
+
+
+
+// others
 //import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
+//import 'primevue/resources/themes/lara-dark-blue/theme.css';
+// import 'primevue/resources/themes/saga-blue/theme.css';
+//import 'primevue/resources/themes/vela-blue/theme.css';
 // import 'primevue/resources/themes/bootstrap4-light-purple/theme.css';
 // import 'primevue/resources/themes/md-light-indigo/theme.css';
 // import 'primevue/resources/themes/md-light-deeppurple/theme.css';
@@ -60,7 +77,6 @@ import 'primevue/resources/themes/soho-dark/theme.css';
 // import 'primevue/resources/themes/mdc-dark-indigo/theme.css';
 // import 'primevue/resources/themes/mdc-dark-deeppurple/theme.css';
 // import 'primevue/resources/themes/fluent-light/theme.css';
-// import 'primevue/resources/themes/lara-light-blue/theme.css';
 // import 'primevue/resources/themes/lara-light-indigo/theme.css';
 // import 'primevue/resources/themes/lara-light-purple/theme.css';
 // import 'primevue/resources/themes/lara-light-teal/theme.css';
@@ -68,7 +84,6 @@ import 'primevue/resources/themes/soho-dark/theme.css';
 // import 'primevue/resources/themes/lara-light-amber/theme.css';
 // import 'primevue/resources/themes/lara-light-cyan/theme.css';
 // import 'primevue/resources/themes/lara-light-pink/theme.css';
-// import 'primevue/resources/themes/lara-dark-blue/theme.css';
 // import 'primevue/resources/themes/lara-dark-indigo/theme.css';
 // import 'primevue/resources/themes/lara-dark-purple/theme.css';
 // import 'primevue/resources/themes/lara-dark-teal/theme.css';
@@ -77,15 +92,12 @@ import 'primevue/resources/themes/soho-dark/theme.css';
 // import 'primevue/resources/themes/viva-light/theme.css';
 // import 'primevue/resources/themes/mira/theme.css';
 // import 'primevue/resources/themes/nano/theme.css';
-// import 'primevue/resources/themes/saga-blue/theme.css';
 // import 'primevue/resources/themes/saga-green/theme.css';
 // import 'primevue/resources/themes/saga-orange/theme.css';
 // import 'primevue/resources/themes/saga-purple/theme.css';
-// import 'primevue/resources/themes/vela-blue/theme.css';
 // import 'primevue/resources/themes/vela-green/theme.css';
 // import 'primevue/resources/themes/vela-orange/theme.css';
 //import 'primevue/resources/themes/vela-purple/theme.css';
-// import 'primevue/resources/themes/arya-blue/theme.css';
 // import 'primevue/resources/themes/arya-green/theme.css';
 // import 'primevue/resources/themes/arya-orange/theme.css';
 // import 'primevue/resources/themes/arya-purple/theme.css';
@@ -150,7 +162,6 @@ app.use(ToastService) //PrimeVue toast
 //PrimeVue
 app.use(PrimeVue, {
     ripple: true,
-
 });
 app.directive('ripple', Ripple);
 app.directive('tooltip', Tooltip);
@@ -195,6 +206,7 @@ app.component('Message', Message);
 
 
 app.use(InstallCodemirro);
+
 
 app.mount('#app')
 
