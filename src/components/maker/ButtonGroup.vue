@@ -81,7 +81,7 @@ onMounted(() => {
     <div>
         <ConfirmDialog></ConfirmDialog>
         <Toast position="top-left" group="tl" />
-        <SplitButton @click="addTask" label="Új oldal" :model="items" severity="success" class="m-1" icon="pi pi-plus">
+        <SplitButton @click="addTask" label="Új oldal" :model="items" severity="success" class="m-1 mr-4" icon="pi pi-plus">
         </SplitButton>
         <div>
             <Dialog v-model:visible="visible" modal header="Teszt Mentése" :style="{ width: '50rem' }"

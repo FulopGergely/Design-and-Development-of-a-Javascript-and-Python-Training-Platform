@@ -64,7 +64,12 @@ const hasCurrentUser = computed(() => {
 
 const items = ref(prop.user == 'testFiller' ? '' : [
     {
-        label: 'Tesztírás',
+        label: 'Főoldal',
+        icon: 'pi pi-home',
+        href: '/'
+    },
+    {
+        label: 'Tesztek',
         icon: 'pi pi-pencil',
         href: '/Tesztiras'
     },
@@ -154,7 +159,9 @@ function getIcon() {
                 </div>
             </template>
             <template #item="{ item, props }">
+                
                 <router-link v-if="hasCurrentUser" :to="item.href" v-ripple v-bind="props.action">
+                    
                     <span style="margin-right: 5px;" :class="item.icon" />
                     <span>{{ item.label }}</span>
                 </router-link>

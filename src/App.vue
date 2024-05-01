@@ -4,7 +4,13 @@ import { ref, computed } from "vue";
 import router from '@/router/index.js';
 //components
 import NavBar from '@/components/home/NavBar.vue'
-import Welcome from '@/components/home/welcome.vue'
+//import Welcome from '@/components/home/welcome.vue'
+
+import { defineAsyncComponent } from 'vue';
+
+const Welcome = defineAsyncComponent(() =>
+  import('@/components/home/welcome.vue')
+);
 
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 

@@ -15,12 +15,15 @@ const props = defineProps({
     },
 })
 
-const a = ref(store.getters.getCurrentTestSide)
-
-const currentStep = ref(0);
+const currentStep = ref(props.currentSide ==  'setCurrentSide' ? store.getters.getCurrentSide-1 : store.getters.getCurrentTestSide -1); //mivel 2 hleyen használjuk ezt a kompobnenset, így aszerint init-eljük, hogy melyik componensből használjuk. Így ha frissítjük az oldalt mind a két helyen megmarad a jelenlegi feladatsorszám amit kiválasztunk.
 // Dinamikusan frissíti az "activeStep" értékét a store.getters.getCurrentTestSide alapján
 watch(() => store.getters.getCurrentTestSide, (newValue) => {
   currentStep.value = newValue - 1; // Mivel az index 0-tól kezdődik, ezért kivonunk 1-et
+  console.log(currentStep.value)
+});
+watch(() => store.getters.getCurrentSide, (newValue) => {
+  currentStep.value = newValue - 1; // Mivel az index 0-tól kezdődik, ezért kivonunk 1-et
+  console.log(currentStep.value)
 });
 
 </script>

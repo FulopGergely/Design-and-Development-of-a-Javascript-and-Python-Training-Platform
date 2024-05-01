@@ -144,6 +144,7 @@ import Stepper from 'primevue/stepper';
 import StepperPanel from 'primevue/stepperpanel';
 import AnimateOnScroll from 'primevue/animateonscroll';
 import Message from 'primevue/message';
+import Image from 'primevue/image';
 
 
 
@@ -203,6 +204,7 @@ app.component('Calendar', Calendar);
 app.component('Stepper', Stepper);
 app.component('StepperPanel', StepperPanel);
 app.component('Message', Message);
+app.component('Image', Image);
 
 
 app.use(InstallCodemirro);

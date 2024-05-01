@@ -1,10 +1,12 @@
 
 
 <template>
-
+<div class="overflow-hidden">
+    <div class="bg-contain bg-center bg-no-repeat border-round h-30rem w-full" style="background-image: url('/03.png');"></div>
+</div>
     <div class="card flex flex-column align-items-center">
         <div class="flex flex-column align-items-center gap-2">
-            <span class="text-xl font-medium">Scroll Down</span>
+            <span class="text-xl font-medium"></span>
             <span class="slidedown-icon h-2rem w-2rem bg-primary border-circle inline-flex align-items-center justify-content-center">
                 <i class="pi pi-arrow-down" />
             </span>
@@ -38,6 +40,9 @@
             <span class="text-3xl font-bold">scalein</span>
         </div>
     </div>
+
+    
+
 </template>
 
 <style scoped>

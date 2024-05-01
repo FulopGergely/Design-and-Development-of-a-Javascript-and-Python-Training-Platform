@@ -58,7 +58,9 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     <NavBar :user="user" />
     <Toast />
     <div v-if="hasCurrentUser">
+{{store.getters.getCurrentSide}}
 
+{{store.getters.getTask}}
     
         <div v-if="store.getters.getLoading">
             <StepSide :tasks="store.getters.getTask" :currentSide="'setCurrentSide'" />

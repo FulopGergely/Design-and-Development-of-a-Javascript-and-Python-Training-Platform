@@ -236,7 +236,7 @@ async function saveTestCase() {
         <ParameterAdd @changeParamType="changeParamType" :cmOptions="cmOptions" />
         <div class="ml-5 mr-5 mt-2"
             v-tooltip.top="'Függvénytörzs tartalma nem lesz látható a tesztkitöltőnek, csak a függvény neve és paraméter(ek) nevei. \n Ajánlott olyan neveket választani, amelyek illeszkednek a feladathoz.'">
-            <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="200"
+            <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="400"
                 @change="codeChange($event)" />
         </div>
         <div class="grid">
