@@ -22,8 +22,7 @@ const b = 2;
 console.log(a+b);`).value;*/
 const user = 'testCreator'
 onMounted(() => {
-    store.commit('setLoading', false)
-    store.commit('setLoading', true)
+    
 });
 
 const myQuillEditor = ref('')
@@ -58,9 +57,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     <NavBar :user="user" />
     <Toast />
     <div v-if="hasCurrentUser">
-{{store.getters.getCurrentSide}}
 
-{{store.getters.getTask}}
     
         <div v-if="store.getters.getLoading">
             <StepSide :tasks="store.getters.getTask" :currentSide="'setCurrentSide'" />
@@ -74,6 +71,13 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                             </div>
                             <div
                                 class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                                <div class="flex justify-content-between flex-wrap">
+                                    <div></div>
+                                    <div class="flex align-items-center justify-content-center  border-round "><i
+                                            v-tooltip.left="'Fogalmazza meg a feladat szövegét'"
+                                            class="flex justify-content-end m-2 pi pi-question-circle"></i>
+                                    </div>
+                                </div>
                                 <QuillEditor ref="myQuillEditor" theme="snow" :options="options" contentType="html"
                                     v-model:content="task.text" />
                             </div>
@@ -102,6 +106,9 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                 <ProgressSpinner />
             </div>
         </div>
+    </div>
+    <div v-else>
+        <Message :closable="false" >bejelentkezés szükséges</Message>
     </div>
 </template>
 

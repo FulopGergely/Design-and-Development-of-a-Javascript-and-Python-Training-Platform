@@ -24,7 +24,7 @@ function select(select) {
         <div class="flex align-items-center justify-content-center  border-round ">
             <div>
                 <SelectButton v-model="value" :options="options" dataKey="value" aria-labelledby="custom"
-                    @update:modelValue="select">
+                    @update:modelValue="select" v-tooltip.right="'Ha választ egy futtatási környezetet, úgy a tesztkitöltőnek lehetősége lesz használni a választott futtatási környezetet.'">
                     <template #option="slotProps">
                         <img v-if="slotProps.option.icon" :src="slotProps.option.icon" alt="Custom Icon"
                             :style="{ height: '20px' }" />

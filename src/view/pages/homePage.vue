@@ -5,6 +5,12 @@
 //components
 import NavBar from '@/components/home/NavBar.vue'
 
+import { defineAsyncComponent } from 'vue';
+
+const Welcome = defineAsyncComponent(() =>
+  import('@/components/home/WelcomePage.vue')
+);
+
 //const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
 
@@ -13,6 +19,5 @@ import NavBar from '@/components/home/NavBar.vue'
 </script>
 <template>
     <NavBar/>
-
-
+    <Welcome/>
 </template>

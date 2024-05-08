@@ -9,6 +9,7 @@ export default {
             testDurationMinutes: 600, //lekért adat
             scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
             timer: 0,
+            //finishedTest: false, //ha tesztet befejezi valaki akkor állítódik át
             //ezeket csak vuex-ben tároljuk, amit a tesztkiktöltő beír adatok ezek:
             // legyenek egy tömbben?
             //testSheet-hez adjunk hozzá egy expectedResult-ot, és egy resultot
@@ -51,11 +52,11 @@ export default {
                     // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
                 }
             }, 1000);
-        }
+        },
     },
     getters: {
         getCurrentTestSide(state) {
-            return state.currentTestSide;
+            return state.currentTestSide < 1 ? 1 : state.currentTestSide;
         },
         getLoading: (state) => state.loading,
         getDisplayTest: state => { //segédváltozó hogy a tesztesetek tábla látszódjon, utólag a test.ID ba tesszük be a testheetbe. Feladatonként változik futtatás után true-ra az érték.
@@ -73,7 +74,9 @@ export default {
             return state.testSheet.task[state.currentTestSide - 1].tests
         },
         getScoreBySide: state => {
-            return state.testSheet.task[state.currentTestSide - 1].score
+            if (state.testSheet.task[state.currentTestSide - 1]) {
+                return state.testSheet.task[state.currentTestSide - 1].score
+            }
         },
         getScoreEarned: state => {
             return state.scoreEarned

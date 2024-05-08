@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import store from '@/store/store.js';
 import { getAllScore, addScore } from '@/firebase/score.js';
 import { setReview } from '@/firebase/test.js';
+import router from '@/router/index.js';
 
 const props = defineProps({
     scoreAchieved: {
@@ -12,19 +13,18 @@ const props = defineProps({
 })
 const rating = ref(null);
 const review = ref('');
-const bool = ref(false);
+//const bool = ref(false);
 
 function submit(){
     setReview(store.getters.getTestSheet.tid, rating, review)
-    bool.value = true
+    //bool.value = true
+    router.push('/')
 }
 
 </script>
 <template>
-    <div v-if="bool">
-        átirányítás
-    </div>
-    <div v-else>
+    
+    <div >
         <div class="flex justify-content-center fadein animation-duration-500">
             <div class="flex flex-column align-items-center justify-content-center border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
                 <div class="h-2rem"></div>

@@ -32,6 +32,7 @@ async function init() {
 }
 
 async function login() {
+    //window.open('/' + testID.value, '_blank');
     if(testID.value){
         //let tests = await getAllTest()
         let bool = false
@@ -59,7 +60,7 @@ async function login() {
 
     <NavBar></NavBar>
     <Toast/>
-    <div v-if="hasCurrentUser">
+    <div >
         <div v-if="store.getters.getLoading">
         <div class="flex justify-content-center flex-wrap mt-5">
             <div
@@ -72,7 +73,7 @@ async function login() {
                 Legyen sikeres a tanulás és a fejlődés útja!
 
                 <InputGroup class="mt-5">
-                    <InputGroupAddon>https://kvizmester-ace48.firebaseapp.com/</InputGroupAddon>
+                    <InputGroupAddon>https://progmester.hu/</InputGroupAddon>
                     <InputText v-model="testID"/>
                     <Button @click="login()" label="Kezdés" />
                 </InputGroup>

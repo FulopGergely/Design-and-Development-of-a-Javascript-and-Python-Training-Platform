@@ -1,16 +1,11 @@
 <script setup>
 import store from '@/store/store.js';
-import { ref, computed } from "vue";
-import router from '@/router/index.js';
+import { computed } from "vue";
 //components
-import NavBar from '@/components/home/NavBar.vue'
+
 //import Welcome from '@/components/home/welcome.vue'
 
-import { defineAsyncComponent } from 'vue';
 
-const Welcome = defineAsyncComponent(() =>
-  import('@/components/home/welcome.vue')
-);
 
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 
@@ -27,7 +22,6 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
   </div>
   <div v-else>
     <router-view />
-    <Welcome/>
   </div>
     
 </template>

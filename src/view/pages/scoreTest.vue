@@ -305,6 +305,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                 </div>
             </div>
         </div>
+        
 
     </div>
     <div v-else>
@@ -313,6 +314,9 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
         </div>
     </div>
     
+    </div>
+    <div v-else>
+        <Message :closable="false" >bejelentkezés szükséges</Message>
     </div>
 </template>
 

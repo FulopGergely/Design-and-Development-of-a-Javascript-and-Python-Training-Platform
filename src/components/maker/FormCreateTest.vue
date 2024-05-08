@@ -41,7 +41,7 @@ const isInvalid = false
         <div class="field">
 
             <InputGroup class="mt-5">
-                <InputGroupAddon>https://kvizmester-ace48.firebaseapp.com/</InputGroupAddon>
+                <InputGroupAddon>https://progmester.hu/</InputGroupAddon>
                 <InputText placeholder="Teszt neve" v-tooltip.top="'teszt egyedi azonosítója'" type="text"
                     v-model="testName" :class="{ 'invalid': isInvalid }" required />
 

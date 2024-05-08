@@ -195,7 +195,7 @@ const columns = [
             <label for="ingredient1" class="ml-2"> {{ checkedLabel }} </label>
         </div>
         <div class="flex align-items-center justify-content-center  border-round "><i
-                v-tooltip.top="'Milyen bementeti értékekre, milyen kimenetet várunk? Ajánlott legalább 2 tesztesetet felvenni, ami nem látható a tesztkitöltő számára'"
+                v-tooltip.top="'Milyen bementeti értékekre, milyen kimenetet várunk? Ez alapján fogja kiértékelni a feladatot, ajánlott legalább 2 tesztesetet felvenni'"
                 class="flex justify-content-end m-2 pi pi-question-circle"></i>
         </div>
     </div>

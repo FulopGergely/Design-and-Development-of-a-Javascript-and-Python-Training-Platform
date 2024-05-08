@@ -78,7 +78,7 @@ export default {
     },
     getters: {
         getCurrentSide(state) {
-            return state.currentSide;
+            return state.currentSide < 1 ? 1 : state.currentSide;
         },
         getTask: state => {
             return state.tasks;

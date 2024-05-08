@@ -82,7 +82,7 @@ const displayOnTable = computed(() => {
     if (myTests.value) {
         return myTests.value.map(item => {
             return {
-                testID: 'https://kvizmester-ace48.firebaseapp.com/' + item.tid,
+                testID: 'https://progmester.hu/' + item.tid,
                 time: item.testDurationMinutes + ' perc',
                 tid: item.tid,
                 available: item.available
@@ -164,6 +164,9 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                 <ProgressSpinner />
             </div>
         </div>
+    </div>
+    <div v-else>
+        <Message :closable="false" >bejelentkezés szükséges</Message>
     </div>
         
    

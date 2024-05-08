@@ -116,6 +116,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 </script>
 
 <template>
+    {{store.getters.getFinishedTest}}
     <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">

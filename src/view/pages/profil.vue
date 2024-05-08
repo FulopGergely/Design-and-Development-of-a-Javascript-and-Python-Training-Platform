@@ -54,16 +54,7 @@ onMounted(() => {
                         <div class="m-3">{{ store.getters.getCurrentUser.email }}</div>
                     </div>
                     <div class="">
-                        <div class="mt-8">
-                            <Dropdown v-model="selectedTheme" @change="themeChange" :options="themes" optionLabel="name"
-                                placeholder="stílusok" class="w-full md:w-14rem" />
-                        </div>
-
-
-
-
-
-
+                    
                     </div>
 
 

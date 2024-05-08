@@ -95,14 +95,14 @@ const items = ref(prop.user == 'testFiller' ? '' : [
         href: '/Admin/Megosztas'
     },*/
 ]);
-const profilList = ref([
-    /*{
+const registered = ref([
+    {
         label: 'Profil',
         icon: 'pi pi-user',
         command: () => {
             window.location.href = '/Profil';
         }
-    },*/
+    },
     {
         label: 'Kijelentkezés',
         icon: 'pi pi-sign-out',
@@ -142,11 +142,11 @@ function toggleColorScheme () {
     window.location.reload();
 }
 
-function getIcon() {
 
-    return 
-}
-
+const menu = ref();
+const toggle = (event) => {
+    menu.value.toggle(event);
+};
 
 </script>
 
@@ -157,30 +157,40 @@ function getIcon() {
                 <div v-if="hasCurrentUser && prop.user == 'testFiller'">
                     idő: {{  store.getters.getTestDurationMinutes }}
                 </div>
+                <div class="ml-2"></div>
             </template>
             <template #item="{ item, props }">
-                
-                <router-link v-if="hasCurrentUser" :to="item.href" v-ripple v-bind="props.action">
-                    
-                    <span style="margin-right: 5px;" :class="item.icon" />
-                    <span>{{ item.label }}</span>
+                <router-link :to="item.href" v-ripple v-bind="props.action">
+                        <span style="margin-right: 5px;" :class="item.icon" />
+                        <span >{{ item.label }}</span>
                 </router-link>
             </template>
             <template #end>
-                <div class="flex align-items-center gap-2">
-                    
+                <div class="flex align-items-center gap-2 ml-4">
+                  
                     <Button v-if="store.getters.getTheme=='lara-light-blue'" icon="pi pi-moon" rounded text    severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
                     <Button v-if="store.getters.getTheme=='lara-dark-blue'" icon="pi pi-sun" rounded  text   severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
-                    <SplitButton v-if="hasCurrentUser" :model="profilList" icon="pi pi-user" class="bg-primary border-round mr-4"
-                        :label="displayName">
-                    </SplitButton>
-                    <Button v-if="!hasCurrentUser" class="bg-primary border-round mr-4" @click="login" label="Google Bejelentkezés" icon="pi pi-google"></Button>
-                </div>
+                    
+                    
+                    <div v-if="hasCurrentUser">
+                        <Button text rounded type="button" icon="pi pi-user"  @click="toggle" class="mr-2">
+                             <img v-if="store.getters.getCurrentUser.photoURL" class="avatar m-3"
+                            :src="store.getters.getCurrentUser.photoURL" shape="circle"
+                            style="height: 50px; width: 50px;">
+                        </Button>
+                        <Menu ref="menu" id="overlay_menu" :model="registered" :popup="true" /> 
+                    </div>
+                    <div v-else> 
+                        <Button rounded type="button" icon="pi pi-user"  @click="login" class="mr-2">
+                        </Button>
+                    </div>
+                    
+                    
+               </div>
             </template>
         </Menubar>
-      
-
     </div>
+    
 </template>
 <style>
 .fixed-menu {
