@@ -110,7 +110,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 </script>
 <template>
     <NavBar></NavBar>
-    <Toast position="top-left"/>
+    <Toast position="bottom-right"/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
 

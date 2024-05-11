@@ -4,7 +4,6 @@ export default {
     state() {
         return {
             currentTestSide: 0, //segédváltozó, jelenlegi oldalt ahol épp állunk.
-            loading: false, //segédváltozó, oldal async betöltése miatt
             testSheet: [], //teszt kérdéssor, lekérjük, másolatot készítünk, és ezt használjuk. a code-ot betöltéskor módosítjuk (initTest-nél testID.vue)
             testDurationMinutes: 600, //lekért adat
             scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
@@ -18,9 +17,6 @@ export default {
     mutations: {
         setCurrentTestSide(state, currentTestSide) {
             state.currentTestSide = currentTestSide;
-        },
-        setLoading(state, isLoading) {
-            state.loading = isLoading;
         },
         setDisplayTest(state, isDisplay) {
             state.testSheet.task[state.currentTestSide - 1].displayTest = isDisplay
@@ -58,7 +54,6 @@ export default {
         getCurrentTestSide(state) {
             return state.currentTestSide < 1 ? 1 : state.currentTestSide;
         },
-        getLoading: (state) => state.loading,
         getDisplayTest: state => { //segédváltozó hogy a tesztesetek tábla látszódjon, utólag a test.ID ba tesszük be a testheetbe. Feladatonként változik futtatás után true-ra az érték.
             //console.log(state.testSheet.task[state.currentTestSide - 1])
             if (state.testSheet.task[state.currentTestSide - 1] && state.testSheet.task[state.currentTestSide - 1].isTest && state.testSheet.task[state.currentTestSide - 1].tests.length != 0) {

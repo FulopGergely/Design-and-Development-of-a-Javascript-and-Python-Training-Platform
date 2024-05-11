@@ -13,6 +13,8 @@ const show = () => {
     }
 };
 
+
+
 //hljs
 import 'highlight.js/lib/common';
 import hljs from 'highlight.js/lib/core';
@@ -32,7 +34,7 @@ const testSheet = ref(store.getters.getTestSheet); //testID testlap összes mez�
 const user = 'testFiller'
 const totalScore = ref()
 const finished = ref(false)
-
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 onMounted(() => {
     initTest().then(() => { //előbb szerverről lekérjük az adatot, aztán init a többi szükséges adatokat
         let score = 0
@@ -41,7 +43,11 @@ onMounted(() => {
         })
         totalScore.value = score
     }); 
-    signInWithGoogle()
+    console.log(hasCurrentUser.value)
+    if (!hasCurrentUser.value) {
+        signInWithGoogle()
+    }
+    
 });
 const scoreAchieved = computed(() => {
     let sum = 0
@@ -110,7 +116,7 @@ function testFinish(finishTest) {
     finished.value = finishTest // megjelenik a teszteredmény html-nél
     
 }
-const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
+
 
 
 </script>

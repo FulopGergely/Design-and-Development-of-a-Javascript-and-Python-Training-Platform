@@ -31,6 +31,7 @@ const prop = defineProps({
 })
 
 onMounted(() => {
+    //store.commit('setLoginLoading', false)
     store.commit('setTestDurationMinutes', prop.time)
     console.log(prop.time)
     store.commit('startCountdown') //időzítőt elindítjuk
@@ -116,6 +117,7 @@ const registered = ref([
 
 function login() {
     if (!hasCurrentUser.value) {
+        store.commit('setLoginLoading', true)
         signInWithGoogle()
     } else {
         signOutWithGoogle()

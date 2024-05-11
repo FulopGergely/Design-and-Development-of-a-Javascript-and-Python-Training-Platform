@@ -12,16 +12,26 @@ const store = createStore({
     },
     state() {
         return {
+            loading: false, //segédváltozó, oldal async betöltése miatt
+            loginLoading: false, //segédváltozó, oldal async betöltése miatt
             theme: 'lara-light-blue', //lara-light-blue vagy arya-blue
         }
     },
     mutations: {
+        setLoading(state, isLoading) {
+            state.loading = isLoading;
+        },
+        setLoginLoading(state, isLoading) {
+            state.loginLoading = isLoading;
+        },
         setTheme(state, update) {
             state.theme = update
         },
     },
 
     getters: {
+        getLoading: (state) => state.loading,
+        getLoginLoading: (state) => state.loginLoading,
         getTheme: state => {
             return state.theme;
         },
@@ -29,7 +39,7 @@ const store = createStore({
     plugins: [ // Vuex Persist
         createPersistedState({
             key: 'my-app',
-            paths: ['user', 'test.testDurationMinutes', 'theme', 'task', 'task.currentSide', 'test'],
+            paths: ['user', 'test.testDurationMinutes', 'theme', 'task', 'task.currentSide', 'test', 'loginLoading'],
             storage: window.sessionStorage,
         }),
     ],

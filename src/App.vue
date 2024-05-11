@@ -17,12 +17,18 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 
 <template>
  
-  <div v-if="hasCurrentUser">
-    <router-view />
+ 
+  <div v-if="!store.getters.getLoginLoading">
+      <router-view />
   </div>
   <div v-else>
-    <router-view />
-  </div>
+            <div class="flex justify-content-center flex-wrap">
+                <ProgressSpinner />
+            </div>
+        </div>
+    
+    
+  
     
 </template>
 

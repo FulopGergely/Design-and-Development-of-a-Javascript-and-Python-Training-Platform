@@ -1,6 +1,6 @@
 import firebaseObjects from '@/firebase/index.js'
 import { collection, doc, deleteDoc, addDoc, getDocs, query } from 'firebase/firestore';
-import { GoogleAuthProvider, signInWithPopup, signOut, signInWithRedirect } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithPopup, signOut, signInWithRedirect, getRedirectResult } from 'firebase/auth'
 import store from '@/store/store.js';
 const db = firebaseObjects.db;
 const auth = firebaseObjects.auth;
@@ -40,27 +40,37 @@ async function addUser(uid, email, displayName, photoURL) {
         photoURL: photoURL,
     })
 }
+getRedirectResult(auth)
+    .then(async (result) => { // Az arrow függvény async
+        if (result) {
+            // A felhasználó bejelentkezett
+            const users = await getAllDocument('users'); // Az await a then blokkban lévő async függvényben
+            const currentUser = { // Csak ezt akarjuk tárolni firebase objectből
+                uid: result.user.uid,
+                email: result.user.email,
+                displayName: result.user.displayName,
+                photoURL: result.user.photoURL,
+            }
+            store.commit('setCurrentUser', currentUser);//vuexben tároljuk aki bejelentkezett (user obj-et.)
+            let AlreadyRegistered = false;
+            for (var user of users) { // Megnézzük hogy regisztált-e már korábban
+                if (result.user.uid == user.uid) {
+                    AlreadyRegistered = true
+                }
+            }
+            if (!AlreadyRegistered) {//új usereket elmentjük firebase-en
+                addUser(result.user.uid, result.user.email, result.user.displayName, result.user.photoURL)
+            }
+        }
+        store.commit('setLoginLoading', false)
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 // Ez fut le a bejelentkezés gombbal.
 async function signInWithGoogle() {
     try {
-        const result = await signInWithPopup(auth, provider); //ezt az obj-et adja vissza firebase auth bejelentkezésnél
-        const users = await getAllDocument('users'); //ezek az eddigi reisztrált felhasználók adatbázisban
-        const currentUser = { //csak ezt akarjuk tárolni firebase objectből
-            uid: result.user.uid,
-            email: result.user.email,
-            displayName: result.user.displayName,
-            photoURL: result.user.photoURL,
-        }
-        store.commit('setCurrentUser', currentUser);//vuexben tároljuk aki bejelentkezett (user obj-et.)
-        let AlreadyRegistered = false;
-        for (var user of users) { //megnézzük hogy regisztált-e már korábban
-            if (result.user.uid == user.uid) {
-                AlreadyRegistered = true
-            }
-        }
-        if (!AlreadyRegistered) {//új usereket elmentjük firebase-en
-            addUser(result.user.uid, result.user.email, result.user.displayName, result.user.photoURL)
-        }
+        await signInWithRedirect(auth, provider);
     } catch (error) {
         console.log(error);
     }
