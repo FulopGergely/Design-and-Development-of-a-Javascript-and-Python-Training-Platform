@@ -71,6 +71,13 @@ getRedirectResult(auth)
 async function signInWithGoogle() {
     try {
         await signInWithRedirect(auth, provider);
+        console.log(auth)
+        /*const currentUser = { // Csak ezt akarjuk tárolni firebase objectből
+            uid: result.user.uid,
+            email: result.user.email,
+            displayName: result.user.displayName,
+            photoURL: result.user.photoURL,
+        }*/
     } catch (error) {
         console.log(error);
     }

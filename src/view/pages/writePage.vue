@@ -10,7 +10,7 @@ import NavBar from '@/components/home/NavBar.vue'
 import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 const show = () => {
-      toast.add({ severity: 'error', summary: 'Nincs ilyen teszt', life: 3000 });
+      toast.add({ severity: 'error', summary: 'Teszt indításához be kell jelentkezni', life: 3000 });
 };
 
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
@@ -84,7 +84,13 @@ async function login() {
         //signInWithGoogle()
 } */
 function startTest (test) {
-    window.open('/' + test.data.testID, '_blank')
+    if (hasCurrentUser.value) {
+        window.open('/' + test.data.testID, '_blank')
+        
+        } else {
+            show()
+        }
+    
     //router.push('/' + test.data.testID)
 }
 </script>
@@ -93,7 +99,8 @@ function startTest (test) {
 
 
     <NavBar></NavBar>
-    <Toast/>
+       <Toast position="bottom-right"/>
+    
     <div >
         <div v-if="store.getters.getLoading">
         
@@ -129,25 +136,7 @@ function startTest (test) {
                 </div>
         </div>
 
-<div class="flex justify-content-center flex-wrap mt-5">
-            <div
-                class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                <h2>Python és JavaScript oktató platform. </h2>
 
-                Ha készen állsz,
-                írd
-                be a teszt nevét, majd jelentkezz be Google-fiókoddal, hogy elindíthasd a tesztet.
-                Legyen sikeres a tanulás és a fejlődés útja!
-
-                <InputGroup class="mt-5">
-                    <InputGroupAddon>https://progmester.hu/</InputGroupAddon>
-                    <InputText v-model="testID"/>
-                    <Button @click="login()" label="Kezdés" />
-                </InputGroup>
-                <Toast />
-            </div>
-
-        </div>
 
         
           

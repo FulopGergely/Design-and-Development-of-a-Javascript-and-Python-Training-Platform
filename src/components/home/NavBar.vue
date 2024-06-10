@@ -117,7 +117,7 @@ const registered = ref([
 
 function login() {
     if (!hasCurrentUser.value) {
-        store.commit('setLoginLoading', true)
+        store.commit('setLoginLoading', true) 
         signInWithGoogle()
     } else {
         signOutWithGoogle()

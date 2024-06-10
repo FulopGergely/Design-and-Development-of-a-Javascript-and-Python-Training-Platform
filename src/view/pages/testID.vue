@@ -32,7 +32,7 @@ import Score from '@/components/test/Score.vue'
 
 const testSheet = ref(store.getters.getTestSheet); //testID testlap összes mezője
 const user = 'testFiller'
-const totalScore = ref()
+const totalScore = ref(0)
 const finished = ref(false)
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 onMounted(() => {
@@ -42,11 +42,10 @@ onMounted(() => {
             score = score + task.score
         })
         totalScore.value = score
+        
     }); 
-    console.log(hasCurrentUser.value)
-    if (!hasCurrentUser.value) {
-        signInWithGoogle()
-    }
+    
+    
     
 });
 const scoreAchieved = computed(() => {
@@ -62,7 +61,11 @@ async function initTest() {
     const router = useRoute() //címsorba beírt testID
     const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
     //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
-   
+    
+    /*if (!hasCurrentUser.value) {
+        signInWithGoogle()
+    }*/
+    
     if (!store.getters.getTestSheet) { //falsy (itt majd a felkiáltójelet el kell venni ha sessionba tárolod)
         if (testSheet.value.tid == router.params.testID) {
             console.log('be van töltve a: ' + testSheet.value.tid + ', nem csinálunk semmit')
