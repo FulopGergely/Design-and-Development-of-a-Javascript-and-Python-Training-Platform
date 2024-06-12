@@ -1,14 +1,15 @@
 //Tesztkitöltésnél a bejelentkezés után itt tároljuk el a firebesa-ről lekért adatot
 // hogy ne kelljen mindig lekérni szerverről, vuexben tárolom ami kell. (másolatot)
+import { addScore } from '@/firebase/score.js';
 export default {
     state() {
         return {
             currentTestSide: 0, //segédváltozó, jelenlegi oldalt ahol épp állunk.
             testSheet: [], //teszt kérdéssor, lekérjük, másolatot készítünk, és ezt használjuk. a code-ot betöltéskor módosítjuk (initTest-nél testID.vue)
-            testDurationMinutes: 600, //lekért adat
+            testDurationMinutes: 99999, //lekért adat
             scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
-            timer: 0,
-            //finishedTest: false, //ha tesztet befejezi valaki akkor állítódik át
+            timer: 0, //felfele mérjük az időt, kivonjuk a testDurationMinutes-ból, az adja meg a jelenlegi időt.
+            finishedTest: false, //ha tesztet befejezi valaki akkor állítódik át
             //ezeket csak vuex-ben tároljuk, amit a tesztkiktöltő beír adatok ezek:
             // legyenek egy tömbben?
             //testSheet-hez adjunk hozzá egy expectedResult-ot, és egy resultot
@@ -33,21 +34,33 @@ export default {
             // helyes válasz esetént átírjuk pipára a feladat sorszámát
         },
         setTestDurationMinutes(state, time) {
-            state.testDurationMinutes = time //lekérjük egyszer szerverről honnna induljon az időzítés
+            state.testDurationMinutes = time //hány perces a teszt, azt állítjuk be. (teszt indításnál fut le 2 helyen (tesztek fülön lévő kattintásnál, és bejelentkezésnél ha nincs bejelnetkezve és úgy próbálja elindítani linket keresztül a tesztet))
+        },
+        setTimer(state, time) {
+            state.timer = time //hány perces a teszt, azt állítjuk be. (teszt indításnál fut le 2 helyen (tesztek fülön lévő kattintásnál, és bejelentkezésnél ha nincs bejelnetkezve és úgy próbálja elindítani linket keresztül a tesztet))
         },
         startCountdown(state) {
-            //clearInterval(timer)
-
             console.log('startCountdown:')
+            //clearInterval(state.timer)
+            console.log(state.timer)
             console.log(state.testDurationMinutes)
-            clearInterval(state.timer)
-            state.timer = setInterval(() => {
-                state.testDurationMinutes--;
-                if (state.testDurationMinutes === 0) {
-                    clearInterval(state.timer);
-                    // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
-                }
-            }, 1000);
+            if (state.timer < state.testDurationMinutes) {
+                state.timer++; //frissítéskor csökkentjük a számlálót
+                let time = setInterval(() => { //let time azért kell hogy le tudjuk állítani a clearInterval-el az időzítőt.
+                    state.timer++;
+                    if (state.timer >= state.testDurationMinutes) {
+                        console.log('lejárt az időőő')
+                        clearInterval(time);
+                    }
+                }, 1000);
+            } else { //ha lejárt az időzítő 1 szer fog belemenni else-be, 0:00 ál
+                console.log('lejárt az idő...')
+                //state.timer = 0
+                /*state.finishedTest = true
+                const now = new Date();
+                addScore(this.getTestSheet.uid, this.getTestSheet.tid, props.scoreAchieved, now)*/
+            }
+
         },
     },
     getters: {
@@ -80,9 +93,13 @@ export default {
             return state.timer
         },
         getTestDurationMinutes: state => {
-            const minutes = Math.floor(state.testDurationMinutes / 60);
-            const remainingSeconds = state.testDurationMinutes % 60;
+            const totalSeconds = state.testDurationMinutes - state.timer;
+            const minutes = Math.floor(totalSeconds / 60);
+            const remainingSeconds = totalSeconds % 60;
             return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        },
+        getFinishedTest: state => {
+            return state.finishedTest
         },
     },
 };

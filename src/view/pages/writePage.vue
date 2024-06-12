@@ -85,8 +85,12 @@ async function login() {
 } */
 function startTest (test) {
     if (hasCurrentUser.value) {
+        store.commit('setTimer', 0) //nullázzuk az időzítést.
         window.open('/' + test.data.testID, '_blank')
-        
+        const match = test.data.time.match(/^\d+/); //számmal indul e a string?
+        let time = match ? parseInt(match[0], 10) : 0; //teszt ideje
+        store.commit('setTestDurationMinutes', time)
+        store.commit('setTimer', 0) //nullázzuk az időzítést.
         } else {
             show()
         }

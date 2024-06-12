@@ -125,7 +125,7 @@ function testFinish(finishTest) {
 </script>
 
 <template>
-    {{store.getters.getFinishedTest}}
+    
     <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
@@ -202,6 +202,7 @@ function testFinish(finishTest) {
     </div>
     <div v-else>
         <NavBar/>
+        <Message :closable="false" >A teszt indításához jelentkezzen be!</Message>
     </div>
    
 

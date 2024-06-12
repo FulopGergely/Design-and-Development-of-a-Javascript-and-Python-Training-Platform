@@ -70,6 +70,8 @@ getRedirectResult(auth)
 // Ez fut le a bejelentkezés gombbal.
 async function signInWithGoogle() {
     try {
+        console.log('lefutott az auth')
+        store.commit('setTimer', 0) //nullázzuk az időzítést.
         await signInWithRedirect(auth, provider);
         console.log(auth)
         /*const currentUser = { // Csak ezt akarjuk tárolni firebase objectből

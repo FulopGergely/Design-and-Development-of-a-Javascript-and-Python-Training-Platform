@@ -24,7 +24,7 @@ const prop = defineProps({
         type: Array,
         default: () => []
     },
-    time: {
+    time: { //Ez a mentett idő, nem változik frissítésnél sem. (testID-ből)
         type: Number,
         default: () => 0
     }
@@ -32,8 +32,8 @@ const prop = defineProps({
 
 onMounted(() => {
     //store.commit('setLoginLoading', false)
-    store.commit('setTestDurationMinutes', prop.time)
-    console.log(prop.time)
+    store.commit('setTestDurationMinutes', prop.time) 
+    
     store.commit('startCountdown') //időzítőt elindítjuk
 
     // Témaváltás példa
@@ -182,7 +182,7 @@ const toggle = (event) => {
                         </Button>
                         <Menu ref="menu" id="overlay_menu" :model="registered" :popup="true" /> 
                     </div>
-                    <div v-else> 
+                    <div v-else>
                         <Button rounded type="button" icon="pi pi-user"  @click="login" class="mr-2">
                         </Button>
                     </div>

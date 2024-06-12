@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import store from '@/store/store.js';
-import { getAllScore,addScore } from '@/firebase/score.js';
+import { getAllScore, addScore } from '@/firebase/score.js';
 
 const props = defineProps({
     scoreAchieved: {
@@ -64,14 +64,15 @@ const confirm1 = () => {
 };
 function submit() {
     const now = new Date();
-    console.log(typeof props.scoreAchieved)
+    addScore(store.getters.getTestSheet.uid, store.getters.getTestSheet.tid, props.scoreAchieved, now)
+    //console.log(typeof props.scoreAchieved)
    /* const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
     console.log(now)*/
   //currentTime.value = `${hours}:${minutes}:${seconds}`;
-    console.log(now)
-  addScore(store.getters.getTestSheet.uid, store.getters.getTestSheet.tid, props.scoreAchieved, now)
+    //console.log(now)
+  
 }
 
 </script>
