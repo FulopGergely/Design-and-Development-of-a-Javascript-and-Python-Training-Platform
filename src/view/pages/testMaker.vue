@@ -22,7 +22,7 @@ const b = 2;
 console.log(a+b);`).value;*/
 const user = 'testCreator'
 onMounted(() => {
-    
+    store.commit('setLoading', true)
 });
 
 const myQuillEditor = ref('')

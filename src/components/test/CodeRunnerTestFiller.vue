@@ -38,10 +38,11 @@ const selectLanguage = ref(props.selectLanguage);
 onMounted(() => {
     console.log(props.tests)
 });
+/* nem jó a logika, kikommenteltem csak, esetleges későbbi javítás miatt
 const isDisabled = computed(() => { //ha eltaláljuk a választ futtatás gomb szürke lesz
     return store.getters.getScoreEarned[store.getters.getScoreBySide-1] == store.getters.getScoreBySide && store.getters.getScoreBySide != 0
 });
-
+*/
 watch(() => props.selectLanguage, (newValue, oldValue) => {
     selectLanguage.value = newValue;
     cmOptions.value.mode = selectLanguage.value == 'javascript' ? "text/javascript" : "text/x-python"
