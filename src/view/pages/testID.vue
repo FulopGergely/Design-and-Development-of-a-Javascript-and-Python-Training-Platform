@@ -13,6 +13,8 @@ const show = () => {
     }
 };
 
+
+
 //hljs
 import 'highlight.js/lib/common';
 import hljs from 'highlight.js/lib/core';
@@ -30,9 +32,9 @@ import Score from '@/components/test/Score.vue'
 
 const testSheet = ref(store.getters.getTestSheet); //testID testlap összes mezője
 const user = 'testFiller'
-const totalScore = ref()
+const totalScore = ref(0)
 const finished = ref(false)
-
+const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 onMounted(() => {
     initTest().then(() => { //előbb szerverről lekérjük az adatot, aztán init a többi szükséges adatokat
         let score = 0
@@ -40,8 +42,11 @@ onMounted(() => {
             score = score + task.score
         })
         totalScore.value = score
+        
     }); 
-    signInWithGoogle()
+    
+    
+    
 });
 const scoreAchieved = computed(() => {
     let sum = 0
@@ -56,7 +61,11 @@ async function initTest() {
     const router = useRoute() //címsorba beírt testID
     const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
     //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
-   
+    
+    /*if (!hasCurrentUser.value) {
+        signInWithGoogle()
+    }*/
+    
     if (!store.getters.getTestSheet) { //falsy (itt majd a felkiáltójelet el kell venni ha sessionba tárolod)
         if (testSheet.value.tid == router.params.testID) {
             console.log('be van töltve a: ' + testSheet.value.tid + ', nem csinálunk semmit')
@@ -110,13 +119,13 @@ function testFinish(finishTest) {
     finished.value = finishTest // megjelenik a teszteredmény html-nél
     
 }
-const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
+
 
 
 </script>
 
 <template>
-    {{store.getters.getFinishedTest}}
+    
     <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
@@ -193,6 +202,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     </div>
     <div v-else>
         <NavBar/>
+        <Message :closable="false" >A teszt indításához jelentkezzen be!</Message>
     </div>
    
 

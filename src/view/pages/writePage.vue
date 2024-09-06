@@ -1,5 +1,5 @@
 <script setup>
-import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
+import { signInWithGoogle, getAllDocument } from '@/firebase/google.js';
 import { getAllTest } from '@/firebase/test.js';
 import { ref, onMounted, computed, watch  } from 'vue';
 import router from '@/router/index.js';
@@ -10,7 +10,7 @@ import NavBar from '@/components/home/NavBar.vue'
 import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 const show = () => {
-      toast.add({ severity: 'error', summary: 'Nincs ilyen teszt', life: 3000 });
+      toast.add({ severity: 'error', summary: 'Teszt indításához be kell jelentkezni', life: 3000 });
 };
 
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
@@ -18,7 +18,8 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 
 
 const testID = ref()
-const tests = ref([])
+const availableTests = ref([])
+const allUsers = ref([])
 
 onMounted(() => {
     init()
@@ -27,12 +28,42 @@ onMounted(() => {
 
 async function init() {
     store.commit('setLoading', false)
-    tests.value = await getAllTest()
+    let allTest = await getAllTest()
+    allTest.forEach(item => { //saját tesztek
+        if (item.available) {
+            availableTests.value.push(item)
+        }
+        //console.log(item.uid)
+    });
+    allUsers.value = await getAllDocument('users')
+    
+    console.log(allUsers.value)
     store.commit('setLoading', true)
 }
 
+const columns = [
+    { field: 'testID', header: 'Teszt neve' },
+    { field: 'time', header: 'Teszt ideje' },
+    { field: 'established', header: 'Teszt létrehozója' },
+];
+const displayOnTable = computed(() => {
+
+    if (availableTests.value) {
+        return availableTests.value.map(item => {
+            return {
+                testID: item.tid,
+                time: item.testDurationMinutes + ' perc',
+                    established: allUsers.value.find(user => user.uid == item.uid)?.displayName || 'ismeretlen'
+            }
+        });
+    } else {
+        return [];
+    }
+});
+/*
 async function login() {
     //window.open('/' + testID.value, '_blank');
+    console.log('lefuttott')
     if(testID.value){
         //let tests = await getAllTest()
         let bool = false
@@ -51,37 +82,69 @@ async function login() {
             }
     }
         //signInWithGoogle()
-} 
-
+} */
+function startTest (test) {
+    if (hasCurrentUser.value) {
+        store.commit('setTimer', 0) //nullázzuk az időzítést.
+        window.open('/' + test.data.testID, '_blank')
+        const match = test.data.time.match(/^\d+/); //számmal indul e a string?
+        let time = match ? parseInt(match[0], 10) : 0; //teszt ideje
+        store.commit('setTestDurationMinutes', time)
+        store.commit('setTimer', 0) //nullázzuk az időzítést.
+        } else {
+            show()
+        }
+    
+    //router.push('/' + test.data.testID)
+}
 </script>
 <template>
 
 
 
     <NavBar></NavBar>
-    <Toast/>
+       <Toast position="bottom-right"/>
+    
     <div >
         <div v-if="store.getters.getLoading">
-        <div class="flex justify-content-center flex-wrap mt-5">
-            <div
-                class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
-                <h2>Python és JavaScript oktató platform. </h2>
+        
 
-                Ha készen állsz,
-                írd
-                be a teszt nevét, majd jelentkezz be Google-fiókoddal, hogy elindíthasd a tesztet.
-                Legyen sikeres a tanulás és a fejlődés útja!
 
-                <InputGroup class="mt-5">
-                    <InputGroupAddon>https://progmester.hu/</InputGroupAddon>
-                    <InputText v-model="testID"/>
-                    <Button @click="login()" label="Kezdés" />
-                </InputGroup>
-                <Toast />
-            </div>
 
+        <div class="flex justify-content-center flex-wrap ">
+                <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
+                    <div class="card">
+
+                        <div>
+                            <div class="flex justify-content-center flex-wrap">
+                                <h2> Tesztek</h2>
+
+                            </div>
+                        </div>
+
+                        <div
+                            class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
+                            <DataTable :value="displayOnTable" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" >
+                                <Column sortable v-for="col of columns" :key="col.field" :field="col.field"
+                                                    :header="col.header">
+                                </Column>
+                                <Column>
+                                    <template #body="slotProps">
+                                        <Button icon="pi pi-file-edit" label="Teszt indítása"
+                                            @click="startTest(slotProps)" />
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </div>
+                    </div>
+                </div>
         </div>
-       </div> 
+
+
+
+        
+          
+        </div> 
        <div v-else>
             <div class="flex justify-content-center flex-wrap">
                 <ProgressSpinner />
