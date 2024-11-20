@@ -36,16 +36,17 @@ const totalScore = ref(0)
 const finished = ref(false)
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 onMounted(() => {
+    
     initTest().then(() => { //előbb szerverről lekérjük az adatot, aztán init a többi szükséges adatokat
         let score = 0
         store.getters.getTestSheet.task.forEach(task => {
             score = score + task.score
         })
         totalScore.value = score
-        
+        store.commit('setLoading', true)
     }); 
     
-    
+    //store.commit('setTestDurationMinutes', store.getters.getTestDurationMinutes)
     
 });
 const scoreAchieved = computed(() => {
@@ -58,6 +59,7 @@ const scoreAchieved = computed(() => {
 
 
 async function initTest() {
+    store.commit('setLoading', false)
     const router = useRoute() //címsorba beírt testID
     const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
     //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
@@ -80,6 +82,7 @@ async function initTest() {
                 modyfiCode(test.task)
                 store.commit('addTestSheet', test)
                 testSheet.value = test
+                store.commit('setTestDurationMinutes', test.testDurationMinutes*60) //tesztek menüpontnál, ha indítunk tesztet, itt beállítjuk az időzítőt
             }
         });
     }
@@ -130,7 +133,6 @@ function testFinish(finishTest) {
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
             <NavBar :user="user" :time="store.getters.getTestSheet.testDurationMinutes*60" />
-        
             <div v-if="finished">
                 <Score :scoreAchieved="scoreAchieved" />
             

@@ -6,7 +6,7 @@ export default {
             currentTestSide: 0, //segédváltozó, jelenlegi oldalt ahol épp állunk.
             loading: false, //segédváltozó, oldal async betöltése miatt
             testSheet: [], //teszt kérdéssor, lekérjük, másolatot készítünk, és ezt használjuk. a code-ot betöltéskor módosítjuk (initTest-nél testID.vue)
-            testDurationMinutes: 600, //lekért adat
+            testDurationMinutes: 99999, //lekért adat
             scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
             timer: 0,
             //finishedTest: false, //ha tesztet befejezi valaki akkor állítódik át
@@ -37,6 +37,7 @@ export default {
             // helyes válasz esetént átírjuk pipára a feladat sorszámát
         },
         setTestDurationMinutes(state, time) {
+            console.log('rtx')
             state.testDurationMinutes = time //lekérjük egyszer szerverről honnna induljon az időzítés
         },
         startCountdown(state) {
@@ -47,12 +48,16 @@ export default {
             clearInterval(state.timer)
             state.timer = setInterval(() => {
                 state.testDurationMinutes--;
+                console.log(state.testDurationMinutes)
                 if (state.testDurationMinutes === 0) {
                     clearInterval(state.timer);
                     // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
                 }
             }, 1000);
         },
+        /*setTimer(state, time) {
+            state.timer = time
+        }*/
     },
     getters: {
         getCurrentTestSide(state) {

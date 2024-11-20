@@ -29,7 +29,7 @@ async function createTest() {
                 toast.add({ severity: 'success', summary: 'Teszt mentése sikeres', detail: '' + testName.value + ' teszt mentése sikeres', life: 5000 });
             }
         } else {
-            toast.add({ severity: 'error', summary: 'Hiba', detail: 'Teszt mentése sikertelen\n\n' + testName.value + ' teszt már létezik' });
+            toast.add({ severity: 'error', summary: 'Hiba', detail: 'Teszt mentése sikertelen\n\n A(z) "' + testName.value + '" teszt már létezik, kérem más nevet adjon meg' });
         }
     }
     store.commit('setLoading', true)
