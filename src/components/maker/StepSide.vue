@@ -30,7 +30,6 @@ watch(() => store.getters.getCurrentSide, (newValue) => {
 
 <template>
     <!-- -->
-
     <div class="card">
         <Steps :model="tasks" class="mt-8 mb-6" :activeStep="currentStep" :readonly="false">
 
@@ -38,6 +37,7 @@ watch(() => store.getters.getCurrentSide, (newValue) => {
                 <span
                     :class="['inline-flex justify-content-center align-items-center border-circle border-primary border-1 h-2rem w-2rem z-1 cursor-pointer', { 'bg-primary': active, 'surface-overlay text-primary': !active }]">
                     {{active ? store.commit(props.currentSide, index + 1) : null}}
+                    
                     <div v-if="item.icon">
                         <i :class="[item.icon, 'text-xl']" />
                     </div>
