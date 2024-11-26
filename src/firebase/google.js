@@ -43,6 +43,7 @@ async function addUser(uid, email, displayName, photoURL) {
 // Ez fut le a bejelentkezés gombbal.
 async function signInWithGoogle() {
     try {
+        store.commit('setTimer', 0)
         const result = await signInWithPopup(auth, provider); //ezt az obj-et adja vissza firebase auth bejelentkezésnél
         const users = await getAllDocument('users'); //ezek az eddigi reisztrált felhasználók adatbázisban
         const currentUser = { //csak ezt akarjuk tárolni firebase objectből

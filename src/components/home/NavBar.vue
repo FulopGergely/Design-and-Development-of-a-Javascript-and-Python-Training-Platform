@@ -31,6 +31,7 @@ const prop = defineProps({
 })
 
 onMounted(() => {
+    console.log(prop.time)
     store.commit('setTestDurationMinutes', prop.time)
     console.log(prop.time)
     store.commit('startCountdown') //időzítőt elindítjuk
@@ -148,6 +149,15 @@ const toggle = (event) => {
     menu.value.toggle(event);
 };
 
+function timeShow() {
+    let time = store.getters.getTestDurationMinutes - store.getters.getTimer
+    console.log(store.getters.getTestDurationMinutes)
+    console.log(store.getters.getTimer)
+    const minutes = Math.floor(time / 60);
+    const remainingSeconds = time % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
 </script>
 
 <template>
@@ -155,7 +165,7 @@ const toggle = (event) => {
         <Menubar class="fadein animation-duration-500 " :model="items" ref="myMenubar">
             <template #start>
                 <div v-if="hasCurrentUser && prop.user == 'testFiller'">
-                    idő: {{  store.getters.getTestDurationMinutes }}
+                    idő: {{ timeShow() }}
                 </div>
                 <div class="ml-2"></div>
             </template>

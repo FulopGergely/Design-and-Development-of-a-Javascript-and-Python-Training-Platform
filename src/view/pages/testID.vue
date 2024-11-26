@@ -33,7 +33,9 @@ import Score from '@/components/test/Score.vue'
 const testSheet = ref(store.getters.getTestSheet); //testID testlap összes mezője
 const user = 'testFiller'
 const totalScore = ref(0)
-const finished = ref(false)
+const finished = computed(() => {
+    return store.getters.getTestDurationMinutes - store.getters.getTimer <= 0;
+});
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 onMounted(() => {
     
@@ -45,8 +47,9 @@ onMounted(() => {
         totalScore.value = score
         store.commit('setLoading', true)
     }); 
-    
-    //store.commit('setTestDurationMinutes', store.getters.getTestDurationMinutes)
+    console.log("iiiiiii")
+    store.commit('setTestDurationMinutes', store.getters.getTestDurationMinutes)
+    store.commit('setTimer', store.getters.getTimer + 1) //frissíténél 1 másodperc büntetés
     
 });
 const scoreAchieved = computed(() => {
@@ -59,35 +62,41 @@ const scoreAchieved = computed(() => {
 
 
 async function initTest() {
+    // Inicializálás
+    console.log('rtx2')
     store.commit('setLoading', false)
-    const router = useRoute() //címsorba beírt testID
-    const tests = await getAllTest() //létező összes tesztet lekéri a szerverről
-    //többszöri frissítés miatt, megnézzük hogy már be van-e töltve ez a tesztlap:
-    
-    /*if (!hasCurrentUser.value) {
-        signInWithGoogle()
-    }*/
-    
-    if (!store.getters.getTestSheet) { //falsy (itt majd a felkiáltójelet el kell venni ha sessionba tárolod)
-        if (testSheet.value.tid == router.params.testID) {
-            console.log('be van töltve a: ' + testSheet.value.tid + ', nem csinálunk semmit')
+    const router = useRoute() // Az aktuális útvonal paraméterei
+    const testID = router.params.testID
+    const tests = await getAllTest() // Lekérjük az összes tesztet
+    if (store.getters.getTestSheet.length > 0) {
+        if (testSheet.value?.tid === testID) {
+            console.log('Ez a tesztlap már be van töltve: ' + testSheet.value.tid)
         } else {
-            console.log('másik tesztfeladatlpot kitöltése')
+            console.log('Másik tesztlap van kiválasztva')
         }
     } else {
-        console.log('üres, még nem volt betöltve semmi')
-        tests.forEach(test => { //megkeressük a testID-jü tesztlapot
-            if (test.tid == router.params.testID) {
-                //mielőtt tároljuk a code-ot modosítjuk (ha esetleg kell megodlásnak a kód azt itt tudjuk kezelni, vagy lekérjuk fire-baseről)
-                modyfiCode(test.task)
-                store.commit('addTestSheet', test)
-                testSheet.value = test
-                store.commit('setTestDurationMinutes', test.testDurationMinutes*60) //tesztek menüpontnál, ha indítunk tesztet, itt beállítjuk az időzítőt
-            }
-        });
+        console.log('Még nincs tesztlap betöltve')
+
+        // Megkeressük az aktuális tesztet az összes teszt között
+        const currentTest = tests.find(test => test.tid === testID)
+
+        if (currentTest) {
+            // Ha találtunk ilyen tesztet, akkor módosítjuk és mentjük
+            modyfiCode(currentTest.task) // A teszt feladatainak módosítása
+            store.commit('setTestDurationMinutes', currentTest.testDurationMinutes * 60) // Időzítő beállítása
+            store.commit('addTestSheet', currentTest) //itt mentjük a módosításokat
+            testSheet.value = currentTest
+       } else {
+            console.warn(`Nem található tesztlap ezzel az ID-val: ${testID}`)
+        }
     }
+
+    // Betöltési állapot befejezése
     store.commit('setLoading', true)
 }
+
+// Kód módosítási példa (felhasználási hely szerint)
+
 function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvény törzset lássa. Betöltés után modosítjuk az egészet, így könnyebb lesz később a kezelése.
     
     codes.forEach(code => {
@@ -118,12 +127,6 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
         }
     })
 }
-function testFinish(finishTest) {
-    finished.value = finishTest // megjelenik a teszteredmény html-nél
-    
-}
-
-
 
 </script>
 

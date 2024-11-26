@@ -37,27 +37,33 @@ export default {
             // helyes válasz esetént átírjuk pipára a feladat sorszámát
         },
         setTestDurationMinutes(state, time) {
-            console.log('rtx')
             state.testDurationMinutes = time //lekérjük egyszer szerverről honnna induljon az időzítés
         },
-        startCountdown(state) {
-            //clearInterval(timer)
-
-            console.log('startCountdown:')
-            console.log(state.testDurationMinutes)
-            clearInterval(state.timer)
-            state.timer = setInterval(() => {
-                state.testDurationMinutes--;
-                console.log(state.testDurationMinutes)
-                if (state.testDurationMinutes === 0) {
-                    clearInterval(state.timer);
-                    // Itt tudsz bármilyen logikát hozzáadni, amit a visszaszámlálás befejezésekor akarsz végrehajtani
-                }
-            }, 1000);
+        setTimer(state, time) { //hány perces a teszt (2 helyen fut le)
+            if (time > state.testDurationMinutes) {
+                state.timer = state.testDurationMinutes
+            } else {
+                state.timer = time
+            }
         },
-        /*setTimer(state, time) {
-            state.timer = time
-        }*/
+        startCountdown(state) {
+            // frissítéskor nem fusson párhuzamosan több időzítő
+            if (state.timeIntervalId) {
+                clearInterval(state.timeIntervalId);
+            }
+            if (state.timer <= state.testDurationMinutes) {
+                //state.timer++; // frissítékor "büntetés" idő növelését nem itt, hanem testID.vue ban csináljuk, mert itt valamiért 2 másodpercet von le
+                state.timeIntervalId = setInterval(() => {
+                    if (state.timer >= state.testDurationMinutes) {
+                        state.timer = state.testDurationMinutes
+                        clearInterval(state.timeIntervalId);
+                    } else {
+                        state.timer++;
+                    }
+                }, 1000);
+            }
+            //console.log(state.timer);
+        },
     },
     getters: {
         getCurrentTestSide(state) {
@@ -90,9 +96,13 @@ export default {
             return state.timer
         },
         getTestDurationMinutes: state => {
+            return state.testDurationMinutes
+        }
+        /*
+        getTestDurationMinutes: state => {
             const minutes = Math.floor(state.testDurationMinutes / 60);
             const remainingSeconds = state.testDurationMinutes % 60;
             return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-        },
+        },*/
     },
 };

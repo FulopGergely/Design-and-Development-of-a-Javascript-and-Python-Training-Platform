@@ -86,13 +86,13 @@ async function login() {
 function startTest (test) {
     if (hasCurrentUser.value) {
         console.log('ezt írja ki a test: ' + test.data.time)
-        //store.commit('setTimer', 0) //nullázzuk az időzítést. (nincs olyan hogy setTimer)
+        store.commit('setTimer', 0) //nullázzuk az időzítést. (nincs olyan hogy setTimer)
         window.open('/' + test.data.testID, '_blank')
         const match = test.data.time.match(/^\d+/); //számmal indul e a string?
         let time = match ? parseInt(match[0], 10) : 0; //teszt ideje
         console.log('idő?: '+time)
         store.commit('setTestDurationMinutes', time)
-        //store.commit('setTimer', 0) //nullázzuk az időzítést. (nincs olyan hogy setTimer)
+        store.commit('setTimer', 0) //nullázzuk az időzítést. (nincs olyan hogy setTimer)
         } else {
             show()
         }
