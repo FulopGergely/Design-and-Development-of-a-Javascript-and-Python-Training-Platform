@@ -64,6 +64,11 @@ export default {
             }
             //console.log(state.timer);
         },
+        resetStates(state) {
+            state.setTimer = 0
+            state.testSheet = []; //töröljük ha testSheet array-t
+            state.scoreEarned = []
+        },
     },
     getters: {
         getCurrentTestSide(state) {
