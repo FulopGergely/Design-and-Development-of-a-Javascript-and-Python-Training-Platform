@@ -10,8 +10,6 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['finish'])
-
 //PrimeVue
 import { useConfirm } from "primevue/useconfirm";
 const confirm = useConfirm();
@@ -55,7 +53,7 @@ const confirm1 = () => {
         acceptLabel: 'Igen',
         accept: () => {
             submit()
-            emit('finish', true)
+            store.commit('setTimer', store.getters.getTestDurationMinutes) //nullázzuk az időt.
         },
         reject: () => {
             

@@ -171,7 +171,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
                                 </div>
                                 <div
                                     class="fadein animation-duration-500 border-round border-1 surface-border surface-ground mt-8 mb-3 p-4 ">
-                                    <FootSteps @finish="testFinish" :scoreAchieved="scoreAchieved" />
+                                    <FootSteps :scoreAchieved="scoreAchieved" />
                                 </div>
                             </div>
                         </div>

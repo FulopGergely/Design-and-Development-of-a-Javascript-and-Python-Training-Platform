@@ -93,8 +93,7 @@ function startTest (test) {
         console.log('idő?: '+time)
         store.commit('setTestDurationMinutes', time)
         store.commit('setTimer', 0) //nullázzuk az időzítést. (nincs olyan hogy setTimer)
-        //sessionStorage.removeItem('testSheet');
-        //sessionStorage.clear();
+        store.getters.getTestSheet.task = []; //töröljük ha testSheet array-t
         } else {
             show()
         }
