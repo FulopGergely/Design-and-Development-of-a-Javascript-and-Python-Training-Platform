@@ -22,7 +22,7 @@ async function createTest() {
     } else {
         const allTest = await getAllTest() //összes tesztet lekéri
         if (!allTest.some(test => test.tid === testName.value)) {
-            const error = await addTest(auth.currentUser.uid, testName.value, false, store.getters.getTask, testTime.value)
+            const error = await addTest(auth.currentUser.uid, testName.value, true, store.getters.getTask, testTime.value)
             if (error) {
                 toast.add({ severity: 'error', summary: 'Hiba', detail: 'Teszt mentése sikertelen\n\n' + error });
             } else {
@@ -56,8 +56,7 @@ const isInvalid = false
             </InputGroup>
         </div>
         <div>
-            <Message style="height: 50%;">Tesztet a mentés után a "Tesztjeim" menüpontban lehet elérhetővé
-                tenni</Message>
+            <Message style="height: 50%;">A teszt a "Tesztjeim" menüpontban inaktiválható (mások számára nem lesz látható)</Message>
         </div>
 
 
