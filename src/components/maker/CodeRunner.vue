@@ -110,15 +110,12 @@ async function runcode(params) {
     }
 
     if (selectLanguage.value == 'javascript') {
-        //console.log(params.value)
-        //console.log(store.getters.getParamsByCurrentSide)
         try {
-            params.map(param => { //hogy a textarea jól jelenítse meg, futtatás előtt parsolás, futtatás után stringify
+            params.map(param => { 
                 if (param.type.name == 'JSON') {
                     param.value = JSON.parse(param.value)
                 }
             })
-
             const dynamicFunction = new Function('return ' + code.value)();
             result.value = dynamicFunction(...params.map(param => param.value));
             params.map(param => {
@@ -126,11 +123,7 @@ async function runcode(params) {
                     param.value = JSON.stringify(param.value, undefined, 4);
                 }
             })
-
             console.log(result.value)
-            //console.log(store.getters.getParamsByCurrentSide.map(param => param.type.name))
-            //console.log(store.getters.getParamsByCurrentSide.map(param => param.value))
-            //store.getters.getParamsByCurrentSide.map(param => param.value = JSON.stringify(param.value))
         } catch (error) {
             params.map(param => {
                 if (param.type.name == 'JSON') {
@@ -139,9 +132,7 @@ async function runcode(params) {
             })
             console.log(error)
         }
-        //console.log(store.getters.getParamsByCurrentSide[0].value)
         console.log = oldConsoleLog;
-
     }
     if (selectLanguage.value == 'python') {
         try {
@@ -150,7 +141,6 @@ async function runcode(params) {
                 console.log(output);
             }
             if (res.error != null) {
-                //console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message
                 console.log(res.error)
             } else {
                 result.value = res.results
@@ -160,7 +150,8 @@ async function runcode(params) {
             console.error('Error:', error);
         }
 
-
+ //console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message
+               
         console.log = oldConsoleLog;
 
     }

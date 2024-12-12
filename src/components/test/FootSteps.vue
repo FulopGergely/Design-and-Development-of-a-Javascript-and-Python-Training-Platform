@@ -69,7 +69,9 @@ function submit() {
     console.log(now)*/
   //currentTime.value = `${hours}:${minutes}:${seconds}`;
     console.log(now)
-  addScore(store.getters.getTestSheet.uid, store.getters.getTestSheet.tid, props.scoreAchieved, now)
+    //console.log(store.getters.getCurrentUser)
+  addScore(store.getters.getCurrentUser, store.getters.getTestSheet.tid, props.scoreAchieved, now)
+  //  addScore(store.getters.getTestSheet.uid, store.getters.getTestSheet.tid, props.scoreAchieved, now)
 }
 
 </script>

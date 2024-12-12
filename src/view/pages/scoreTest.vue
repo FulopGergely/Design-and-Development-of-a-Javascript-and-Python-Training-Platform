@@ -28,7 +28,6 @@ const chartOptions = ref();
 const myTests = ref([]) //saját tesztek
 const allScores = ref()
 const selectedTest = ref(); //string, a kiválasztott teszt neve
-const dates = ref();
 const users = ref()
 //let displayOnTable = ref([])
 
@@ -152,22 +151,29 @@ const options = computed(() => {
 const displayOnTable = computed(() => { 
     console.log('displayOnTable lefut')
     console.log(allScores.value)
+    
     if (allScores.value && selectedTest.value) {
         let arr = []
             allScores.value.forEach(item => { //saját tesztek 
                 //console.log(selectedTest.value.testID)
                 //console.log(item.tid)
+                //console.log(item)
+                
             if (selectedTest.value.testID == item.tid) {
-                let user = users.value.find(x => x.uid === item.uid)
+                console.log(item)
+                
                 arr.push({
                     date: formattedDate(item.date),
-                    uid: user.displayName + ' - ' + user.email ,
+                    uid: item.uid.displayName + ' - ' + item.uid.email ,
                     score: item.score,
                 })
+                
             }
+                
         });
         return arr
     }
+        
     return null
 });
 
@@ -255,10 +261,6 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                             <div v-tooltip.top="'Átlag értékelés'" class="m-2">
                                 <Rating v-model="avgRating" readonly :cancel="false" />
                             </div>
-                        <div v-if="false">
-                            <label for="buttondisplay" class="font-bold block mt-4 mb-1"> Időintervallum: </label>
-                            <Calendar v-model="dates" showIcon selectionMode="range" :manualInput="false" />
-                        </div>
                     </div>
                     <div v-if="!showTable">
                         <div
