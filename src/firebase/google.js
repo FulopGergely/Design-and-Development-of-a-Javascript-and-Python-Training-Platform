@@ -10,18 +10,11 @@ const provider = new GoogleAuthProvider();
 async function getAllDocument(collectionName) {
     const querySnap = await getDocs(query(collection(db, collectionName)));
     const arr = []
-    /*if (collectionName == 'tests') {
-        querySnap.forEach((doc) => {
-            this.tests.push(doc.data())
-            //console.log(doc.data())
-        })
-    }*/
     if (collectionName == 'users') {
         querySnap.forEach((doc) => {
             arr.push(doc.data())
         })
         return arr
-        //this.$store.dispatch('setLoading', false)
     }
 
 }
@@ -80,8 +73,6 @@ function signOutWithGoogle() {
 ////////////////////////////////////////
 
 function signIn() {
-    console.log(auth)
-    console.log(provider)
     signInWithRedirect(auth, provider)
 }
 

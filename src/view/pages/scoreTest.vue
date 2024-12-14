@@ -18,7 +18,6 @@ const toast = useToast();
 import NavBar from '@/components/home/NavBar.vue'
 
 onMounted(() => {
-    //console.log(store.getters.getTestSheet)
     init()
     chartData.value = setChartData();
     chartOptions.value = setChartOptions();
@@ -36,7 +35,7 @@ const users = ref()
 const avgRating = computed(() => { 
     if(selectedTest.value){
         const test = myTests.value.find(x => x.tid == selectedTest.value.testID)
-        console.log(test)
+
         if (test.rating != undefined) {
             const sum = test.rating.reduce((acc, val) => val !== null ? acc + val : acc, 0);
             const count = test.rating.filter(x => x !== null).length;
@@ -49,7 +48,7 @@ const avgRating = computed(() => {
 });
 
 const showTable = computed(() => { 
-    console.log(displayOnTable)
+
     if (displayOnTable.value) {
         return displayOnTable.value.length == 0 ? true : false
     }
@@ -149,19 +148,11 @@ const options = computed(() => {
 });
 
 const displayOnTable = computed(() => { 
-    console.log('displayOnTable lefut')
-    console.log(allScores.value)
     
     if (allScores.value && selectedTest.value) {
         let arr = []
             allScores.value.forEach(item => { //saját tesztek 
-                //console.log(selectedTest.value.testID)
-                //console.log(item.tid)
-                //console.log(item)
-                
             if (selectedTest.value.testID == item.tid) {
-                console.log(item)
-                
                 arr.push({
                     date: formattedDate(item.date),
                     uid: item.uid.displayName + ' - ' + item.uid.email ,

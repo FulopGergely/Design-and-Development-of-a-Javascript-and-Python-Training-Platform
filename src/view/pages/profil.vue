@@ -1,39 +1,6 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 import NavBar from '@/components/home/NavBar.vue'
-
-/*
-import { usePrimeVue } from 'primevue/config';
-
-const PrimeVue = usePrimeVue();
-PrimeVue.changeTheme('md-dark-indigo', 'md-light-indigo', 'theme-link', () => { });
-
-
-
-const selectedTheme = ref('soho-light'); // Az alapértelmezett téma
-const linkId = ref('theme-link');
-const themes = ref([
-    { label: 'Lara Light Teal', value: 'lara-light-teal' },
-    { label: 'MDC Light Indigo', value: 'mdc-light-indigo' },
-    { label: 'Soho Light', value: 'soho-light' },
-]);
-
-
-
-const currentThemePath = computed(() => {
-    // Az aktuális témához vezető elérési út
-    return `themes/${selectedTheme.value}/theme.css`;
-});
-const themeChange = () => {
-    // PrimeVue changeTheme függvény hívása
-    PrimeVue.changeTheme('current-theme', selectedTheme.value, linkId.value, () => { });
-};
-onMounted(() => {
-    // Az alkalmazás inicializálódott, most hívjuk meg a changeTheme függvényt
-    themeChange();
-});
-*/
 </script>
 <template>
     <NavBar></NavBar>

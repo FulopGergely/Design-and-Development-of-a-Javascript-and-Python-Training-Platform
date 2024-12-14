@@ -2,11 +2,7 @@
 import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
 import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
-
-
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
-
-
 const profilList = ref([
     {
         label: 'Kijelentkezés',
@@ -18,13 +14,9 @@ const profilList = ref([
 
 
 ]);
-
-
-
 function login() {
     if (!hasCurrentUser.value) {
         signInWithGoogle()
-        console.log('asd')
     } else {
         signOutWithGoogle()
     }

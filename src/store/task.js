@@ -30,12 +30,9 @@ export default {
             state.tasks[state.currentSide - 1].params.push(obj)
         },
         addTest(state, obj) {
-            //state.tasks[state.currentSide - 1].tests = []
             state.tasks[state.currentSide - 1].tests.push(obj)
-            //console.log(state.tasks[state.currentSide - 1].tests)
         },
         setTask(state, updatedTask) {
-            //console.log(state.currentSide)
             if (state.currentSide - 1 >= 0 && state.currentSide - 1 < state.tasks.length) {
                 state.tasks[state.currentSide - 1] = updatedTask;
             } else {

@@ -27,8 +27,6 @@ const nextButtonLabel = computed(() => {
     return 'Passz'
 });
 
-//const emit = defineEmits(['finsih'])
-
 function back(){
     let reduction = store.getters.getCurrentTestSide
     reduction--
@@ -62,16 +60,7 @@ const confirm1 = () => {
 };
 function submit() {
     const now = new Date();
-    console.log(typeof props.scoreAchieved)
-   /* const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    console.log(now)*/
-  //currentTime.value = `${hours}:${minutes}:${seconds}`;
-    console.log(now)
-    //console.log(store.getters.getCurrentUser)
-  addScore(store.getters.getCurrentUser, store.getters.getTestSheet.tid, props.scoreAchieved, now)
-  //  addScore(store.getters.getTestSheet.uid, store.getters.getTestSheet.tid, props.scoreAchieved, now)
+    addScore(store.getters.getCurrentUser, store.getters.getTestSheet.tid, props.scoreAchieved, now)
 }
 
 </script>

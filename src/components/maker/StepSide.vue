@@ -19,11 +19,9 @@ const currentStep = ref(props.currentSide ==  'setCurrentSide' ? store.getters.g
 // Dinamikusan frissíti az "activeStep" értékét a store.getters.getCurrentTestSide alapján
 watch(() => store.getters.getCurrentTestSide, (newValue) => {
   currentStep.value = newValue - 1; // Mivel az index 0-tól kezdődik, ezért kivonunk 1-et
-  console.log(currentStep.value)
 });
 watch(() => store.getters.getCurrentSide, (newValue) => {
   currentStep.value = newValue - 1; // Mivel az index 0-tól kezdődik, ezért kivonunk 1-et
-  console.log(currentStep.value)
 });
 
 </script>

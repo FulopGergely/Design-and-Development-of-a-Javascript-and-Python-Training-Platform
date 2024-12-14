@@ -20,7 +20,6 @@ const paramsNameList2 = ref([
 ]);
 
 function addParam() {
-    //console.log(store.getters.getParamsByCurrentSide.length)
     const param = {
         id: store.getters.getParamsByCurrentSide.length + 1,
         type: { name: 'string' },
@@ -40,7 +39,6 @@ async function deleteParam(param) {
 <template>
     <!-- -->
     <div>
-
         <div v-for="param in store.getters.getParamsByCurrentSide" :key="param.id" class="mt-5 ml-5 mr-5"
             style="margin-right: 60px;">
             <Inplace @close="deleteParam(param)" :closable="true" :pt="{

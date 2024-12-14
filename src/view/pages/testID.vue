@@ -1,6 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch, inject, onBeforeMount } from 'vue';
-import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
+import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 import { getAllTest } from '@/firebase/test.js';
 import { useRoute } from "vue-router";
@@ -17,8 +16,6 @@ const show = () => {
 
 //hljs
 import 'highlight.js/lib/common';
-import hljs from 'highlight.js/lib/core';
-const py = inject('py');
 
 //components
 import NavBar from '@/components/home/NavBar.vue'
@@ -62,12 +59,10 @@ const scoreAchieved = computed(() => {
 
 async function initTest() {
     // Inicializálás
-    console.log('rtx2')
     store.commit('setLoading', false)
     const router = useRoute() // Az aktuális útvonal paraméterei
     const testID = router.params.testID
     const tests = await getAllTest() // Lekérjük az összes tesztet
-    //console.log(store.getters.getTestSheet.task.length)
     if (store.getters.getTestSheet.task && store.getters.getTestSheet.task.length > 0) {
         if (testSheet.value?.tid === testID) {
             console.log('Ez a tesztlap már be van töltve: ' + testSheet.value.tid)
@@ -103,24 +98,17 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
         try {
             code.output = [] //itt fogjuk tárolni a kimeneti eredményeket feladatonként.
             code.displayTest = false //segédváltozó, a tesztesetek ne látszódjon csak futtatás után. isTest a tárolt érték ami azt tárolja hogy látszódjon a tesztesetek. 
-
             if (code.programmingLanguageName && code.programmingLanguageName.value == 'javascript' && code.code) { //js kód, és van kód beírva
-                //console.log(code.programmingLanguageName.value)
                 const functionName = code.code.replace(/^(function|\s+function)\s+/, '').match(/\w+/)[0];
                 const paramsName = code.code.match(/\(.*\)/)[0]
                 code.code = 'function ' + functionName + paramsName + '{\nreturn 0\n}'
                 code.functionName = functionName //tároljuk a functionName-t
-                //paraméterek kellenének még
-
             }
             if (code.programmingLanguageName && code.programmingLanguageName.value == 'python' && code.code) {
                 const functionName = code.code.replace(/^(def|\s+def)\s+/, '').match(/\w+/)[0];
                 const paramsName = code.code.match(/\(.*\)/)[0]
                 code.code = 'def ' + functionName + paramsName + ':\n  return 0'
                 code.functionName = functionName //tároljuk a functionName-t
-                //console.log(code.code)
-                //console.log(functionName)
-                //store.commit('', codeCopy.match(/\w+/)[0])
             }
         } catch {
             console.log('hiba a kód átírása közben')
@@ -134,6 +122,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
     <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
+            {{ store.getters.getTestSheet.testDurationMinutes*60 }}
             <NavBar :user="user" :time="store.getters.getTestSheet.testDurationMinutes*60" />
             <div v-if="finished">
                 <Score :scoreAchieved="scoreAchieved" />

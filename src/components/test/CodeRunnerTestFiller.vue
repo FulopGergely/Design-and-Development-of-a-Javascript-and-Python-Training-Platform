@@ -82,7 +82,6 @@ async function runcode() {
 async function executeJavaScriptCode() {
     try {
         let results
-        //console.log(props.tests)
         if (props.tests.length == 0) {
             let arr = []
             store.getters.getTestSheet.task[0].params.map(param => {
@@ -101,7 +100,6 @@ async function executeJavaScriptCode() {
 
         store.commit('setResults', results);
         store.commit('setDisplayTest', true); //teszteset tábla megjelenik
-        //console.log(results);
     } catch (error) {
         console.log(error);
     }
@@ -112,12 +110,11 @@ async function executePythonCode() {
     let results = [];
     let res;
     if (props.tests.length == 0) {
-        //console.log(code.value + addStringToEndOfThePythonCode())
+
         res = await py.run(code.value + addStringToEndOfThePythonCode());
         resultsObj.push(res);
     } else {
         for (const test of props.tests) {
-            //console.log(code.value + addStringToEndOfThePythonCode(test))
             res = await py.run(code.value + addStringToEndOfThePythonCode(test));
 
             if (typeof res.results == 'object') { //firebase-től Map-et kapunk vissza ha teszt obj, itt alakítottam át, mert így nem nyúl bele a frontend-es futtatásba ami map-el működik jól
@@ -139,7 +136,7 @@ async function executePythonCode() {
             console.log('Hiba:' + result.error);
         } else {
             result.value = result.resultsObj;
-            //console.log('result.value');
+      
             if (props.tests.length != 0) {
                 store.commit('setResults', results);
                 store.commit('setDisplayTest', true); //teszteset tábla megjelenik
@@ -189,7 +186,7 @@ function addStringToEndOfThePythonCode(test) {
             arr.push(params[i])
         }
     }
-    //console.log(arr)
+
     return '\n' + functionName + '(' + arr + ')'
 
 
@@ -208,10 +205,7 @@ function addStringToEndOfThePythonCode(test) {
                     <Button :disabled="isDisabled" @click="runcode()" class="mb-2 mt-2 ml-5">Futtatás</Button>
                     <!--  <ResultTable :js-result="result" @params-change="paramsChange" />   -->
                 </div>
-
             </div>
-
-
         </div>
         <div class="ml-5 mr-5">
             <Terminal :logs-name="logs" @clearTerminal="clearTerminal" />

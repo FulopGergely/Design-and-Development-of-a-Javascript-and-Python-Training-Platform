@@ -11,10 +11,8 @@ const testName = ref('')
 const testTime = ref(0)
 
 onMounted(() => {
-    console.log(store.getters.getLoading)
-});
 
-//addTest(uid, tid, available, private, task, testDurationMinutes)
+});
 async function createTest() {
     store.commit('setLoading', false) //testMaker komponensbe állítjuk, <toast> üzenet is ott van
     if (!testName.value) {
@@ -58,9 +56,6 @@ const isInvalid = false
         <div>
             <Message style="height: 50%;">A teszt a "Tesztjeim" menüpontban inaktiválható (mások számára nem lesz látható)</Message>
         </div>
-
-
-
         <div class="flex justify-content-end mt-7">
             <Button @click="createTest()">Teszt létrehozása</Button>
         </div>

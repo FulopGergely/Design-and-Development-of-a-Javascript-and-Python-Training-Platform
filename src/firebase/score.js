@@ -1,7 +1,6 @@
 //score tábla
 import firebaseObjects from '@/firebase/index.js'
-import { collection, doc, deleteDoc, addDoc, getDocs, query, updateDoc } from 'firebase/firestore';
-import store from '@/store/store.js';
+import { collection, doc, deleteDoc, addDoc, getDocs, query } from 'firebase/firestore';
 const db = firebaseObjects.db;
 
 

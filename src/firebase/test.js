@@ -1,7 +1,6 @@
 //test tábla
 import firebaseObjects from '@/firebase/index.js'
 import { collection, doc, deleteDoc, addDoc, getDocs, query, updateDoc, getDoc } from 'firebase/firestore';
-import store from '@/store/store.js';
 const db = firebaseObjects.db;
 
 
@@ -65,29 +64,6 @@ async function setAvailable(tid, bool) {
 async function deleteTest(tid) {
   await deleteDoc(doc(db, 'tests', await getDocId(tid)))
 }
-
-
-/*
-
-Table tests {
-  id varchar [primary key]
-  userId integer
-  password varchar
-  testDurationMinutes integer
-  task_id integer [note: '1 teszben több kérdés van']
-}
-Table tasks {
-  id integer [primary key]
-  side integer [note: 'oldalszám']
-  programmingLanguageName varchar [note: 'js/py']
-  text varchar [note: 'feladat szövege html formátumban']
-  code varchar
-  tests array [note: 'tesztesetek (paraméterek, végeredmény és típusok)']
-  isTest bool [note: 'pontszám és teszteset ellenőrzés ki/be kapcsolása']
-  score integer [note: 'hány pontot ér ez a feladat/kérdés']
-}
-
-*/
 
 /** 
  * 

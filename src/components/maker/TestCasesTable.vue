@@ -28,7 +28,6 @@ const isDisabled = computed(() => {
 const functionName = computed(() => { //js functionName
     if (props.selectLanguage == 'javascript') {
         let code = props.code
-        //console.log(props.code)
         let regex = /^(function|\s+function)\s+/
         code = code.replace(code.match(regex)[0], '');
         regex = /\w+/
@@ -57,8 +56,7 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
     return transformedData
 });
 
-watch(checked, (newValue, oldValue) => {
-    console.log(newValue);
+watch(checked, (newValue) => {
     newValue ? checkedLabel.value = 'Tesztesetek bekapcsolva' : checkedLabel.value = 'Tesztesetek kikapcsolva'
     store.commit('isTest', newValue)
 });
@@ -81,7 +79,7 @@ function generateRandomString(length) {
 }
 
 async function runcode(selectLanguage) {
-    //console.log(isDisabled.value)
+
     const randomParamameters = store.getters.getParamsByCurrentSide.map(obj => {
         if (selectLanguage == 'javascript') {
             if (obj.type.name == 'string') {
@@ -127,20 +125,17 @@ async function runcode(selectLanguage) {
         try {
             const dynamicFunction = new Function('return ' + props.code)();
             result.value = dynamicFunction(...randomParamameters);
-            //console.log(result.value)
         } catch (error) {
-            //console.log(error)
+            console.log(error)
         }
 
     }
     if (selectLanguage == 'python') {
         try {
             const res = await py.run(props.code + '\n' + functionName.value + '(' + randomParamameters + ')');
-            //console.log(props.code + addStringToEndOfThePythonCode(randomParamameters))
             if (res.error != null) {
                 console.log(res.error)
             } else {
-                //console.log(res.results);
                 result.value = res.results
             }
         } catch (error) {
@@ -149,12 +144,6 @@ async function runcode(selectLanguage) {
 
     }
 
-    /*
-        const myCase = {
-            parameters: functionName.value + '(' + randomParamameters.map(param => JSON.stringify(param)).join(', ') + ')',
-            value: result.value
-        };
-        */
     const myCase = {
         parameters: randomParamameters.map(param => param),
         result: result.value,
@@ -167,7 +156,6 @@ async function runcode(selectLanguage) {
         const mapToObject = map => Object.fromEntries(map.entries());
         myCase.result = mapToObject(myCase.result);
     }
-    //console.log(myCase.result)
     store.commit('addTest', myCase)
 }
 

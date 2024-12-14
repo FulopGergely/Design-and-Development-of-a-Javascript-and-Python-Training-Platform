@@ -1,8 +1,7 @@
 <script setup>
-import { signInWithGoogle, getAllDocument } from '@/firebase/google.js';
+import { getAllDocument } from '@/firebase/google.js';
 import { getAllTest } from '@/firebase/test.js';
-import { ref, onMounted, computed, watch  } from 'vue';
-import router from '@/router/index.js';
+import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 //Component
 import NavBar from '@/components/home/NavBar.vue'
@@ -17,7 +16,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 
 
 
-const testID = ref()
+
 const availableTests = ref([])
 const allUsers = ref([])
 
@@ -33,11 +32,8 @@ async function init() {
         if (item.available) {
             availableTests.value.push(item)
         }
-        //console.log(item.uid)
     });
     allUsers.value = await getAllDocument('users')
-    
-    console.log(allUsers.value)
     store.commit('setLoading', true)
 }
 
@@ -60,43 +56,16 @@ const displayOnTable = computed(() => {
         return [];
     }
 });
-/*
-async function login() {
-    //window.open('/' + testID.value, '_blank');
-    console.log('lefuttott')
-    if(testID.value){
-        //let tests = await getAllTest()
-        let bool = false
-        tests.value.map(test => {
-            if (test.tid == testID.value && test.available) {
-                bool = true
-                signInWithGoogle().then(() => {
-                    router.push('/' + testID.value);
-                }).catch(error => {
-                    console.error('Bejelentkezés sikertelen:', error);
-                });
-            }
-        })
-        if (!bool) {
-                show()
-            }
-    }
-        //signInWithGoogle()
-} */
 function startTest (test) { //start kattintás
     if (hasCurrentUser.value) {
-        //console.log('ezt írja ki a test: ' + test.data.time)
         store.commit('resetStates') //pl nullázzuk az időzítést.
         window.open('/' + test.data.testID, '_blank')
         const match = test.data.time.match(/^\d+/); //számmal indul e a string?
         let time = match ? parseInt(match[0], 10) : 0; //teszt ideje
-        //console.log('idő?: '+time)
         store.commit('setTestDurationMinutes', time)
         } else {
             show()
         }
-    
-    //router.push('/' + test.data.testID)
 }
 </script>
 <template>

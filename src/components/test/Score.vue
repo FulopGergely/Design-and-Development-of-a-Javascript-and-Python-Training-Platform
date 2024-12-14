@@ -13,11 +13,9 @@ const props = defineProps({
 })
 const rating = ref(null);
 const review = ref('');
-//const bool = ref(false);
 
 function submit(){
     setReview(store.getters.getTestSheet.tid, rating, review)
-    //bool.value = true
     router.push('/')
 }
 

@@ -21,13 +21,11 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
             AllCorrect++;
             correct[i] = 1
             if (task.tests.length === AllCorrect) {
-                //console.log('Összes teszteset sikeres');
+                //Összes teszteset sikeres
                 emit('showToast')
                 store.commit('setScoreEarned', store.getters.getScoreBySide)
-                //console.log(store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1])
             }
         }
-        //console.log('correct: ' + AllCorrect)
         return {
             result: store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1].output[i],
             expectedResult: store.getters.getTestSheet.task[store.getters.getCurrentTestSide - 1].functionName + '(' + item.parameters.map(param => typeof param === 'object' ? JSON.stringify(param) : param) + ') -> ' + (typeof item.result == 'object' ? JSON.stringify(item.result) : item.result),

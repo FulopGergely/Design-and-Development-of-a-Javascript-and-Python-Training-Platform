@@ -15,11 +15,7 @@ import StepSide from '../../components/maker/StepSide.vue';
 import ButtonGroup from '../../components/maker/ButtonGroup.vue';
 
 
-/*
-const highlightedCode = hljs.highlight('javascript', `console.log('starting script');
-const a = 1;
-const b = 2;
-console.log(a+b);`).value;*/
+
 const user = 'testCreator'
 onMounted(() => {
     

@@ -102,8 +102,6 @@ function changeParamType(choosedParam) { //paraméter kiválasztásnál(kattint�
 
 
 async function runcode(params) {
-    //console.log(py)
-    console.log(store.getters.getTask)
     const oldConsoleLog = console.log;
     console.log = function (message) { //felülírjük a console.log működését
         logs.value.push(message); //logs a javascriptCode.vue -> Terminal.vue ba jelenik meg
@@ -149,25 +147,15 @@ async function runcode(params) {
         } catch (error) {
             console.error('Error:', error);
         }
-
- //console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message
-               
+ //console.log(res.error.split('\n').slice(8).join('\n').substring(16)); // delete the beginning of an error message            
         console.log = oldConsoleLog;
-
     }
     console.log = oldConsoleLog;
-    //console.log(result)
 }
 function clearTerminal() {
     logs.value = []
 }
 function addStringToEndOfThePythonCode() {
-    //console.log(code.value)
-    const regex = code.value.match(/^\s*def\s+/) // def -el kezdődik a kód 
-    if (code.value.match(regex) != null) {
-        //console.log(regex)
-    }
-
     const a = params.value.map(param => {
         if (param.type.name == 'string') {
             return '"' + param.value + '"'
@@ -186,14 +174,11 @@ function addStringToEndOfThePythonCode() {
             return param.value
         }
     });
-    //console.log(a)
-
     const s = '\n' + functionName.value + '(' + a + ')'
     return s
 }
 async function saveTestCase() {
     await runcode(store.getters.getParamsByCurrentSide)
-    //console.log(store.getters.getParamsByCurrentSide)
     const myCase = {
         parameters: params.value.map(item => {
             if (item.type.name == 'JSON') {
@@ -213,9 +198,6 @@ async function saveTestCase() {
         const mapToObject = map => Object.fromEntries(map.entries());
         myCase.result = mapToObject(myCase.result);
     }
-
-
-    //console.log(myCase)
     store.commit('addTest', myCase)
 }
 

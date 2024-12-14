@@ -62,7 +62,6 @@ export default {
                     }
                 }, 1000);
             }
-            //console.log(state.timer);
         },
         resetStates(state) {
             state.setTimer = 0
@@ -76,9 +75,7 @@ export default {
         },
         getLoading: (state) => state.loading,
         getDisplayTest: state => { //segédváltozó hogy a tesztesetek tábla látszódjon, utólag a test.ID ba tesszük be a testheetbe. Feladatonként változik futtatás után true-ra az érték.
-            //console.log(state.testSheet.task[state.currentTestSide - 1])
             if (state.testSheet.task[state.currentTestSide - 1] && state.testSheet.task[state.currentTestSide - 1].isTest && state.testSheet.task[state.currentTestSide - 1].tests.length != 0) {
-                //console.log(state.testSheet.task[state.currentTestSide - 1].tests.length)
                 return state.testSheet.task[state.currentTestSide - 1].displayTest
             }
         },
@@ -86,7 +83,6 @@ export default {
             return state.testSheet;
         },
         getTestBySide: state => {
-            //console.log(state.testSheet.task[state.currentTestSide - 1].tests)
             return state.testSheet.task[state.currentTestSide - 1].tests
         },
         getScoreBySide: state => {
@@ -103,11 +99,5 @@ export default {
         getTestDurationMinutes: state => {
             return state.testDurationMinutes
         }
-        /*
-        getTestDurationMinutes: state => {
-            const minutes = Math.floor(state.testDurationMinutes / 60);
-            const remainingSeconds = state.testDurationMinutes % 60;
-            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-        },*/
     },
 };

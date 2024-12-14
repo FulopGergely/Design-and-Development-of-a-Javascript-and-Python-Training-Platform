@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import store from '@/store/store.js';
-import { getAllTest, addTest, setAvailable, deleteTest } from '@/firebase/test.js';
+import { getAllTest, setAvailable, deleteTest } from '@/firebase/test.js';
 //components
 import NavBar from '@/components/home/NavBar.vue'
 //PrimeVue
@@ -17,9 +17,7 @@ const show = (tid, available) => {
 };
 
 onMounted(() => {
-    //console.log(store.getters.getTestSheet)
     init()
-
 });
 const allTests = ref(null)
 const checked = ref({})
@@ -33,38 +31,16 @@ async function init() {
         if (store.getters.getCurrentUser.uid === item.uid) {
             myTests.value.push(item)
         }
-        //console.log(item.uid)
     });
-    //console.log(myTests.value)
-    store.commit('setLoading', true)
 
-    //console.log(setTest('ee'))
+    store.commit('setLoading', true)
 }
 
 const items = (rowData) => [
-    /*{
-        label: 'Tesztnév módosítása',
-        icon: 'pi pi-pencil',
-        command: () => {
-        }
-    },
-    {
-        label: 'Tesztidő módosítása',
-        icon: 'pi pi-clock',
-        command: () => {
-        }
-    },
-    {
-        label: 'Export',
-        icon: 'pi pi-file-export',
-        command: () => {
-        }
-    },*/
     {
         label: 'Teszt törlése',
         icon: 'pi pi-trash',
         command: () => {
-            //console.log(rowData.data.tid)
             deleteTest(rowData.data.tid)
             myTests.value = myTests.value.filter(item => rowData.data.tid !== item.tid);
 
@@ -131,7 +107,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                                 class="mb-2">
 
                                 <Column header="Állapot">
-                                    <template #body="{ data, index }">
+                                    <template #body="{ data }">
                                         <InputSwitch v-model="checked[data.tid]" @click="changeChecked(data)" />
                                     </template>
                                 </Column>

@@ -6,15 +6,6 @@ import router from '@/router/index.js';
 
 //import { myFunction } from '@/main.js'; // Az elérési útvonal a fájlhoz
 
-/*
-import { usePrimeVue } from 'primevue/config';
-const PrimeVue = usePrimeVue();
-function asd() {
-    PrimeVue.changeTheme('soho-dark', 'soho-light', 'theme-link', () => {
-    console.log('A téma sikeresen megváltozott.');
-    });
-}*/
-
 const prop = defineProps({
     user: { //testFiller / testCreator - segédváltozó, mivel több helyen is használjuke zt a componenset, ezért ezzel különböztetjük meg hogy admin vagy tesztkitöltő menüsávot jelenítsen meg
         type: String,
@@ -31,32 +22,8 @@ const prop = defineProps({
 })
 
 onMounted(() => {
-    console.log(prop.time)
     store.commit('setTestDurationMinutes', prop.time)
-    console.log(prop.time)
     store.commit('startCountdown') //időzítőt elindítjuk
-
-    // Témaváltás példa
-
-
-
-    
-    //startCountdown();
-    //old
-    /*
-    clearInterval(refreshIntervalId);
-    if (this.$store.state.countDownTime > 0) {
-      this.$store.dispatch('changeCountdownTime', this.$store.state.countDownTime - 1)
-    }
-    console.log(this.$store.state.countDownTime)
-    refreshIntervalId = setInterval(() => {
-      this.$store.dispatch('startCountdown');
-      if (this.$store.state.countDownTime <= 0) {
-        clearInterval(refreshIntervalId);
-      }
-    }, 1000);
-    */ 
-
 });
 
 const hasCurrentUser = computed(() => {
@@ -89,12 +56,6 @@ const items = ref(prop.user == 'testFiller' ? '' : [
         icon: 'pi pi-chart-bar',
         href: '/Eredmenyek'
     },
-    /*
-    {
-        label: 'Mások tesztjei',
-        icon: 'pi pi-users',
-        href: '/Admin/Megosztas'
-    },*/
 ]);
 const registered = ref([
     {
@@ -151,8 +112,6 @@ const toggle = (event) => {
 
 function timeShow() {
     let time = store.getters.getTestDurationMinutes - store.getters.getTimer
-    console.log(store.getters.getTestDurationMinutes)
-    console.log(store.getters.getTimer)
     const minutes = Math.floor(time / 60);
     const remainingSeconds = time % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
@@ -177,11 +136,8 @@ function timeShow() {
             </template>
             <template #end>
                 <div class="flex align-items-center gap-2 ml-4">
-                  
                     <Button v-if="store.getters.getTheme=='lara-light-blue'" icon="pi pi-moon" rounded text    severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
                     <Button v-if="store.getters.getTheme=='lara-dark-blue'" icon="pi pi-sun" rounded  text   severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
-                    
-                    
                     <div v-if="hasCurrentUser">
                         <Button text rounded type="button" icon="pi pi-user"  @click="toggle" class="mr-2">
                              <img v-if="store.getters.getCurrentUser.photoURL" class="avatar m-3"
@@ -193,27 +149,19 @@ function timeShow() {
                     <div v-else> 
                         <Button rounded type="button" icon="pi pi-user"  @click="login" class="mr-2">
                         </Button>
-                    </div>
-                    
-                    
+                    </div> 
                </div>
             </template>
         </Menubar>
     </div>
-    
 </template>
 <style>
 .fixed-menu {
     max-height: 60px;
 }
-
 .avatar {
     height: 40px;
     width: 40px;
 }
-
-
-
-  
 </style>
 
