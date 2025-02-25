@@ -47,7 +47,7 @@ export default {
             }
         },
         startCountdown(state) {
-            // frissítéskor nem fusson párhuzamosan több időzítő
+            // frissítéskor ne fusson párhuzamosan több időzítő
             if (state.timeIntervalId) {
                 clearInterval(state.timeIntervalId);
             }
@@ -61,12 +61,15 @@ export default {
                         state.timer++;
                     }
                 }, 1000);
+
             }
         },
         resetStates(state) {
             state.setTimer = 0
             state.testSheet = []; //töröljük ha testSheet array-t
             state.scoreEarned = []
+            state.testDurationMinutes = 99999
+
         },
     },
     getters: {

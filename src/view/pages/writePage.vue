@@ -56,7 +56,7 @@ const displayOnTable = computed(() => {
         return [];
     }
 });
-function startTest (test) { //start kattintás
+async function startTest (test) { //start kattintás
     if (hasCurrentUser.value) {
         store.commit('resetStates') //pl nullázzuk az időzítést.
         window.open('/' + test.data.testID, '_blank')

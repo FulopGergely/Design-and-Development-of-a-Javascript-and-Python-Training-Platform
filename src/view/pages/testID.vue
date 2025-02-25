@@ -44,8 +44,11 @@ onMounted(() => {
         totalScore.value = score
         store.commit('setLoading', true)
     }); 
-    store.commit('setTestDurationMinutes', store.getters.getTestDurationMinutes)
+    console.log(store.getters.getTestSheet.testDurationMinutes)
+    
+    //store.commit('setTestDurationMinutes', store.getters.getTestDurationMinutes)
     store.commit('setTimer', store.getters.getTimer + 1) //frissíténél 1 másodperc büntetés
+    console.log(store.getters.getTestDurationMinutes)
     
 });
 const scoreAchieved = computed(() => {
@@ -65,12 +68,12 @@ async function initTest() {
     const tests = await getAllTest() // Lekérjük az összes tesztet
     if (store.getters.getTestSheet.task && store.getters.getTestSheet.task.length > 0) {
         if (testSheet.value?.tid === testID) {
-            console.log('Ez a tesztlap már be van töltve: ' + testSheet.value.tid)
+            //console.log('Ez a tesztlap már be van töltve: ' + testSheet.value.tid)
         } else {
-            console.log('Másik tesztlap van kiválasztva')
+            //console.log('Másik tesztlap van kiválasztva')
         }
     } else {
-        console.log('Még nincs tesztlap betöltve')
+        //console.log('Még nincs tesztlap betöltve')
 
         // Megkeressük az aktuális tesztet az összes teszt között
         const currentTest = tests.find(test => test.tid === testID)
@@ -122,7 +125,6 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
     <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
-            {{ store.getters.getTestSheet.testDurationMinutes*60 }}
             <NavBar :user="user" :time="store.getters.getTestSheet.testDurationMinutes*60" />
             <div v-if="finished">
                 <Score :scoreAchieved="scoreAchieved" />

@@ -49,7 +49,7 @@ const isInvalid = false
         <div class="field">
             <InputGroup class="mt-5">
                 <InputGroupAddon>Teszt ideje</InputGroupAddon>
-                <InputText v-tooltip.top="'Hány percig tartson a teszt?\n(0 percnél korlátlan)'" type="number"
+                <InputText v-tooltip.top="'Hány percig tartson a teszt?\n'" type="number"
                     v-model="testTime" />
             </InputGroup>
         </div>

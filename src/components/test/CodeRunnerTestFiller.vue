@@ -36,7 +36,7 @@ const code = ref(props.taskCode)
 const selectLanguage = ref(props.selectLanguage);
 
 onMounted(() => {
-    console.log(props.tests)
+    //console.log(props.tests)
 });
 const isDisabled = computed(() => { //ha eltaláljuk a választ futtatás gomb szürke lesz
     //return store.getters.getScoreEarned[store.getters.getScoreBySide-1] == store.getters.getScoreBySide && store.getters.getScoreBySide != 0
