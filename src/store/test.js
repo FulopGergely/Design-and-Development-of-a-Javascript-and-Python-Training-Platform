@@ -65,7 +65,6 @@ export default {
             }
         },
         resetStates(state) {
-            state.setTimer = 0
             state.testSheet = []; //töröljük ha testSheet array-t
             state.scoreEarned = []
             state.testDurationMinutes = 99999

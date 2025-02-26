@@ -62,6 +62,7 @@ const scoreAchieved = computed(() => {
 
 async function initTest() {
     // Inicializálás
+    console.log(store.getters)
     store.commit('setLoading', false)
     const router = useRoute() // Az aktuális útvonal paraméterei
     const testID = router.params.testID

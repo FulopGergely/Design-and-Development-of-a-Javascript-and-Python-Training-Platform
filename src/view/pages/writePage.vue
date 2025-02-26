@@ -63,6 +63,8 @@ async function startTest (test) { //start kattintás
         const match = test.data.time.match(/^\d+/); //számmal indul e a string?
         let time = match ? parseInt(match[0], 10) : 0; //teszt ideje
         store.commit('setTestDurationMinutes', time)
+        console.log(store.getters)
+        
         } else {
             show()
         }

@@ -16,6 +16,9 @@ const review = ref('');
 
 function submit(){
     setReview(store.getters.getTestSheet.tid, rating, review)
+    //resetStates
+    store.commit('resetStates')
+    store.commit('setTimer', 0) //resetStatesnel az időzítőt nem tudtam 0-ra állítani csak így
     router.push('/')
 }
 
