@@ -11,8 +11,13 @@ const props = defineProps({
         default: () => 0
     },
 })
-const rating = ref(null);
+const isLiked = ref(null);
+const disLiked = ref(null);
+const rating = ref(0);
 const review = ref('');
+
+const likeIcon = computed(() => isLiked.value ? "pi pi-thumbs-up-fill" : "pi pi-thumbs-up");
+const dislikeIcon = computed(() => disLiked.value ? "pi pi-thumbs-down-fill" : "pi pi-thumbs-down");
 
 function submit(){
     setReview(store.getters.getTestSheet.tid, rating, review)
@@ -20,6 +25,16 @@ function submit(){
     store.commit('resetStates')
     store.commit('setTimer', 0) //resetStatesnel az időzítőt nem tudtam 0-ra állítani csak így
     router.push('/')
+}
+function like() {
+    isLiked.value = !isLiked.value;
+    rating.value = rating.value === 1 ? 0 : 1;
+    if (disLiked.value) disLiked.value = false;
+}
+function dislike() {
+    disLiked.value = !disLiked.value;
+    rating.value = rating.value === -1 ? 0 : -1;
+    if (isLiked.value) isLiked.value = false;
 }
 
 </script>
@@ -33,11 +48,15 @@ function submit(){
                 <div class="h-2rem"></div>
                 <div class="text-4xl font-bold">{{ props.scoreAchieved }} pont</div>
                 <div class="h-4rem"></div>
-                <div>Milyen nehéznek érezte a tesztet? Ahol 1 csillag a könnyű, míg 5 csillag a nagyon nehéz:</div>
+                <div>Teszt értékelése</div>
                 <div class="h-1rem"></div>
-                <Rating v-model="rating" :cancel="false"  />
+                <div class="flex gap-2">
+                    <Button :icon="likeIcon"  rounded :class="{'p-button-success': isLiked, 'p-button-secondary': !isLiked}" @click="like" class="rounded" />
+                    <Button :icon="dislikeIcon"  rounded :class="{'p-button-danger': disLiked, 'p-button-secondary': !disLiked}"  @click="dislike" />
+                    {{ rating }}
+                </div>
                 <div class="h-5rem"></div>
-                <div>Kérjük, ossza meg velünk a véleményét vagy észrevételét a teszttel kapcsolatban, a kitöltés névtelen:</div>
+                <div>Ossza meg véleményét a teszttel kapcsolatban (anonime)</div>
                     <Textarea class="m-3" v-model="review" variant="filled" rows="5" cols="50" />
                     <Button @click="submit" class="mb-2 mt-2 ml-5">Küldés</Button>
             </div>

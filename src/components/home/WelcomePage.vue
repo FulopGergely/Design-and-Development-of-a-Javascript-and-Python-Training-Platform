@@ -38,22 +38,19 @@ function loading() {
             </div> 
         </div>
     </div>
-
-    <div class="card flex flex-column align-items-center mt-8">
-        <div class="flex flex-column align-items-center gap-2">
-            <span class="slidedown-icon h-2rem w-2rem bg-primary border-circle inline-flex align-items-center justify-content-center">
-                <i class="pi pi-arrow-down" />
-            </span>
-        </div>
-        <div class="h-10rem"></div>
-        <div v-animateonscroll="{ enterClass: 'fadein', leaveClass: 'fadeout' }" class="animation-duration-1000 justify-content-center align-items-center">
-            <div class="flex flex-column align-items-center gap-2 text-5xl m-8">Mit kínál a weboldal?</div>
-            <div class="flex flex-column align-items-center gap-2 text-2xl m-5">A vizsgafeladatsorok és gyakorlófeladatok egyszerűen létrehozhatóak</div>
-            <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Az elkészült tesztek könnyedén megoszthatóak link formájában</div>
-            <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Python és Javascript futtatókörnyezet támogatása</div>
-            <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Teszteredmények kezelése, nyomon követése</div>
-            <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Tesztesetek kezelése a feladatok értékeléséhez</div>
-        </div>
+        
+    <div class="h-10rem"></div>
+    <div class="surface-ground">
+            <div v-animateonscroll="{ enterClass: 'fadein', leaveClass: 'fadeout' }" class="animation-duration-1000 justify-content-center align-items-center">
+                <div class="flex flex-column align-items-center gap-2 text-5xl m-8">Mit kínál a weboldal?</div>
+                <div class="flex flex-column align-items-center gap-2 text-2xl m-5">A vizsgafeladatsorok és gyakorlófeladatok egyszerűen létrehozhatóak</div>
+                <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Az elkészült tesztek könnyedén megoszthatóak link formájában</div>
+                <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Python és Javascript futtatókörnyezet támogatása</div>
+                <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Teszteredmények kezelése, nyomon követése</div>
+                <div class="flex flex-column align-items-center gap-2 text-2xl m-5">Tesztesetek kezelése a feladatok értékeléséhez</div>
+            </div>
+    </div>
+            
         <div class="h-10rem"></div>
         <div v-animateonscroll="{ enterClass: 'fadein', leaveClass: 'fadeout' }" class="animation-duration-1000 justify-content-center align-items-center">
             <div class="flex flex-column align-items-center gap-2 text-5xl m-8">Hogyan hozzak létre tesztfeladatsort?</div>
@@ -65,7 +62,7 @@ function loading() {
         
              <div class="h-10rem"></div>  
         
-    </div>
+    
 </div>
 <div v-else>
     <div class="flex justify-content-center flex-wrap">
