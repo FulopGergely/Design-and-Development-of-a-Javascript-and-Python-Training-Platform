@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed  } from 'vue';
 import store from '@/store/store.js';
-import { getAllScore, addScore } from '@/firebase/score.js';
 import { setReview } from '@/firebase/test.js';
 import router from '@/router/index.js';
 
@@ -10,53 +9,85 @@ const props = defineProps({
         type: Number,
         default: () => 0
     },
+    totalScore: {
+      type: Number,
+      default: () => 0
+    }
 })
-const isLiked = ref(null);
-const disLiked = ref(null);
-const rating = ref(0);
-const review = ref('');
 
-const likeIcon = computed(() => isLiked.value ? "pi pi-thumbs-up-fill" : "pi pi-thumbs-up");
-const dislikeIcon = computed(() => disLiked.value ? "pi pi-thumbs-down-fill" : "pi pi-thumbs-down");
+
+//initialization
+const ratingMap = store.getters.getRating ? new Map(Object.entries(store.getters.getRating)) : new Map();
+const review = ref('');
+const rating = ref(ratingMap.get(store.getters.getCurrentUser.uid) ? ratingMap.get(store.getters.getCurrentUser.uid) : 0);
+ratingMap.set(store.getters.getCurrentUser.uid, rating.value);
+
+const iconClasses = computed(() => {
+  if (rating.value === 1) {
+    return {
+      likeIcon: 'pi pi-thumbs-up-fill',
+      likeClass: 'p-button-success',
+      disLikeIcon: 'pi pi-thumbs-down',
+      disLikeClass: 'p-button-secondary'
+    };
+  } else if (rating.value === -1) {
+    return {
+      likeIcon: 'pi pi-thumbs-up',
+      likeClass: 'p-button-secondary',
+      disLikeIcon: 'pi pi-thumbs-down-fill',
+      disLikeClass: 'p-button-danger'
+    };
+  } else {
+    return {
+      likeIcon: 'pi pi-thumbs-up',
+      likeClass: 'p-button-secondary',
+      disLikeIcon: 'pi pi-thumbs-down',
+      disLikeClass: 'p-button-secondary'
+    };
+  }
+  
+});
+
 
 function submit(){
-    setReview(store.getters.getTestSheet.tid, rating, review)
+    setReview(store.getters.getTestSheet.tid, ratingMap, review)
     //resetStates
     store.commit('resetStates')
     store.commit('setTimer', 0) //resetStatesnel az időzítőt nem tudtam 0-ra állítani csak így
     router.push('/')
 }
-function like() {
-    isLiked.value = !isLiked.value;
+function toggleLike() {
     rating.value = rating.value === 1 ? 0 : 1;
-    if (disLiked.value) disLiked.value = false;
+    ratingMap.set(store.getters.getCurrentUser.uid, rating.value);
+    store.commit('setRating', Object.fromEntries(ratingMap));
 }
-function dislike() {
-    disLiked.value = !disLiked.value;
-    rating.value = rating.value === -1 ? 0 : -1;
-    if (isLiked.value) isLiked.value = false;
+
+function toggleDisLike() {
+    rating.value === -1 ? rating.value = 0 : rating.value = -1
+    ratingMap.set(store.getters.getCurrentUser.uid, rating.value);
+    store.commit('setRating', Object.fromEntries(ratingMap));
 }
+
+//kéne egy függvény amiben adj össze 2 db integert
 
 </script>
 <template>
-    
     <div >
         <div class="flex justify-content-center fadein animation-duration-500">
             <div class="flex flex-column align-items-center justify-content-center border-round border-1 surface-border surface-ground mt-5 mb-3 p-4 ">
                 <div class="h-2rem"></div>
                 <div class="text-2xl font-bold">Teszt eredménye</div>
                 <div class="h-2rem"></div>
-                <div class="text-4xl font-bold">{{ props.scoreAchieved }} pont</div>
+                <div class="text-4xl font-bold">{{ props.scoreAchieved }} / {{ props.totalScore }} pont</div>
                 <div class="h-4rem"></div>
                 <div>Teszt értékelése</div>
                 <div class="h-1rem"></div>
                 <div class="flex gap-2">
-                    <Button :icon="likeIcon"  rounded :class="{'p-button-success': isLiked, 'p-button-secondary': !isLiked}" @click="like" class="rounded" />
-                    <Button :icon="dislikeIcon"  rounded :class="{'p-button-danger': disLiked, 'p-button-secondary': !disLiked}"  @click="dislike" />
-                    {{ rating }}
+                    <Button :icon="iconClasses.likeIcon"  rounded :class="iconClasses.likeClass" @click="toggleLike()" />
+                    <Button :icon="iconClasses.disLikeIcon"  rounded :class="iconClasses.disLikeClass" @click="toggleDisLike()" />  
                 </div>
                 <div class="h-5rem"></div>
-                <div>Ossza meg véleményét a teszttel kapcsolatban (anonime)</div>
+                <div>Ossza meg véleményét (anonime)</div>
                     <Textarea class="m-3" v-model="review" variant="filled" rows="5" cols="50" />
                     <Button @click="submit" class="mb-2 mt-2 ml-5">Küldés</Button>
             </div>

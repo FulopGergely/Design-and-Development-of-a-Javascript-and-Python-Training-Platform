@@ -9,6 +9,7 @@ export default {
             testDurationMinutes: 99999, //lekért adat
             scoreEarned: [], //megszerzett pontszám (pl 0 ás indexű az első feladat elért pontszáma)
             timer: 0,
+            rating: {}, //jelenglegi uid, és rating érték párokat tárol, rating értéke lehet -1,0,1. 
             //finishedTest: false, //ha tesztet befejezi valaki akkor állítódik át
             //ezeket csak vuex-ben tároljuk, amit a tesztkiktöltő beír adatok ezek:
             // legyenek egy tömbben?
@@ -70,6 +71,11 @@ export default {
             state.testDurationMinutes = 99999
 
         },
+        setRating(state, ratingMap) {
+            console.log(JSON.stringify(ratingMap, null, 2));
+            
+            state.rating = ratingMap
+        }
     },
     getters: {
         getCurrentTestSide(state) {
@@ -100,6 +106,9 @@ export default {
         },
         getTestDurationMinutes: state => {
             return state.testDurationMinutes
+        },
+        getRating: state => {
+            return state.rating
         }
     },
 };

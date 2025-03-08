@@ -26,22 +26,23 @@ async function getDocId(tid) {
   return docId
 }
 
-async function setReview(tid, rating, review) {
+async function setReview(tid, ratingMap, review) {
   const testDocId = await getDocId(tid);
   const testRef = doc(db, 'tests', testDocId);
 
   // Először kiolvassuk az aktuális értékeket
   const testDoc = await getDoc(testRef);
-  const currentRating = testDoc.data().rating || [];
   const currentReview = testDoc.data().review || [];
 
   // Hozzáadjuk az új értéket az aktuális értékekhez
-  currentRating.push(rating.value)
   currentReview.push(review.value)
+
+  // Firestore közvetlenül nem támogatja a map objectet, ezért átalakítjuk
+  const ratingObject = Object.fromEntries(ratingMap);
 
   // Majd az új értékeket beállítjuk a Firestore-ban
   await updateDoc(testRef, {
-    rating: currentRating,
+    rating: ratingObject,
     review: currentReview
   });
 

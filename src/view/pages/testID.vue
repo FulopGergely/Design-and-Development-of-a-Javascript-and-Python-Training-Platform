@@ -128,7 +128,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
         <div v-if="store.getters.getLoading">
             <NavBar :user="user" :time="store.getters.getTestSheet.testDurationMinutes*60" />
             <div v-if="finished">
-                <Score :scoreAchieved="scoreAchieved" />
+                <Score :scoreAchieved="scoreAchieved" :totalScore="totalScore"/>
             
             </div>
             <div v-else>
