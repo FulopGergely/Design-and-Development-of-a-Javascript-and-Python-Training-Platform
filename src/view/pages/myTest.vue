@@ -9,9 +9,9 @@ import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 const show = (tid, available) => {
     if (!available) {
-        toast.add({ severity: 'info', summary: 'elérhető a(z) "' + tid + '" nevű teszt', life: 3000 });
+        toast.add({ severity: 'info', summary: 'elérhető a(z) "' + tid + '" nevű teszt, mások számára is látható a "tesztek" menüpontban', life: 7000 });
     } else {
-        toast.add({ severity: 'info', summary: 'inaktív a(z) "' + tid + '" nevű teszt', life: 3000 });
+        toast.add({ severity: 'info', summary: 'inaktív a(z) "' + tid + '" nevű teszt, mások számára így nem lesz látható a "tesztek" menüpontban"', life: 7000 });
     }
       
 };
@@ -86,7 +86,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 </script>
 <template>
     <NavBar></NavBar>
-    <Toast position="top-left"/>
+    <Toast position="top-right"/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
 

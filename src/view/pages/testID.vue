@@ -124,6 +124,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
 
 <template>
     <Toast/>
+    {{store.getters.getTestSheet}}
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
             <NavBar :user="user" :time="store.getters.getTestSheet.testDurationMinutes*60" />

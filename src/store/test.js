@@ -67,14 +67,15 @@ export default {
         },
         resetStates(state) {
             state.testSheet = []; //töröljük ha testSheet array-t
+            console.log(state.testSheet.rating);
+            
             state.scoreEarned = []
             state.testDurationMinutes = 99999
+            state.rating = {}
 
         },
         setRating(state, ratingMap) {
-            console.log(JSON.stringify(ratingMap, null, 2));
-            
-            state.rating = ratingMap
+            state.testSheet.rating = ratingMap
         }
     },
     getters: {
@@ -107,8 +108,5 @@ export default {
         getTestDurationMinutes: state => {
             return state.testDurationMinutes
         },
-        getRating: state => {
-            return state.rating
-        }
     },
 };

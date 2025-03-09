@@ -17,9 +17,14 @@ const props = defineProps({
 
 
 //initialization
-const ratingMap = store.getters.getRating ? new Map(Object.entries(store.getters.getRating)) : new Map();
+console.log(store.getters.getTestSheet.rating);
+
+const ratingMap = store.getters.getTestSheet.rating ? new Map(Object.entries(store.getters.getTestSheet.rating)) : new Map();
+console.log(ratingMap.get(store.getters.getCurrentUser.uid));  
 const review = ref('');
 const rating = ref(ratingMap.get(store.getters.getCurrentUser.uid) ? ratingMap.get(store.getters.getCurrentUser.uid) : 0);
+console.log(ratingMap);
+
 ratingMap.set(store.getters.getCurrentUser.uid, rating.value);
 
 const iconClasses = computed(() => {
