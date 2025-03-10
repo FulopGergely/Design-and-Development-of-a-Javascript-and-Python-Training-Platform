@@ -42,7 +42,7 @@ const items = ref(prop.user == 'testFiller' ? '' : [
         href: '/Tesztiras'
     },
     {
-        label: 'Tesztjeim',
+        label: 'Saját tesztek',
         icon: 'pi pi-book',
         href: '/Tesztjeim'
     },
@@ -57,6 +57,7 @@ const items = ref(prop.user == 'testFiller' ? '' : [
         href: '/Eredmenyek'
     },
 ]);
+
 const registered = ref([
     {
         label: 'Profil',
@@ -151,6 +152,7 @@ function timeShow() {
                         </Button>
                     </div> 
                </div>
+               
             </template>
         </Menubar>
     </div>

@@ -73,9 +73,11 @@ async function deleteTest(tid) {
  * @param {boolean} available
  * @param {boolean} private
  * @param {task} task //teszt kérdései (task array)  
- * @param {integer} testDurationMinutes
+ * @param {integer} testDurationMinutes //teszt ideje
+ * @param {string} details //leírás
+ * @param {string} difficulty //teszt ideje 1-4ig, ahol 1 a könnyű
  */
-async function addTest(uid, tid, available, task, testDurationMinutes) {
+async function addTest(uid, tid, available, task, testDurationMinutes, details, difficulty) {
   try {
     await addDoc(collection(db, 'tests'), {
       uid: uid || null,
@@ -85,13 +87,30 @@ async function addTest(uid, tid, available, task, testDurationMinutes) {
       testDurationMinutes: testDurationMinutes || null,
       rating: [],
       review: [],
+      details: details || null,
+      difficulty: difficulty || null,
     });
   } catch (error) {
     return error
   }
 
 }
+async function updateTest(tid, available, task, testDurationMinutes, details, difficulty) {
+  try {
+    await updateDoc(doc(db, 'tests', await getDocId(tid)), {
+      tid: tid || null,
+      available: available,
+      task: task || null,
+      testDurationMinutes: testDurationMinutes || null,
+      details: details || null,
+      difficulty: difficulty || null,
+    })
+
+  } catch (error) {
+    return error
+  }
+}
 
 
 
-export { getAllTest, addTest, setAvailable, deleteTest, setReview, deletedReview }
+export { getAllTest, addTest, setAvailable, deleteTest, setReview, deletedReview, updateTest }

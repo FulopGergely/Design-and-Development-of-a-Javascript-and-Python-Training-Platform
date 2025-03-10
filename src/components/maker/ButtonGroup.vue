@@ -14,6 +14,13 @@ const toast = useToast();
 
 const items = [
     {
+        label: 'Mentése',
+        icon: 'pi pi-save',
+        command: () => {
+            visible.value = true
+        }
+    },
+    {
         label: 'Feladat törlése',
         icon: 'pi pi-trash',
         command: () => {
@@ -21,10 +28,10 @@ const items = [
         }
     },
     {
-        label: 'Teszt mentése',
-        icon: 'pi pi-save',
+        label: 'Összes törlése',
+        icon: 'pi pi-trash',
         command: () => {
-            visible.value = true
+            allConfirmDelete()
         }
     },
 
@@ -33,6 +40,29 @@ const items = [
 
 
 const visible = ref(false);
+const allConfirmDelete = () => {
+    confirm.require({
+        message: 'Biztos törli az ÖSSZES feladatot?',
+        header: 'Törlés',
+        icon: 'pi pi-info-circle',
+        rejectClass: 'p-button-text p-button-text',
+        acceptClass: 'p-button-danger p-button-text',
+        acceptLabel: 'Igen',
+        rejectLabel: 'Nem',
+        accept: () => {
+            if (store.getters.getTask.length <= 0) {
+                toast.add({ severity: 'error', summary: 'Sikertelen törlés', detail: 'Legalább 1 feladatnak kell lennie', group: 'tl', life: 3000 });
+                visible.value = false;
+            } else {
+                store.commit('resetTasks')
+                toast.add({ severity: 'success', summary: 'Sikeres', detail: 'törlés', group: 'tl', life: 3000 });
+            }
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Sikertelen', detail: 'törlés', group: 'tl', life: 3000 });
+        }
+    });
+};
 const confirmDelete = () => {
     confirm.require({
         message: 'Biztos törli ezt az oldalt?',
@@ -44,7 +74,7 @@ const confirmDelete = () => {
         rejectLabel: 'Nem',
         accept: () => {
             if (store.getters.getTask.length <= 1) {
-                toast.add({ severity: 'error', summary: 'Sikertelen törlés', detail: 'Legalább egy feladatnak kell lennie', group: 'tl', life: 3000 });
+                toast.add({ severity: 'error', summary: 'Sikertelen törlés', detail: 'Legalább 2 feladatnak kell lennie', group: 'tl', life: 3000 });
                 visible.value = false;
             } else {
                 store.commit('deleteTask', store.getters.getCurrentSide - 1);
@@ -73,7 +103,6 @@ const addTask = () => {
 };
 
 onMounted(() => {
-    console.log(store.getters.getLoading)
 });
 
 </script>

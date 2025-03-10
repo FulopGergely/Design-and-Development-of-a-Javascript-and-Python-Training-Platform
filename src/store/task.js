@@ -2,6 +2,7 @@ export default {
     state() {
         return {
             currentSide: 0, //jelenlegi oldal ahol éppen állunk tesztlétrehozásakor, localstorage. Segédváltozó, ez mutatja azt hogy melyik oldal aktív.
+            test: [],
             tasks: [//ezt fogjuk tárolni firebase-en (kivéve icon), tasks[0] - 1 lap értékeit tárolja
                 {
                     side: 1, //oldal szám, 1 től indul
@@ -72,6 +73,24 @@ export default {
         setScore(state, score) {
             state.tasks[state.currentSide - 1].score = score
         },
+        setTest(state, test) { //tesztlap módosítás miatt csináltam, az egész tesztet tárolom itt, a myTest-nél töltöm be.
+            state.test = test
+        },
+        resetTasks(state) {
+            state.currentSide = 0,
+            state.test = [],
+            state.tasks = [{
+                side: 1, 
+                programmingLanguageName: null,
+                text: '',
+                code: ``,
+                tests: [], 
+                icon: '',  
+                score: 0, 
+                params: [], 
+                isTest: false, 
+            }];
+        },
     },
     getters: {
         getCurrentSide(state) {
@@ -97,6 +116,9 @@ export default {
         },
         getLanguage: state => {
             return state.tasks[state.currentSide - 1].programmingLanguageName;
+        },
+        getTest: state => {
+            return state.test;
         },
     },
 };

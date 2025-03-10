@@ -75,12 +75,10 @@ function changeChecked(data) {
     show(data.tid, checked.value[data.tid])
 }
 function modifyRow(data) {
-    const matchingTests = new Proxy(myTests.value.filter(x => x.tid === data.data.tid), {
-        get: function (target, prop, receiver) {
-            return Reflect.get(target, prop, receiver);
-        }
-    });
-    store.commit('setTasks', matchingTests[0].task)
+    const test = myTests.value.filter(x => x.tid === data.data.tid)
+    console.log(test);
+    store.commit('setTest', test)
+    store.commit('setTasks', test[0].task)
 }
 const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //falsy
 </script>
@@ -96,7 +94,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 
                         <div>
                             <div class="flex justify-content-center flex-wrap">
-                                <h2> Tesztjeim</h2>
+                                <h2> Saját tesztek</h2>
 
                             </div>
                         </div>
@@ -120,10 +118,10 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                                 <Column>
                                     <template #body="slotProps">
 
-                                        <RouterLink to="/Tesztletrehozasa">
-                                            <SplitButton icon="pi pi-file-edit" label="Tesztlap szerkesztése"
-                                                @click="modifyRow(slotProps)" :model="items(slotProps)" />
-                                        </RouterLink>
+                                        <RouterLink to="/Tesztletrehozasa" :params="{ tid: slotProps.data.tid }">
+                                        <SplitButton icon="pi pi-file-edit" label="Tesztlap szerkesztése"
+                                                    @click="modifyRow(slotProps)" :model="items(slotProps)" />
+                                    </RouterLink>
                                     </template>
                                 </Column>
                             </DataTable>

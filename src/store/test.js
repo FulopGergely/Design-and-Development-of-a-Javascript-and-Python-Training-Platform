@@ -67,8 +67,6 @@ export default {
         },
         resetStates(state) {
             state.testSheet = []; //töröljük ha testSheet array-t
-            console.log(state.testSheet.rating);
-            
             state.scoreEarned = []
             state.testDurationMinutes = 99999
             state.rating = {}

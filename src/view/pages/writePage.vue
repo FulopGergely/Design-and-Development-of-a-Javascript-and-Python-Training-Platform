@@ -41,7 +41,8 @@ async function init() {
 const columns = [
     { field: 'testID', header: 'Teszt neve' },
     { field: 'time', header: 'Teszt ideje' },
-    { field: 'programLanguage', header: 'nyelv' },
+    { field: 'programLanguage', header: 'Nyelv' },
+    { field: 'difficulty', header: 'Nehézségi szint' },
 ];
 const displayOnTable = computed(() => {
 
@@ -50,7 +51,7 @@ const displayOnTable = computed(() => {
             return {
                 testID: item.tid,
                 time: item.testDurationMinutes + ' perc',
-                programLanguage: [...new Set(item.task.map(task => task.programmingLanguageName.value))],
+                programLanguage: [...new Set(item.task.map(task => task.programmingLanguageName?.value))].join(', '),
                 likes: item.rating ? Object.values(item.rating).reduce((acc, value) => acc + value, 0) : 0
             }
         });
@@ -164,7 +165,6 @@ console.log(slotProps.data);
 
     <Dialog v-model:visible="visible" maximizable modal header="Leírás" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
             <p class="m-0">Teszt létrehozója: </p>
-            <p class="m-0">Nehézség:</p>
             <p class="m-0">Feladat száma:</p>
             <p class="m-0">leírás:</p>
             <p class="m-0">vélemények:</p>
