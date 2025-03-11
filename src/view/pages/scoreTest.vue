@@ -30,23 +30,6 @@ const selectedTest = ref(); //string, a kiválasztott teszt neve
 const users = ref()
 //let displayOnTable = ref([])
 
-
-
-const avgRating = computed(() => { 
-    if(selectedTest.value){
-        const test = myTests.value.find(x => x.tid == selectedTest.value.testID)
-
-        if (test.rating != undefined) {
-            const sum = test.rating.reduce((acc, val) => val !== null ? acc + val : acc, 0);
-            const count = test.rating.filter(x => x !== null).length;
-            const average = Math.ceil(sum / count);
-            return average
-        }
-        return 0
-    }
-    return 0
-});
-
 const showTable = computed(() => { 
 
     if (displayOnTable.value) {
@@ -249,9 +232,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
                                 <Dropdown v-model="selectedTest" @change="selectedChangeTest" :options="options" optionLabel="testID" placeholder="Tesztek"
                                 class="w-full md:w-14rem" />
                             </div>
-                            <div v-tooltip.top="'Átlag értékelés'" class="m-2">
-                                <Rating v-model="avgRating" readonly :cancel="false" />
-                            </div>
+                            
                     </div>
                     <div v-if="!showTable">
                         <div

@@ -20,6 +20,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
 const availableTests = ref([])
 const allUsers = ref([])
 const visible = ref(false);
+const detail = ref({});
 
 onMounted(() => {
     init()
@@ -29,7 +30,7 @@ onMounted(() => {
 async function init() {
     store.commit('setLoading', false)
     let allTest = await getAllTest()
-    allTest.forEach(item => { //saját tesztek
+    allTest.forEach(item => { //elérhető tesztek
         if (item.available) {
             availableTests.value.push(item)
         }
@@ -52,7 +53,9 @@ const displayOnTable = computed(() => {
                 testID: item.tid,
                 time: item.testDurationMinutes + ' perc',
                 programLanguage: [...new Set(item.task.map(task => task.programmingLanguageName?.value))].join(', '),
-                likes: item.rating ? Object.values(item.rating).reduce((acc, value) => acc + value, 0) : 0
+                likes: item.rating ? Object.values(item.rating).reduce((acc, value) => acc + value, 0) : 0,
+                difficulty: item.difficulty?.name
+
             }
         });
     } else {
@@ -83,7 +86,17 @@ async function startTest (test) { //start kattintás
                                     */
 function dialog (slotProps) {
 visible.value = true
-console.log(slotProps.data);
+console.log(slotProps.data.testID);
+detail.value = availableTests.value.filter(test => test.tid === slotProps.data.testID);
+let authName = allUsers.value.filter(user => user.uid === detail.value[0].uid)[0].displayName 
+
+console.log(authName);
+
+console.log(detail.value[0]);
+console.log(detail.value[0].uid);
+console.log(detail.value[0].task.length);
+console.log(detail.value[0].details);
+console.log(detail.value[0].review);
 
 }
 </script>
@@ -163,12 +176,24 @@ console.log(slotProps.data);
 
     
 
-    <Dialog v-model:visible="visible" maximizable modal header="Leírás" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-            <p class="m-0">Teszt létrehozója: </p>
-            <p class="m-0">Feladat száma:</p>
-            <p class="m-0">leírás:</p>
-            <p class="m-0">vélemények:</p>
-        </Dialog>
+    <Dialog v-model:visible="visible" maximizable modal header="Teszt részletei" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+  <div class="p-4">
+    <h2 class="mb-2">Teszt információk </h2>
+    <ul class="p-2 m-2">
+      <li class="mb-1">Létrehozó: {{ allUsers.filter(user => user.uid === detail[0].uid)[0].displayName }}</li>
+      <li class="mb-1">Feladatok száma: {{ detail[0].task.length }}</li>
+      <li class="mb-1">Leírás: {{ detail[0].details }}</li>
+    </ul>
+    <h2 class="mb-2 mt-4">Vélemények </h2>
+    <div v-for="review in detail[0].review" :key="review">
+  <Card class="m-2">
+    <template #content>
+      <p class="m-0">{{ review }}</p>
+    </template>
+  </Card>
+</div>
+  </div>
+</Dialog>
     
     
 

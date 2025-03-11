@@ -18,7 +18,7 @@ const difficultyList = ref([
 
 
 const testName =    ref(store.getters.getTest?.[0]?.tid ?? '')
-const testTime =    ref(store.getters.getTest?.[0]?.testDurationMinutes ?? 10)
+const testTime =    ref(store.getters.getTest?.[0]?.testDurationMinutes ?? 25)
 const difficulty =  ref(store.getters.getTest?.[0]?.difficulty ?? { name: '2 - közepes' })
 const details =     ref(store.getters.getTest?.[0]?.details ?? '')
 
@@ -35,7 +35,7 @@ async function createTest() {
     } else {
         const allTest = await getAllTest() //összes tesztet lekéri
         if (!allTest.some(test => test.tid === testName.value)) {
-            testTime.value <= 0 && testTime.value >= 28800 ? testTime.value : testTime.value = 30
+            testTime.value <= 0 && testTime.value >= 28800 ? testTime.value : testTime.value = 25
             !difficulty.value ? difficulty.value = '2 - közepes' : difficulty.value
             const error = await addTest(auth.currentUser.uid, testName.value, true, store.getters.getTask, testTime.value, details.value, difficulty.value)
             if (error) {

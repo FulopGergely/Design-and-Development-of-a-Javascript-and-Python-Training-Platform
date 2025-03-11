@@ -30,9 +30,12 @@ const hasCurrentUser = computed(() => {
     return !!store.getters.getCurrentUser.uid
 }); //falsy, alapból nem true vagy false értéket ad hanem stringet, ha tagadjuk akkor booleant, ha duplán tagadjuk akkor visszafordítjuk true-ra ha van benne érték.
 
+
+
+
 const items = ref(prop.user == 'testFiller' ? '' : [
     {
-        label: 'Főoldal',
+        label: '',
         icon: 'pi pi-home',
         href: '/'
     },
@@ -131,14 +134,16 @@ function timeShow() {
             </template>
             <template #item="{ item, props }">
                 <router-link :to="item.href" v-ripple v-bind="props.action">
-                        <span style="margin-right: 5px;" :class="item.icon" />
-                        <span >{{ item.label }}</span>
+                    <div>
+                        <div style="margin-right: 5px;" :class="item.icon" />{{ item.label }}
+                    </div>    
+                    
                 </router-link>
             </template>
-            <template #end>
+            <template #end >
                 <div class="flex align-items-center gap-2 ml-4">
-                    <Button v-if="store.getters.getTheme=='lara-light-blue'" icon="pi pi-moon" rounded text    severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
-                    <Button v-if="store.getters.getTheme=='lara-dark-blue'" icon="pi pi-sun" rounded  text   severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
+                    <Button v-if="store.getters.getTheme=='lara-light-blue'" icon="pi pi-moon" rounded      severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
+                    <Button v-if="store.getters.getTheme=='lara-dark-blue'" icon="pi pi-sun" rounded      severity="secondary"  class="mr-2" @click="toggleColorScheme()" label="" ></Button>
                     <div v-if="hasCurrentUser">
                         <Button text rounded type="button" icon="pi pi-user"  @click="toggle" class="mr-2">
                              <img v-if="store.getters.getCurrentUser.photoURL" class="avatar m-3"

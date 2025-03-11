@@ -35,7 +35,10 @@ async function setReview(tid, ratingMap, review) {
   const currentReview = testDoc.data().review || [];
 
   // Hozzáadjuk az új értéket az aktuális értékekhez
-  currentReview.push(review.value)
+  if(review.value != '') {
+    currentReview.push(review.value)
+  }
+  
 
   // Firestore közvetlenül nem támogatja a map objectet, ezért átalakítjuk
   const ratingObject = Object.fromEntries(ratingMap);
