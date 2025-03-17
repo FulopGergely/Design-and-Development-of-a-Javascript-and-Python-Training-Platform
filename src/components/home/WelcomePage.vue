@@ -53,10 +53,10 @@ function loading() {
             
         <div class="h-10rem"></div>
         <div v-animateonscroll="{ enterClass: 'fadein', leaveClass: 'fadeout' }" class="animation-duration-1000 justify-content-center align-items-center">
-            <div class="flex flex-column align-items-center gap-2 text-5xl m-8">Hogyan hozzak létre tesztfeladatsort?</div>
-            <iframe width="1000" height="500" src="https://www.youtube.com/embed/WZIfCM35Fsk?si=RvTBCB7Ta5TSojep" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <div class="flex flex-column align-items-center justify-content-center h-full">  
-           
+            <div class="flex flex-column align-items-center gap-2 text-5xl m-8">Hogyan hozzak létre tesztfeladatsort?
+                <iframe width="1000" height="500" src="https://www.youtube.com/embed/WZIfCM35Fsk?si=RvTBCB7Ta5TSojep" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="flex flex-column align-items-center justify-content-center h-full">  
+            </div>
          </div>
         </div>
         

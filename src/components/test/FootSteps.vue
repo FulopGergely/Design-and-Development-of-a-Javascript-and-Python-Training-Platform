@@ -67,7 +67,6 @@ function submit() {
 <template>
     <div class="flex justify-content-between flex-wrap">
         <Button :disabled="isDisabled" @click="back()" class="ml-5">Vissza</Button>
-        <ConfirmDialog></ConfirmDialog>
         <Button  @click="next()" :severity="nextButtonLabel === 'Passz' ? 'danger' : 'success'" class="mr-5">{{nextButtonLabel}}</Button>
     </div>
 </template>

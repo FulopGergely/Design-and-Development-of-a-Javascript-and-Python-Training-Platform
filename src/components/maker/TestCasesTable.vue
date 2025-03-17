@@ -23,15 +23,15 @@ const checked = ref(store.getters.getIsTest);
 const checkedLabel = ref(store.getters.getIsTest == false ? 'Tesztesetek kikapcsolva' : 'Tesztesetek bekapcsolva')
 const result = ref();
 const isDisabled = computed(() => {
-    return store.getters.getParamsByCurrentSide.length === 0;
+    return store.getters.getParamsByCurrentSide.length === 0 || store.getters.getTaskByCurrentSide.code == undefined;
 });
 const functionName = computed(() => { //js functionName
     if (props.selectLanguage == 'javascript') {
         let code = props.code
         let regex = /^(function|\s+function)\s+/
-        code = code.replace(code.match(regex)[0], '');
+        code = code.replace(code.match(regex)?.[0], '');
         regex = /\w+/
-        return code.match(regex)[0]
+        return code.match(regex)?.[0]
     } else {
         let codeCopy = props.code
         let regex = /^(def|\s+def)\s+/
@@ -42,7 +42,7 @@ const functionName = computed(() => { //js functionName
         console.error('Nem találtunk egyezést a regex mintával.');
         }
         regex = /\w+/ //functionName
-        return codeCopy.match(regex)[0]
+        return codeCopy.match(regex)?.[0]
     }
 
 });
@@ -59,6 +59,11 @@ const displayCasesOnTable = computed(() => { //átalakítjuk a tests[] táblát,
 watch(checked, (newValue) => {
     newValue ? checkedLabel.value = 'Tesztesetek bekapcsolva' : checkedLabel.value = 'Tesztesetek kikapcsolva'
     store.commit('isTest', newValue)
+    if ( !newValue ){
+        store.commit('setScore', 0)
+        score.value = 0
+    }
+    
 });
 
 
@@ -176,14 +181,13 @@ const columns = [
 </script>
 
 <template>
-
     <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center justify-content-center  border-round ">
-            <Checkbox v-model="checked" :binary="true" v-tooltip.top="'Tesztesetek futtatásának ki/be kapcsolása.'" />
+            <Checkbox v-model="checked" :binary="true" />
             <label for="ingredient1" class="ml-2"> {{ checkedLabel }} </label>
         </div>
         <div class="flex align-items-center justify-content-center  border-round "><i
-                v-tooltip.top="'Milyen bementeti értékekre, milyen kimenetet várunk? Ez alapján fogja kiértékelni a feladatot, ajánlott legalább 2 tesztesetet felvenni'"
+                v-tooltip.left="'Ha kikapcsolja a tesztesetek részt, akkor ennél az oldalnál a pontszámot figyelmen kívül hagyja'"
                 class="flex justify-content-end m-2 pi pi-question-circle"></i>
         </div>
     </div>

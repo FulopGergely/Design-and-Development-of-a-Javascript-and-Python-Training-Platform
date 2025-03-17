@@ -29,11 +29,21 @@ const props = defineProps({
 const emit = defineEmits(['update:taskCode'])
 
 const initPyCode = `def my_function(x):\n return x`
-const initJsCode = `function myFunction( p1 ) { \nconsole.log(typeof p1)\nconsole.log(p1)\nreturn p1\n}`
+const initJsCode = `function myFunction( p1 ) { \nreturn p1\n}`
 const logs = ref([]);
 const result = ref(null)
 const params = ref(store.getters.getParamsByCurrentSide)
+
+// const code = computed(() => props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
 const code = ref(props.taskCode || (props.selectLanguage === 'javascript' ? initJsCode : initPyCode));
+watch(() => props.taskCode, (newValue) => {
+  code.value = newValue;
+});
+watch(() => props.selectLanguage, (newValue) => {
+  code.value = newValue === 'javascript' ? initJsCode : initPyCode;
+});
+
+
 if (!props.taskCode) {
     emit('update:taskCode', code.value);
 }
@@ -53,7 +63,7 @@ const isDisabled = computed(() => {
 onMounted(() => {
 });
 
-//watch
+
 const selectLanguage = ref(props.selectLanguage);
 
 watch(() => props.selectLanguage, (newValue, oldValue) => {
@@ -205,7 +215,6 @@ async function saveTestCase() {
 </script>
 <template>
     <div>
-
         <ParameterAdd @changeParamType="changeParamType" :cmOptions="cmOptions" />
         <div class="ml-5 mr-5 mt-2">
             <Codemirror class="CodeMirror" v-model:value="code" :options="cmOptions" border :height="400"

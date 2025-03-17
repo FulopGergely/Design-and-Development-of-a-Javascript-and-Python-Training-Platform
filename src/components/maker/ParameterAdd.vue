@@ -38,6 +38,7 @@ async function deleteParam(param) {
 </script>
 <template>
     <!-- -->
+   
     <div>
         <div v-for="param in store.getters.getParamsByCurrentSide" :key="param.id" class="mt-5 ml-5 mr-5"
             style="margin-right: 60px;">
@@ -56,7 +57,7 @@ async function deleteParam(param) {
                     <div>
 
                         <Textarea class="custom-textarea" v-model="param.value" @change="emit('changeParamType', param)"
-                            autofocus :placeholder="param.id + '. paraméter'" />
+                            autofocus :placeholder="param.id + '. paraméter értéke'" />
                         <div class="m-1"
                             v-if="param.type.name == 'JSON' && store.getters.getLanguage.value == 'javascript'">pl:
                             {

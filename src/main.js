@@ -146,6 +146,7 @@ import AnimateOnScroll from 'primevue/animateonscroll';
 import Message from 'primevue/message';
 import Image from 'primevue/image';
 import Menu from 'primevue/menu';
+import ConfirmPopup from 'primevue/confirmpopup';
 
 
 
@@ -207,6 +208,7 @@ app.component('StepperPanel', StepperPanel);
 app.component('Message', Message);
 app.component('Image', Image);
 app.component('Menu', Menu);
+app.component('ConfirmPopup', ConfirmPopup);
 
 
 app.use(InstallCodemirro);

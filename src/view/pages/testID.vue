@@ -123,6 +123,7 @@ function modyfiCode(codes) { //modosítjuk, hogy a teszkitöltő csak a függvé
 </script>
 
 <template>
+    <ConfirmDialog :closable="false" ></ConfirmDialog>
     <Toast/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
