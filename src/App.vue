@@ -13,7 +13,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     <router-view />
   </div>
     
-</template>
+</template> 
 
 
 
