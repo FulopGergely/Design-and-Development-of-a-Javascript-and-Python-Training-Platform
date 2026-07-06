@@ -1,5 +1,5 @@
 <script setup>
-import { signInWithGoogle, signOutWithGoogle } from '@/firebase/google.js';
+import { signInWithGoogle, signOutWithGoogle, signInWithMicrosoft } from '@/firebase/google.js';
 import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import store from '@/store/store.js';
 import router from '@/router/index.js';
@@ -152,15 +152,13 @@ function timeShow() {
                         </Button>
                         <Menu ref="menu" id="overlay_menu" :model="registered" :popup="true" /> 
                     </div>
-                    <div v-else> 
-                        <Button rounded type="button" icon="pi pi-user"  @click="login" class="mr-2">
-                        </Button>
-                    </div> 
+                    
                </div>
                
             </template>
         </Menubar>
     </div>
+    
 </template>
 <style>
 .fixed-menu {
