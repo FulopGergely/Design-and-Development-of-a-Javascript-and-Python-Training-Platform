@@ -1,10 +1,14 @@
 import firebaseObjects from '@/firebase/index.js'
 import { collection, doc, deleteDoc, addDoc, getDocs, query } from 'firebase/firestore';
-import { GoogleAuthProvider, signInWithPopup, signOut, signInWithRedirect } from 'firebase/auth'
+import { GoogleAuthProvider, OAuthProvider, signInWithPopup, signOut, signInWithRedirect } from 'firebase/auth'
 import store from '@/store/store.js';
 const db = firebaseObjects.db;
 const auth = firebaseObjects.auth;
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
+const microsoftProvider = new OAuthProvider('microsoft.com');
+microsoftProvider.setCustomParameters({
+    tenant: '00e51248-3183-4e5f-bdcf-7bda18ab9c5c'
+});
 
 //visszad egy arrayt ami az összes docot visszaadja ami van a collectionba, ezt a store initbe kell tenni hogy itt már tudjuk használni
 async function getAllDocument(collectionName) {
@@ -33,7 +37,49 @@ async function addUser(uid, email, displayName, photoURL) {
         photoURL: photoURL,
     })
 }
+function signInWithGoogle() {
+    return signInWithProvider(googleProvider);
+}
+
+function signInWithMicrosoft() {
+    return signInWithProvider(microsoftProvider);
+}
 // Ez fut le a bejelentkezés gombbal.
+async function signInWithProvider(provider) {
+    try {
+        store.commit('resetStates');
+
+        const result = await signInWithPopup(auth, provider);
+
+        const users = await getAllDocument('users');
+
+        const currentUser = {
+            uid: result.user.uid,
+            email: result.user.email,
+            displayName: result.user.displayName,
+            photoURL: result.user.photoURL,
+        };
+
+        store.commit('setCurrentUser', currentUser);
+
+        const alreadyRegistered = users.some(
+            user => user.uid === result.user.uid
+        );
+
+        if (!alreadyRegistered) {
+            await addUser(
+                result.user.uid,
+                result.user.email,
+                result.user.displayName,
+                result.user.photoURL
+            );
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+/*
 async function signInWithGoogle() {
     try {
         store.commit('resetStates')
@@ -60,6 +106,7 @@ async function signInWithGoogle() {
     }
 
 }
+    */
 
 function signOutWithGoogle() {
     signOut(auth).then(() => {
@@ -97,4 +144,5 @@ async function addDocument(collectionName, name, email, test_id, score) {
     });
 }
 
-export { signInWithGoogle, signOutWithGoogle, signIn, addDocument, addUser, getAllDocument, auth }
+export { signInWithGoogle, signInWithMicrosoft, signOutWithGoogle, signIn, addDocument, addUser, getAllDocument, auth }
+
