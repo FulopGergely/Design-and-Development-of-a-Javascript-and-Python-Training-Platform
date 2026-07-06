@@ -4,6 +4,7 @@ import store from '@/store/store.js';
 import { getAllTest, setAvailable, deleteTest } from '@/firebase/test.js';
 //components
 import NavBar from '@/components/home/NavBar.vue'
+import LoginButton from '@/components/home/LoginButton.vue'
 //PrimeVue
 import { useToast } from 'primevue/usetoast';
 const toast = useToast();
@@ -87,7 +88,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     <Toast position="top-right"/>
     <div v-if="hasCurrentUser">
         <div v-if="store.getters.getLoading">
-
+ 
             <div class="flex justify-content-center flex-wrap ">
                 <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">
                     <div class="card">
@@ -141,6 +142,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     </div>
     <div v-else>
         <Message :closable="false" >bejelentkezés szükséges</Message>
+        <LoginButton />
     </div>
         
    

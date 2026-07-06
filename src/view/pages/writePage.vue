@@ -5,6 +5,7 @@ import { ref, onMounted, computed } from 'vue';
 import store from '@/store/store.js';
 //Component
 import NavBar from '@/components/home/NavBar.vue'
+import LoginButton from '@/components/home/LoginButton.vue'
 //PrimeVue
 import { useToast } from 'primevue/usetoast';
 const toast = useToast();
@@ -111,7 +112,7 @@ console.log(detail.value[0].review);
         <div v-if="store.getters.getLoading">
         
 
-
+<LoginButton />
 
         <div class="flex justify-content-center flex-wrap ">
                 <div class=" border-round border-1 surface-border mt-5 mb-3 p-4 w-full">

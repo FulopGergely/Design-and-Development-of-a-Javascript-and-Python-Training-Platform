@@ -13,6 +13,7 @@ import TestCasesTable from '../../components/maker/TestCasesTable.vue';
 import SelectProgramLanguage from '../../components/maker/SelectProgramLanguage.vue';
 import StepSide from '../../components/maker/StepSide.vue';
 import ButtonGroup from '../../components/maker/ButtonGroup.vue';
+import LoginButton from '@/components/home/LoginButton.vue'
 
 
 
@@ -125,6 +126,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     </div>
     <div v-else>
         <Message :closable="false" >bejelentkezés szükséges</Message>
+        <LoginButton />
     </div>
     
 </template>

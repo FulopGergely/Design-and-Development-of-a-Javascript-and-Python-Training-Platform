@@ -16,6 +16,7 @@ const toast = useToast();
 
 //Components
 import NavBar from '@/components/home/NavBar.vue'
+import LoginButton from '@/components/home/LoginButton.vue'
 
 onMounted(() => {
     init()
@@ -291,6 +292,7 @@ const hasCurrentUser = computed(() => !!store.getters.getCurrentUser.uid); //fal
     </div>
     <div v-else>
         <Message :closable="false" >bejelentkezés szükséges</Message>
+        <LoginButton />
     </div>
 </template>
 
