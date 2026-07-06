@@ -5,11 +5,25 @@ import { getAllTest } from '@/firebase/test.js'
 import { useRoute } from 'vue-router'
 //PrimeVue
 import { useToast } from 'primevue/usetoast'
+
+import confetti from 'canvas-confetti';
+function submitTest() {
+    // beadás logikája
+
+    confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: {
+            y: 0.6
+        }
+    });
+}
 const toast = useToast()
 const show = () => {
   if (store.getters.getScoreEarned[store.getters.getCurrentTestSide - 1] == undefined) {
     //hogy ne fusson le akkor is amikor visszalépek egy megoldott feladatra
     toast.add({ severity: 'success', summary: 'Helyes válasz!', detail: '', life: 3000 })
+    submitTest()
   }
 }
 
