@@ -73,20 +73,16 @@ const registered = ref([
         label: 'Kijelentkezés',
         icon: 'pi pi-sign-out',
         command: () => {
-            login()
+            logout()
         }
     },
 
 
 ]);
 
-function login() {
-    if (!hasCurrentUser.value) {
-        signInWithGoogle()
-    } else {
+function logout() {
         signOutWithGoogle()
         router.push('/');
-    }
 }
 //const labelTextUserName = ref(store.getters.getCurrentUser.displayName);
 

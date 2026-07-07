@@ -111,6 +111,7 @@ async function signInWithGoogle() {
 function signOutWithGoogle() {
     signOut(auth).then(() => {
         store.commit('resetUserState')
+        store.commit('resetTasks')
     }).catch((error) => {
         console.error(error);
     });
