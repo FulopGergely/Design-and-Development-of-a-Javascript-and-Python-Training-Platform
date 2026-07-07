@@ -30,6 +30,14 @@ const allScores = ref()
 const selectedTest = ref(); //string, a kiválasztott teszt neve
 const users = ref()
 //let displayOnTable = ref([])
+ //hozzátettem egy vagy feltételt, hogy a tanárok is lássák az összes tesztet, ne csak a sajátjukat, hogy ne kelljen role-t létrehozni erre, ha csinálsz role szerepeket akkor törölhető ez a feltétel || teacherEmails.includes(store.getters.getCurrentUser.email)
+const teacherEmails = [
+    'fulop.gergely@nlgbp.hu',
+    'sebok.andrea@nlgbp.hu',
+    'klacsakne.toth.agota@nlgbp.hu',
+    'pinter.andrea@nlgbp.hu',
+    'fgergo91@gmail.com',
+]
 
 const showTable = computed(() => { 
 
@@ -96,7 +104,8 @@ const setChartOptions = () => {
 async function init() {
     let allTests = await getAllTest() //teszt kiválasztásához kell
     allTests.forEach(item => { //saját tesztek 
-        if (store.getters.getCurrentUser.uid === item.uid) {
+        //hozzátettem egy vagy feltételt, hogy a tanárok is lássák az összes tesztet, ne csak a sajátjukat, hogy ne kelljen role-t létrehozni erre, ha csinálsz role szerepeket akkor törölhető ez a feltétel || teacherEmails.includes(store.getters.getCurrentUser.email)
+        if (store.getters.getCurrentUser.uid === item.uid || teacherEmails.includes(store.getters.getCurrentUser.email)) {
             myTests.value.push(item)
         }
     });

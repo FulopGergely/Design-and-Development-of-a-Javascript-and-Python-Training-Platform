@@ -152,7 +152,10 @@ function timeShow() {
                         </Button>
                         <Menu ref="menu" id="overlay_menu" :model="registered" :popup="true" /> 
                     </div>
-                    
+                    <div v-else> 
+                        <Button rounded type="button" icon="pi pi-user"  @click="login" class="mr-2">
+                        </Button>
+                    </div> 
                </div>
                
             </template>
